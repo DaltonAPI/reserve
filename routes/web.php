@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Listing;
@@ -24,10 +27,18 @@ use App\Models\Listing;
 // store - Store new listing
 // edit - Show form to edit listing
 // update - Update listing
-// destroy - Delete listing  
+// destroy - Delete listing
 
 // All Listings
-Route::get('/', [ListingController::class, 'index']);
+Route::get('/reservations', [ListingController::class, 'index'])->middleware('auth');;
+Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show')->middleware('auth');;
+Route::get('/landing', [UserController::class, 'show']);
+Route::get('/calendar', [ListingController::class, 'calendar'])->middleware('auth');;
+
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');;
+
+
 
 // Show Create Form
 Route::get('/listings/create', [ListingController::class, 'create'])->middleware('auth');
@@ -43,6 +54,12 @@ Route::put('/listings/{listing}', [ListingController::class, 'update'])->middlew
 
 // Delete Listing
 Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->middleware('auth');
+
+
+//Cancel Listing
+Route::post('/reservations/{id}', [ListingController::class, 'cancelReservation'])->middleware('auth');
+
+
 
 // Manage Listings
 Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware('auth');
@@ -64,3 +81,18 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 
 // Log In User
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
+
+
+Route::put('/profile/{id}', [UserController::class, 'updateProfile'])->middleware('auth');
+
+
+Route::post('/test', [ListingController::class, 'test']);
+Route::get('/', function (){
+    return view('landing');
+});
+
+//// routes/web.php
+//Route::get('/api/locations', [UserController::class, 'search']);
+
+Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('posts.like')->middleware('auth');
+Route::post('/posts/{post}/unlike', [LikeController::class, 'destroy'])->name('posts.unlike')->name('posts.like')->middleware('auth');

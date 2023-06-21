@@ -21,7 +21,35 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'bio',
+        'contact_info',
+        'social_media',
+        'Facebook_links',
+        'Instagram_links',
+        'Twitter_links',
+        'industry_category',
+        'photo',
+        'account_type',
+        'client_name',
+        'servicesOffer',
+        'location'
     ];
+
+
+    public function scopeFilter($query, array $filters)
+    {
+        if ($filters['search'] ?? false) {
+            $searchTerm = $filters['search'];
+
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('email', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        return $query;
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -46,4 +74,13 @@ class User extends Authenticatable
     public function listings() {
         return $this->hasMany(Listing::class, 'user_id');
     }
+
+    public function posts() {
+        return $this->hasMany(Post::class, 'user_id');
+    }
+    public function likes()
+    {
+        return $this->belongsToMany(Post::class, 'likes');
+    }
+
 }

@@ -197,5 +197,7 @@ return [
     */
 
     'same_site' => 'lax',
+    'lifetime' => 120,
+
 
 ];

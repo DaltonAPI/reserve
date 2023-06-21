@@ -1,42 +1,27 @@
 <x-layout>
-  <x-card class="p-10">
-    <header>
-      <h1 class="text-3xl text-center font-bold my-6 uppercase">
-        Manage Gigs
-      </h1>
-    </header>
+    <div class="flex items-center justify-center  bg-gray-100">
+        <div class="bg-white rounded-lg shadow-md p-8">
+            <h1 class="text-3xl font-bold mb-6">Manage Reservations</h1>
 
-    <table class="w-full table-auto rounded-sm">
-      <tbody>
-        @unless($listings->isEmpty())
-        @foreach($listings as $listing)
-        <tr class="border-gray-300">
-          <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-            <a href="/listings/{{$listing->id}}"> {{$listing->title}} </a>
-          </td>
-          <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-            <a href="/listings/{{$listing->id}}/edit" class="text-blue-400 px-6 py-2 rounded-xl"><i
-                class="fa-solid fa-pen-to-square"></i>
-              Edit</a>
-          </td>
-          <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-            <form method="POST" action="/listings/{{$listing->id}}">
-              @csrf
-              @method('DELETE')
-              <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
-            </form>
-          </td>
-        </tr>
-        @endforeach
-        @else
-        <tr class="border-gray-300">
-          <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-            <p class="text-center">No Listings Found</p>
-          </td>
-        </tr>
-        @endunless
-
-      </tbody>
-    </table>
-  </x-card>
+            @unless($listings->isEmpty())
+                <ul class="space-y-4">
+                    @foreach($listings as $listing)
+                        <li class="flex items-center justify-between">
+                            <a href="/listings/{{$listing->id}}" class="text-blue-500 hover:underline">{{ $listing->title }}</a>
+                            <div>
+                                <a href="/listings/{{$listing->id}}/edit" class="text-blue-500 hover:underline">Edit</a>
+                                <form method="POST" action="/listings/{{$listing->id}}" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:underline ml-2">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <p class="text-center">No Listings Found</p>
+            @endunless
+        </div>
+    </div>
 </x-layout>
