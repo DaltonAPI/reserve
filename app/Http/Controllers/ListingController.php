@@ -6,7 +6,7 @@ use App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Auth;
 class ListingController extends Controller
 {
     // Show all listings
@@ -28,8 +28,12 @@ class ListingController extends Controller
     }
 
     // Show Create Form
-    public function create() {
-        return view('listings.create');
+    public function create()
+    {
+        // Get the currently authenticated user
+        $user = Auth::user();
+
+        return view('listings.create', compact('user'));
     }
 
     // Store Listing Data
@@ -45,6 +49,7 @@ class ListingController extends Controller
             'customer_phone' => 'required',
             'description' => 'required',
             'status' => 'required',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif',
         ]);
 
         if ($request->hasFile('logo')) {
@@ -52,7 +57,6 @@ class ListingController extends Controller
         }
 
         $formFields['user_id'] = auth()->id();
-
         Listing::create($formFields);
 
         return redirect('/')->with('message', 'Listing created successfully!');
@@ -141,7 +145,5 @@ class ListingController extends Controller
         return view('listings.calendar', compact('user', 'reservationData'));
     }
 
-    public function test(Request $request){
-        dd($request->all());
-    }
+
 }

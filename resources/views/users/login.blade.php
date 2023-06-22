@@ -1,5 +1,5 @@
 <x-layout>
-    <x-card class="p-10 max-w-lg mx-auto mt-24">
+    <x-card class=" max-w-lg mx-auto ">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">Login</h2>
             <p class="mb-4">Log into your account to post gigs</p>
@@ -30,13 +30,13 @@
             </div>
 
             <div class="mb-6">
-                <button type="submit" class="w-full text-gray-900 bg-blue-500 hover:bg-blue-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">Sign In</button>
+                <button type="submit" class="w-full text-gray-900 bg-pink-500 hover:bg-pink-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">Sign In</button>
             </div>
 
             <div class="mt-8">
                 <p>
                     Don't have an account?
-                    <a href="/register" class="text-blue-500 hover:underline">Register</a>
+                    <a href="/register" class="text-pink-500 hover:underline">Register</a>
                 </p>
             </div>
         </form>

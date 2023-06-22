@@ -15,9 +15,9 @@
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
-                <img class="w-16 h-16 rounded-full mr-4" src="https://cdn.pixabay.com/photo/2020/05/18/16/17/social-media-5187243_640.png" alt="Business Logo">
+                <img class="w-16 h-16 rounded-full mr-4"  src="{{ asset('storage/' . $listing->user->photos) }}" alt="Business Logo">
                 <div>
-                    <h2 class="text-2xl font-bold">{{ $listing->title }}</h2>
+                    <h5 class="text-xl font-bold">{{$listing->user->name }}</h5>
                     <p class="text-gray-500">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
                 </div>
             </div>
@@ -73,7 +73,7 @@
             </div>
 
         </div>
-
+        <h2 class="text-2xl font-bold">{{ $listing->title }}</h2>
         <div class="flex items-center justify-between">
             <div class="w-2/3">
                 <h3 class="text-gray-700 font-semibold">Customer Details</h3>

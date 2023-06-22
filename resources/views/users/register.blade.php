@@ -147,7 +147,17 @@
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                                 <ul id="serviceList" class="mt-2"></ul>
-                                <button onclick="addService(event)" type="submit" class="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded">Add Service</button>
+                                <button onclick="addService(event)" type="submit" class="mt-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                </button>
+                                <button onclick="removeService(event)" type="submit" class="mt-3 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </button>
+
                             </div>
 
 
@@ -182,10 +192,10 @@
                         </div>
                         <script src="{{ asset('script/script.js') }}"></script>
                         <div class="mt-6">
-                            <button type="submit" onclick="enableSubmit()" class="w-full text-gray-900 bg-blue-500 hover:bg-blue-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">Create an account</button>
+                            <button type="submit" onclick="enableSubmit()" class="w-full text-gray-900 bg-pink-500 hover:bg-pink-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">Create an account</button>
                         </div>
                         <p class="text-sm font-light text-gray-500">
-                            Already have an account? <a href="#" class="font-medium text-primary-600 hover:underline">Login here</a>
+                            Already have an account? <a href="#" class="font-medium text-pink-600 hover:underline">Login here</a>
                         </p>
                     </form>
                 </div>
@@ -218,6 +228,21 @@
 
             serviceInput.value = ""; // Clear the input field
         }
+        function removeService(event) {
+            event.preventDefault();
+
+            var serviceInput = document.getElementById("serviceInput");
+            var serviceList = document.getElementById("serviceList");
+
+            // Clear the service input
+            serviceInput.value = "";
+
+            // Clear the service list
+            while (serviceList.firstChild) {
+                serviceList.removeChild(serviceList.firstChild);
+            }
+        }
+
 
         function enableSubmit() {
             submitEnabled = true;

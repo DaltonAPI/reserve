@@ -32,7 +32,8 @@ use App\Models\Listing;
 // All Listings
 Route::get('/reservations', [ListingController::class, 'index'])->middleware('auth');;
 Route::get('/posts', [PostController::class, 'index']);
-Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show')->middleware('auth');;
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show')->middleware('auth');
+Route::post('/createPost', [PostController::class, 'createPost'])->name('posts.create');;
 Route::get('/landing', [UserController::class, 'show']);
 Route::get('/calendar', [ListingController::class, 'calendar'])->middleware('auth');;
 
@@ -42,7 +43,12 @@ Route::post('/comments', [CommentController::class, 'store'])->name('comments.st
 
 // Show Create Form
 Route::get('/listings/create', [ListingController::class, 'create'])->middleware('auth');
+Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+Route::get('/create', [PostController::class, 'create'])->middleware('auth');
 
+
+Route::put('/updatePost/{id}', [PostController::class, 'update'])->middleware('auth');
+Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
 // Store Listing Data
 Route::post('/listings', [ListingController::class, 'store'])->middleware('auth');
 
@@ -85,10 +91,18 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
 Route::put('/profile/{id}', [UserController::class, 'updateProfile'])->middleware('auth');
 
-
-Route::post('/test', [ListingController::class, 'test']);
 Route::get('/', function (){
     return view('landing');
+});
+Route::get('/about', function (){
+    return view('about');
+});Route::get('/terms', function (){
+    return view('terms');
+});
+Route::get('/privacy', function (){
+    return view('privacy');
+});Route::get('/faq', function (){
+    return view('questions');
 });
 
 //// routes/web.php

@@ -1,18 +1,36 @@
 <div class="max-w-3xl mx-auto px-4 py-6">
     <!-- Post Content -->
     <div class="bg-gray-200 rounded-lg shadow-lg p-6 mb-6">
-        <div class="flex items-center mb-4">
-            <div class="flex-shrink-0 mr-4">
-                <img class="h-10 w-10 rounded-full" src="{{ asset('storage/' . $post->author->photos) }}" alt="User Avatar">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+                <div class="flex-shrink-0 mr-4">
+                    <img class="h-10 w-10 rounded-full" src="{{ asset('storage/' . $post->author->photos) }}" alt="User Avatar">
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold">{{$post->author->name}}</h2>
+                    <p class="text-gray-500">2 hours ago</p>
+                </div>
             </div>
-            <div>
-                <h2 class="text-2xl font-bold">{{$post->author->name}}</h2>
-                <p class="text-gray-500">2 hours ago</p>
-            </div>
+           <div class="flex items-center">
+               @if ($post->user_id === auth()->id())
+                   <div>
+                       <a href="{{ route('posts.edit', $post->id) }}">
+                           <i class="fas fa-edit text-pink-500"></i>
+                       </a>
+                       <form method="POST" action="{{ route('posts.destroy', $post->id) }}" onsubmit="return confirm('Are you sure you want to delete this post?')">
+                           @csrf
+                           @method('DELETE')
+                           <button type="submit" class="text-red-500">
+                               <i class="fas fa-trash"></i>
+                           </button>
+                       </form>
+                   </div>
+               @endif
+           </div>
         </div>
 
         <div class="relative">
-            <img class="w-full rounded-lg mb-4" src="{{ asset( $post->thumbnail) }}" alt="Post Image">
+            <img class="w-full rounded-lg mb-4" src="{{ asset('storage/' . $post->thumbnail) }}" alt="Post Image">
             <div class="absolute top-2 right-2">
 
                 <button data-post-id="{{ $post->id }}" class="like-button bg-{{ $post->likedBy->contains('id', auth()->id()) ? 'green' : 'pink' }}-500 text-white rounded-full px-2 py-1 flex items-center" type="submit">
