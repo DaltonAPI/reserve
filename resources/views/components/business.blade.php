@@ -1,6 +1,6 @@
 
 <div class="flex flex-col space-y-3">
-    <div class="rounded-lg border border-grey-500 relative mb-3">
+    <div class="bg-white rounded-lg shadow-md relative mb-3">
         <form id="profileForm{{$user->id}}" method="POST" action="/profile/{{$user->id}}">
             @auth
                 @if (auth()->user()->id === $user->id)
@@ -19,14 +19,11 @@
             @method('PUT')
 
             <div class="flex flex-col md:flex-row">
-                <div class="md:w-1/3 flex items-center justify-center">
-                    <div class="rounded-full overflow-hidden w-48 h-48 md:w-56 md:h-56 ">
-                        <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo" class="w-full h-full object-cover">
-                    </div>
+                <div class="md:w-1/3">
+                    <div class="h-full bg-cover bg-center rounded-t-lg md:rounded-l-lg"
+                         style="background-image: url('{{ asset('storage/' . $user->photos) }}');"></div>
                 </div>
-
-
-                <div class="p-2 md:w-2/3 md:mt-10">
+                <div class="p-6 md:w-2/3">
                     <div class="flex items-center mb-2">
                         <i class="fas fa-envelope text-pink-600 mr-2"></i>
                         <h5 class="text-2xl font-bold text-gray-900">
@@ -70,15 +67,15 @@
                     <div class="flex items-center mb-2">
                         <i class="fas fa-map-marker-alt text-pink-600 mr-2"></i>
                         <span class="location-label">{{ $user->location }}</span>
-{{--                        <input type="text" class="hidden input-field bg-gray-100 rounded px-4 py-2 ml-2 w-2/3 mt-3"--}}
-{{--                               name="location" value="{{ $user->location }}">--}}
+                        <input type="text" class="hidden input-field bg-gray-100 rounded px-4 py-2 ml-2 w-2/3"
+                               name="location" value="{{ $user->location }}">
                     </div>
 
                     <!-- Add Services Offered -->
                     <div class="flex items-center mb-2">
                         <i class="fas fa-tools text-pink-600 mr-2"></i>
                         <span class="services-offer-label">{{ implode(', ', json_decode($user->servicesOffer)) }}</span>
-{{--                        <input type="text" name="servicesOffer" value="{{ $user->servicesOffer }}">--}}
+                        <input type="hidden" name="servicesOffer" value="{{ $user->servicesOffer }}">
                     </div>
 
                     <div id="social_media_links" class="flex items-center justify-end">
@@ -147,10 +144,6 @@
             var contactInput = card.querySelector('input[name="contact_info"]');
             var industryLabel = card.querySelector('.industry-label');
             var industryInput = card.querySelector('input[name="industry_category"]');
-            // var locationLabel = card.querySelector('.location-label');
-            // var locationInput = card.querySelector('input[name="location"]');
-            // var servicesOfferLabel = card.querySelector('.services-offer-label');
-            // var servicesOfferInput = card.querySelector('input[name="servicesOffer"]');
 
             nameLabel.classList.add('hidden');
             nameInput.classList.remove('hidden');
@@ -162,10 +155,6 @@
             contactInput.classList.remove('hidden');
             industryLabel.classList.add('hidden');
             industryInput.classList.remove('hidden');
-            // locationLabel.classList.add('hidden');
-            // locationInput.classList.remove('hidden');
-            // servicesOfferLabel.classList.add('hidden');
-            // servicesOfferInput.classList.remove('hidden');
 
             editIcon.classList.add('hidden');
             var saveIcon = card.querySelector('.save-icon');
