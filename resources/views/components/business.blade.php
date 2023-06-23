@@ -19,9 +19,10 @@
             @method('PUT')
 
             <div class="flex flex-col md:flex-row">
-                <div class="md:w-1/3">
-                    <div class="h-full bg-cover bg-center rounded-t-lg md:rounded-l-lg"
-                         style="background-image: url('{{ asset('storage/' . $user->photos) }}');"></div>
+                <div class="md:w-1/3 flex items-center justify-center">
+                    <div class="rounded-full overflow-hidden w-48 h-48 md:w-56 md:h-56 mt-4 md:mt-0">
+                        <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo" class="w-full h-full ">
+                    </div>
                 </div>
                 <div class="p-6 md:w-2/3">
                     <div class="flex items-center mb-2">
