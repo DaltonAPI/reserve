@@ -1,8 +1,9 @@
 <div class="container mx-auto">
-    <div class="w-full md:w-1/2 mx-auto px-4">
-        <p class="text-4xl md:text-3xl text-center leading-2.625rem non-italic font-montserrat font-bold uppercase text-indigo-base mb-7 md:leading-xl-loose">
-            <span class="hidden md:inline">Reservify Listing Platform<br></span>Simply bookings with Reservify
-        </p>
+    <p class="text-4xl md:text-3xl text-center leading-2.625rem non-italic font-montserrat font-bold uppercase text-indigo-base mb-7 md:leading-xl-loose">
+        <span class="hidden md:inline">Reservify Listing Platform<br></span>Simply bookings with Reservify
+    </p>
+    <div class="w-full md:w-1/4 mx-auto px-4">
+
         <form action="/" class="relative">
             <div class="flex items-center">
                 <div class="relative flex-grow">

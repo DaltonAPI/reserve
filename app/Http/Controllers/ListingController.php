@@ -14,6 +14,7 @@ class ListingController extends Controller
     {
         $user = auth()->user();
         $listings = $user->listings()->latest()->filter(request(['tag', 'search']))->paginate(6);
+
         return view('listings.index', compact('user', 'listings'));
     }
 

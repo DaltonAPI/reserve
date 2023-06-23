@@ -1,5 +1,4 @@
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +7,9 @@
 
     <!-- Add Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- Add Font Awesome -->
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
 
     <style>
         body {
@@ -18,66 +20,76 @@
 <body>
 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="fixed top-0 left-0 inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
     <span class="sr-only">Open sidebar</span>
-    <svg class="w-6 h-6 text-pink-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-    </svg>
+    <i class="fas fa-bars text-pink-500"></i>
 </button>
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transform -translate-x-full sm:translate-x-0 transition-transform ease-in-out duration-300 bg-white border-r-2 border-pink-200">
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transform -translate-x-full sm:translate-x-0 transition-transform ease-in-out duration-300 bg-white  ">
     <div class="h-full px-3  overflow-y-auto bg-gray-100">
         <ul class="space-y-2 font-medium">
             <li>
                 <a href="/" class="flex items-center justify-center mt-2">
                     <img src="{{asset('images/logo.png')}}" alt="Logo" class="h-2/4 w-24">
                 </a>
+            </li>
 
-            </li><li>
+
+
+            <li>
                 <a href="/listings/manage" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <svg aria-hidden="true" class="w-6 h-6 text-pink-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-                    </svg>
+                    <i class="fas fa-tachometer-alt text-pink-500"></i>
                     <span class="ml-3">Dashboard</span>
                 </a>
             </li>
             <li>
                 <a href="/reservations" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor">
-                        <path d="M20.95 10.77a1 1 0 00-1.18-.1l-6.48 3.24-2.9-1.45-3.45 1.73L2 11.38V21h19V10.8c0-.26-.1-.52-.28-.71z"/>
-                        <path d="M7 3h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/>
-                        <path d="M7 3v2m10-2v2"/>
-                    </svg>
-
+                    <i class="fas fa-calendar-check text-pink-500"></i>
                     <span class="ml-3">My Reservations</span>
                 </a>
             </li>
             <li>
                 <a href="/posts" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-pink-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white">
-                        <path d="M6 2.75a.75.75 0 01.75-.75h5.5a.75.75 0 010 1.5h-5.5A.75.75 0 016 2.75zM6 7.25a.75.75 0 01.75-.75h5.5a.75.75 0 010 1.5h-5.5A.75.75 0 016 7.25zM6 11.75a.75.75 0 01.75-.75h5.5a.75.75 0 010 1.5h-5.5a.75.75 0 01-.75-.75zM3.25 7a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 013.25 7z" clip-rule="evenodd"></path>
-                    </svg>
-
+                    <i class="fas fa-newspaper text-pink-500"></i>
                     <span class="ml-2">Posts</span>
                 </a>
             </li>
-
             <li>
                 <a href="/calendar" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-pink-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <path d="M16 2v4M8 2v4M3 10h14M5 18h4M11 18h4"></path>
-                    </svg>
-
-
-
+                    <i class="fas fa-calendar-alt text-pink-500"></i>
                     <span class="ml-3">Calendar</span>
                 </a>
             </li>
+            <li>
+                <a href="/landing" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-building text-pink-500"></i>
+                    <span class="ml-3">Business List</span>
+                </a>
+            </li>
+
+            @auth
+                <a href="/reservations">
+                    <section class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="relative inline-block">
+                                <img src="{{ asset( 'storage/'. auth()->user()->photos) }}" alt="User Avatar" class="w-8 h-8 rounded-full">
+                                <div class="absolute inset-0 flex items-center justify-center border-2 border-pink-500 rounded-full"></div>
+                            </div>
+                            <h2 class="ml-1 font-bold">{{ auth()->user()->name }}</h2>
+                        </div>
+                    </section>
+                </a>
+            @endauth
+            <li>
+                @auth
+                    @if (auth()->user()->id )
+                        <a href="/create"
+                           class=" inline-block px-4 py-2 leading-none text-white bg-gradient-to-r from-pink-300 to-pink-600 rounded hover:bg-blue-700">Upload your work</a>
+                    @endif
+                @endauth
+            </li>
+
         </ul>
     </div>
 </aside>
-
-
 
 <script>
     const logoSidebar = document.getElementById('logo-sidebar');
@@ -88,6 +100,7 @@
         sidebarToggle.setAttribute('aria-expanded', !expanded);
         logoSidebar.classList.toggle('-translate-x-full');
     });
+
     // Get the sidebar element
     const sidebar = document.getElementById('logo-sidebar');
 

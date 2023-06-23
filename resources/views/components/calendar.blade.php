@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="container mx-auto ">
-    <div class="bg-white rounded shadow p-4">
+    <div class=" rounded border border-grey-500 p-4">
         <h2 class="text-xl font-bold mb-4">
             <?php
             // Get current month and year

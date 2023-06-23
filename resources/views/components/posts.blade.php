@@ -4,8 +4,8 @@
 
 <main class=" mx-auto ">
     <!-- Sample Post 2 -->
-    <div class="max-w-lg mx-auto bg-gray-200 rounded-lg shadow-lg mt-6">
-        <div class="flex items-center justify-between p-4">
+    <div class="max-w-lg mx-auto  rounded-lg border border-grey-500 mt-6">
+        <div class="flex items-center justify-between p-6">
             <div class="flex items-center">
                 <img src="{{ asset('storage/' . $post->author->photos) }}" alt="Profile Image" class="w-12 h-12 rounded-full">
                 <div class="ml-4">
@@ -15,15 +15,15 @@
             </div>
 {{--            <button class="bg-pink-500 text-white rounded-full px-4 py-2">Follow</button>--}}
             @if ($post->user_id === auth()->id())
-                <div>
+                <div class="flex items-center">
                     <a href="{{ route('posts.edit', $post->id) }}">
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-edit text-grey-200 text-gray-500"></i>
                     </a>
                     <form method="POST" action="{{ route('posts.destroy', $post->id) }}" onsubmit="return confirm('Are you sure you want to delete this post?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="text-red-500">
-                            <i class="fas fa-trash"></i>
+                        <button type="submit ">
+                            <i class="fas fa-trash text-gray-500 ml-2"></i>
                         </button>
                     </form>
                 </div>
@@ -33,15 +33,27 @@
             <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="Post Image" class="w-full rounded-t-lg">
             <div class="absolute top-2 right-2">
 
-                <button data-post-id="{{ $post->id }}" class="like-button bg-{{ $post->likedBy->contains('id', auth()->id()) ? 'green' : 'pink' }}-500 text-white rounded-full px-2 py-1 flex items-center" type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13H5l4-8V4h6v1l4 8zM9 20h6M12 17v3" />
-                    </svg>
-                    <span class="ml-1 likes-count">
-        {{ $post->likedBy->count() }}
-    </span>
-                </button>
-
+                @if(auth()->check())
+                    <button data-post-id="{{ $post->id }}" class="like-button bg-{{ $post->likedBy->contains('id', auth()->id()) ? 'green' : 'pink' }}-500 text-white rounded-full px-2 py-1 flex items-center" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13H5l4-8V4h6v1l4 8zM9 20h6M12 17v3" />
+                        </svg>
+                        <span class="ml-1 likes-count">
+            {{ $post->likedBy->count() }}
+        </span>
+                    </button>
+                @else
+                    <a href="/login">
+                        <button class="like-button bg-pink-500 text-white rounded-full px-2 py-1 flex items-center" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13H5l4-8V4h6v1l4 8zM9 20h6M12 17v3" />
+                            </svg>
+                            <span class="ml-1 likes-count">
+                {{ $post->likedBy->count() }}
+            </span>
+                        </button>
+                    </a>
+                @endif
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
                 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
                 <script>

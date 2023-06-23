@@ -136,6 +136,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'contact_info' => 'required',
             'industry_category' => 'required',
+            'location' => 'required',
         ]);
 
         if($request->hasFile('photos')) {
