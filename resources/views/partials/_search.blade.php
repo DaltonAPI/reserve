@@ -4,7 +4,7 @@
     </p>
     <div class="w-full md:w-1/4 mx-auto px-4">
 
-        <form action="/" class="relative">
+        <form action="/landing" class="relative">
             <div class="flex items-center">
                 <div class="relative flex-grow">
                     <div class="absolute inset-y-0 left-2 flex items-center pl-2">
