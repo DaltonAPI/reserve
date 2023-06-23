@@ -1,5 +1,13 @@
+<style>
+    @media (min-width: 768px) {
+
+        .top{
+            margin-top: 450px;
+        }
+    }
+</style>
 <x-layout>
-    <section style="margin-top:450px" class="">
+    <section  class="top">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen py-10 ">
             <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -95,10 +103,6 @@
                                 </div>
                             @endforeach
                         </div>
-
-
-
-
                         @php
                             // Validation Rules
                             $validationRules = [
@@ -159,7 +163,6 @@
                                 </button>
 
                             </div>
-
 
                             <div class="mb-4">
                                 <label for="industry_category" class="block mb-2 text-sm font-medium text-gray-900">Industry/Category</label>
