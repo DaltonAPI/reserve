@@ -2,7 +2,7 @@
     <x-card class="max-w-lg mx-auto">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">Show your work</h2>
-            <p class="mb-4">Log into your account to post gigs</p>
+            <p class="mb-4">Create a post so people can see what you do</p>
         </header>
 
         <form method="POST" action="/createPost" enctype="multipart/form-data">
@@ -17,14 +17,14 @@
                 @enderror
             </div>
 
-            <div class="mb-6">
-                <label for="excerpt" class="inline-block text-lg mb-2">Excerpt</label>
-                <textarea class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" name="excerpt">{{ old('excerpt') }}</textarea>
+{{--            <div class="mb-6">--}}
+{{--                <label for="excerpt" class="inline-block text-lg mb-2">Excerpt</label>--}}
+{{--                <textarea class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" name="excerpt">{{ old('excerpt') }}</textarea>--}}
 
-                @error('excerpt')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+{{--                @error('excerpt')--}}
+{{--                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>--}}
+{{--                @enderror--}}
+{{--            </div>--}}
 
             <div class="mb-6">
                 <label for="body" class="inline-block text-lg mb-2">Body</label>
@@ -43,14 +43,24 @@
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
+            <!-- Thumbnail -->
             <div class="mb-6">
                 <label for="thumbnail" class="inline-block text-lg mb-2">Thumbnail</label>
-                <input type="file" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" name="thumbnail" accept="image/*" id="thumbnail-input" onchange="previewImage(event)" />
-
-                <div class="mt-2">
-                    <img id="thumbnail-preview" class="w-40 h-40 object-cover rounded-lg border border-gray-300" src="#" alt="Thumbnail Preview" style="display: none;" />
+                <div class="relative">
+                    <label for="thumbnail-input" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 cursor-pointer">
+                        <input type="file" class="hidden" name="thumbnail" accept="image/*" id="thumbnail-input" onchange="previewImage(event)" />
+                        <div class="flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 4a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V4zm2-1a1 1 0 00-1 1v2a1 1 0 001 1h10a1 1 0 001-1V4a1 1 0 00-1-1H5z" clip-rule="evenodd" />
+                                <path d="M10 9a2 2 0 100-4 2 2 0 000 4z" />
+                            </svg>
+                        </div>
+                        <span class="ml-3">Upload Thumbnail</span>
+                    </label>
                 </div>
-
+                <div class="mt-2">
+                    <img id="thumbnail-preview" class="w-40 h-40 object-cover rounded-lg border border-gray-300" style="display: none;" alt="Thumbnail Preview" />
+                </div>
                 @error('thumbnail')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
@@ -63,3 +73,15 @@
         </form>
     </x-card>
 </x-layout>
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var thumbnailPreview = document.getElementById('thumbnail-preview');
+            thumbnailPreview.src = reader.result;
+            thumbnailPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>

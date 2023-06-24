@@ -42,7 +42,6 @@ class PostController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'thumbnail' => 'image|mimes:jpeg,png,jpg,gif',
-            'excerpt' => 'required',
             'body' => 'required',
             'price' => 'nullable|numeric',
             'published_at' => 'nullable|date',
@@ -97,7 +96,6 @@ class PostController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required',
-            'excerpt' => 'required',
             'body' => 'required',
             'price' => 'required',
             'thumbnail' => 'image|mimes:jpeg,png,jpg,gif',
