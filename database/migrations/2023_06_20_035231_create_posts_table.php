@@ -17,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title'); // Corrected line
-            $table->string('thumbnail')->nullable();
+            $table->string('image_url')->nullable();
+            $table->text('url');
+            $table->text('filename');
+            $table->string('image_extension')->nullable();
             $table->text('excerpt')->nullable();;
             $table->longText('body');
             $table->decimal('price', 8, 2)->nullable();

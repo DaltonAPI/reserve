@@ -9,7 +9,7 @@
 
     @if ((!isset($_GET['active']) || $_GET['active'] === 'upcoming') && $listingDate >= $currentDate)
         <!-- Display only upcoming listings -->
-    <div class=" rounded-lg border border-grey-500 p-6 mb-8">
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
                 <img class="w-16 h-16 rounded-full mr-4"  src="{{ asset('storage/' . $listing->user->photos) }}" alt="Business Logo">

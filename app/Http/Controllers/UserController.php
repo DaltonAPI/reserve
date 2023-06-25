@@ -53,7 +53,7 @@ class UserController extends Controller
 
             $user = User::create($businessData);
             auth()->login($user);
-        return redirect('/')->with('message', 'User created and logged in');
+        return redirect('/landing')->with('message', 'User created and logged in');
 
         } elseif ($formFields['account_type'] === 'Client') {
             // Save client fields
@@ -75,7 +75,7 @@ class UserController extends Controller
             // Save client data to the database
             $user = User::create($clientData);
             auth()->login($user);
-            return redirect('/')->with('message', 'User created and logged in');
+            return redirect('/landing')->with('message', 'User created and logged in');
         }
 
         // Redirect or perform any other actions
@@ -91,7 +91,7 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('message', 'You have been logged out!');
+        return redirect('/landing')->with('message', 'You have been logged out!');
 
     }
 
@@ -110,7 +110,7 @@ class UserController extends Controller
         if(auth()->attempt($formFields)) {
             $request->session()->regenerate();
 
-            return redirect('/')->with('message', 'You are now logged in!');
+            return redirect('/landing')->with('message', 'You are now logged in!');
         }
 
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
