@@ -74,27 +74,40 @@
         <div class="flex items-center justify-between">
             <div class="w-2/3">
                 <h3 class="text-gray-700 font-semibold">Customer Details</h3>
-                <p class="text-gray-600">Customer Name: <span class="font-semibold">{{ $listing->customer_name }}</span></p>
-                <p class="text-gray-600">Customer Email: <span class="font-semibold">{{ $listing->email }}</span></p>
-                <p class="text-gray-600">Customer Phone: <span class="font-semibold">{{ $listing->customer_phone }}</span></p>
+                @if ($listing->customer_name)
+                    <p class="text-gray-600">Customer Name: <span class="font-semibold">{{ $listing->customer_name }}</span></p>
+                @endif
+                @if ($listing->email)
+                    <p class="text-gray-600">Customer Email: <span class="font-semibold">{{ $listing->email }}</span></p>
+                @endif
+                @if ($listing->customer_phone)
+                    <p class="text-gray-600">Customer Phone: <span class="font-semibold">{{ $listing->customer_phone }}</span></p>
+                @endif
             </div>
             <div class="w-1/2">
+                @if ($listing->logo)
                 <div class="mb-4">
                     <h3 class="text-gray-700 font-semibold">Service Expectation</h3>
                     <img class="w-24 h-24" src="{{ asset('storage/' . $listing->logo) }}" alt="Small Image">
                 </div>
-                <h3 class="text-gray-700 font-semibold">Additional Information</h3>
-                <p class="text-gray-600">Note: <span class="font-semibold">{{ $listing->description }}</span></p>
+                @endif
+                @if ($listing->description)
+                    <h3 class="text-gray-700 font-semibold">Additional Information</h3>
+                    <p class="text-gray-600">Note: <span class="font-semibold">{{ $listing->description }}</span></p>
+                @endif
             </div>
         </div>
 
         <div>
+            @if ($listing->tags)
             <div class="flex flex-wrap">
                 @foreach(explode(',', $listing->tags) as $tag)
                     <span class="bg-pink-400 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">{{ $tag }}</span>
                 @endforeach
             </div>
+            @endif
         </div>
+
 
         <div>
             <h3 class="text-xl font-bold">Status</h3>
@@ -166,30 +179,42 @@
 
         </div>
 
-        <div class="flex items-center justify-between">
-            <div class="w-2/3">
-                <h3 class="text-gray-700 font-semibold">Customer Details</h3>
-                <p class="text-gray-600">Customer Name: <span class="font-semibold">{{ $listing->customer_name }}</span></p>
-                <p class="text-gray-600">Customer Email: <span class="font-semibold">{{ $listing->email }}</span></p>
-                <p class="text-gray-600">Customer Phone: <span class="font-semibold">{{ $listing->customer_phone }}</span></p>
-            </div>
-            <div class="w-1/2">
-                <div class="mb-4">
-                    <h3 class="text-gray-700 font-semibold">Service Expectation</h3>
-                    <img class="w-24 h-24" src="{{ asset('storage/' . $listing->logo) }}" alt="Small Image">
+            <div class="flex items-center justify-between">
+                <div class="w-2/3">
+                    <h3 class="text-gray-700 font-semibold">Customer Details</h3>
+                    @if ($listing->customer_name)
+                        <p class="text-gray-600">Customer Name: <span class="font-semibold">{{ $listing->customer_name }}</span></p>
+                    @endif
+                    @if ($listing->email)
+                        <p class="text-gray-600">Customer Email: <span class="font-semibold">{{ $listing->email }}</span></p>
+                    @endif
+                    @if ($listing->customer_phone)
+                        <p class="text-gray-600">Customer Phone: <span class="font-semibold">{{ $listing->customer_phone }}</span></p>
+                    @endif
                 </div>
-                <h3 class="text-gray-700 font-semibold">Additional Information</h3>
-                <p class="text-gray-600">Note: <span class="font-semibold">{{ $listing->description }}</span></p>
+                <div class="w-1/2">
+                    @if ($listing->logo)
+                        <div class="mb-4">
+                            <h3 class="text-gray-700 font-semibold">Service Expectation</h3>
+                            <img class="w-24 h-24" src="{{ asset('storage/' . $listing->logo) }}" alt="Small Image">
+                        </div>
+                    @endif
+                    @if ($listing->description)
+                        <h3 class="text-gray-700 font-semibold">Additional Information</h3>
+                        <p class="text-gray-600">Note: <span class="font-semibold">{{ $listing->description }}</span></p>
+                    @endif
+                </div>
             </div>
-        </div>
 
-        <div>
-            <div class="flex flex-wrap">
-                @foreach(explode(',', $listing->tags) as $tag)
-                    <span class="bg-pink-400 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">{{ $tag }}</span>
-                @endforeach
+            <div>
+                @if ($listing->tags)
+                    <div class="flex flex-wrap">
+                        @foreach(explode(',', $listing->tags) as $tag)
+                            <span class="bg-pink-400 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">{{ $tag }}</span>
+                        @endforeach
+                    </div>
+                @endif
             </div>
-        </div>
 
         <div>
             <h3 class="text-xl font-bold">Status</h3>

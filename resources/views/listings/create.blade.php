@@ -8,7 +8,7 @@
         <form method="POST" action="/listings" enctype="multipart/form-data">
             @csrf
             <div class="mb-6">
-                <label for="title" class="inline-block text-lg mb-2">The Type of Service</label>
+                <label for="title" class="inline-block text-lg mb-2">The Type of Service <span class="text-red-500">*</span></label>
                 <select name="title" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                     @foreach(json_decode($user->servicesOffer) as $title)
                         <option value="{{ $title }}">{{ $title }}</option>
@@ -22,7 +22,7 @@
             </div>
             <div class="mb-6">
                 <label for="customer_name" class="inline-block text-lg mb-2">
-                    Customer Name
+                    Customer Name <span class="text-red-500">*</span>
                 </label>
                 <input type="text" class="border border-gray-200 rounded p-2 w-full" name="customer_name" value="{{old('customer_name')}}" />
 
@@ -54,7 +54,7 @@
 
 
             <div class="mb-6">
-                <label for="time" class="inline-block text-lg mb-2">Time</label>
+                <label for="time" class="inline-block text-lg mb-2">Time <span class="text-red-500">*</span></label>
                 <input type="time" class="border border-gray-200 rounded p-2 w-full" name="time" value="{{ old('time') }}" />
 
                 @error('time')
@@ -65,7 +65,7 @@
 
             <div class="mb-6">
                 <label for="date" class="inline-block text-lg mb-2">
-                    Date
+                    Date <span class="text-red-500">*</span>
                 </label>
                 <input type="date" class="border border-gray-200 rounded p-2 w-full" name="date" value="{{old('date')}}" />
 

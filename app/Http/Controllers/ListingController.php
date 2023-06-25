@@ -41,14 +41,14 @@ class ListingController extends Controller
     public function store(Request $request)
     {
         $formFields = $request->validate([
-            'title' => 'required',
-            'tags' => 'required',
-            'email' => ['required', 'email'],
+            'title' => 'required|string',
+            'tags' => 'nullable',
+            'email' => ['nullable', 'email'],
             'time' => 'required',
             'date' => 'required',
-            'customer_name' => 'required',
-            'customer_phone' => 'required',
-            'description' => 'required',
+            'customer_name' => 'nullable|required',
+            'customer_phone' => 'nullable|string',
+            'description' => 'nullable|string',
             'status' => 'required',
             'logo' => 'image|mimes:jpeg,png,jpg,gif',
         ]);

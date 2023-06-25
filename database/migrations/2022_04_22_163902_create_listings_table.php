@@ -18,14 +18,14 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('logo')->nullable();
-            $table->string('tags');
-            $table->string('email');
+            $table->string('tags')->nullable();
+            $table->string('email')->nullable();
             $table->dateTime('date');
             $table->time('time');
             $table->string('customer_name');
-            $table->string('customer_phone');
-            $table->longText('description');
-            $table->string('status');
+            $table->string('customer_phone')->nullable();
+            $table->longText('description')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
