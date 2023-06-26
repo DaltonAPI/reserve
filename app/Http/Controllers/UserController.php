@@ -38,9 +38,9 @@ class UserController extends Controller
                 'bio' => 'required|string|min:10|max:500',
                 'contact_info' => ['required', 'numeric'],
                 'social_media' => 'array',
-                'Facebook_links' => 'nullable|url',
-                'Instagram_links' => 'nullable|url',
-                'Twitter_links' => 'nullable|url',
+                'Facebook_links' => 'required|url',
+                'Instagram_links' => 'required|url',
+                'Twitter_links' => 'required|url',
                 'industry_category' => 'required',
                 'servicesOffer'=> 'required|array',
                 'location' => 'required'
@@ -71,7 +71,7 @@ class UserController extends Controller
             $clientData = Arr::only($formFields, array_keys($clientFields));
             $clientData['social_media'] = $formFields['social_media'];
             $clientData['photos'] = $formFields['photos'] ?? null;
-
+            dd($clientData);
             // Save client data to the database
             $user = User::create($clientData);
             auth()->login($user);
@@ -149,5 +149,14 @@ class UserController extends Controller
 
 
     }
+
+    public function destroy(User $user)
+    {
+
+        $user->delete();
+
+        return redirect('/')->with('success', 'User deleted successfully.');
+    }
+
 
 }

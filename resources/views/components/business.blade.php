@@ -1,10 +1,12 @@
 
 <div class="flex flex-col space-y-3">
     <div class="bg-white rounded-lg shadow-md relative mb-3">
+
         <form id="profileForm{{$user->id}}" method="POST" action="/profile/{{$user->id}}">
             @auth
                 @if (auth()->user()->id === $user->id)
-                    <div class="flex justify-end">
+                    <div class="flex ">
+
                         <a class="edit-icon absolute top-0 right-0 m-2 text-pink-600 hover:text-pink-700">
                             <i class="fas fa-edit"></i>
                         </a>
@@ -113,12 +115,22 @@
                         @endforeach
                     </div>
                     <div class="flex justify-end mt-6">
-                        @auth
-                            @if (auth()->user()->id === $user->id)
-                                <a href="/listings/create"
-                                   class="ml-4 inline-block px-4 py-2 leading-none text-white bg-gradient-to-r from-pink-300 to-pink-600 rounded hover:bg-blue-700">Make Reservation</a>
-                            @endif
-                        @endauth
+                        <form id="profileForm{{$user->id}}" method="POST" action="{{ route('profile.destroy', $user->id) }}">
+                            @csrf
+                            @method('DELETE')
+                            <!-- Rest of the form code -->
+                            <div class="flex justify-end mt-6">
+                                @auth
+                                    @if (auth()->user()->id === $user->id)
+
+                                        <button type="submit" class="ml-4 inline-block px-4 py-2 leading-none text-white bg-gradient-to-r from-red-300 to-red-600 rounded hover:bg-red-700">Remove Account</button>
+                                        <a href="/listings/create"
+                                           class="ml-4 inline-block px-4 py-2 leading-none text-white bg-gradient-to-r from-pink-300 to-pink-600 rounded hover:bg-blue-700">Make Reservation</a>
+                                    @endif
+                                @endauth
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -129,6 +141,24 @@
 
 
 <script>
+    function confirmDelete(form) {
+        if (confirm('Are you sure you want to delete this user?')) {
+            // Change the form's method to DELETE and submit it
+            var methodInput = document.createElement('input');
+            methodInput.setAttribute('type', 'hidden');
+            methodInput.setAttribute('name', '_method');
+            methodInput.setAttribute('value', 'DELETE');
+
+            form.appendChild(methodInput);
+            form.submit();
+        }
+    }
+
+
+
+
+
+
     var editIcons = document.querySelectorAll('.edit-icon');
     var saveIcons = document.querySelectorAll('.save-icon');
 

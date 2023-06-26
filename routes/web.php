@@ -79,6 +79,9 @@ Route::get('/register', [UserController::class, 'create'])->middleware('guest');
 // Create New User
 Route::post('/users', [UserController::class, 'store']);
 
+Route::delete('/profile/{user}/delete', [UserController::class, 'destroy'])->name('profile.destroy');
+
+
 // Log User Out
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 

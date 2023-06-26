@@ -56,11 +56,7 @@
                 </form>
             </li>
         @else
-            <li>
-                <a href="/about" class="hover:text-laravel">
-                    <i class="fa-solid fa-info-circle text-pink-500 "></i>
-                </a>
-            </li>
+
             <li>
                 <a href="/register" class="hover:text-laravel">
                     <i class="fa-solid fa-user-plus text-pink-500"></i>
