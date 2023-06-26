@@ -33,15 +33,16 @@
         <div class="relative">
 
 
-            @if ($post->image_extension === 'png' or $post->image_extension === 'jpg' or $post->image_extension === 'gif' or $post->image_extension === 'jpeg' or $post->image_extension === 'webp')
-                <img class="media" style="width: 100%" src="{{ $post->url ? asset($post->url) : asset('../images/blog-7-500x400.jpg') }}" alt="Blog Image">
-            @endif
+{{--            @if ($post->image_extension === 'png' or $post->image_extension === 'jpg' or $post->image_extension === 'gif' or $post->image_extension === 'jpeg' or $post->image_extension === 'webp')--}}
+{{--                <img class="media" style="width: 100%" src="{{ $post->url ? asset($post->url) : asset('../images/blog-7-500x400.jpg') }}" alt="Blog Image">--}}
+{{--            @endif--}}
 
-            @if ($post->image_extension === 'mp4' or $post->image_extension === 'mp3' or $post->image_extension === 'mov')
-                <video class="media" style="width: 100%" controls  playsinline loop>
-                    <source src="{{ $post->url ? asset($post->url) : asset('../images/blog-7-500x400.jpg') }}" type="video/mp4">
-                </video>
-            @endif
+{{--            @if ($post->image_extension === 'mp4' or $post->image_extension === 'mp3' or $post->image_extension === 'mov')--}}
+{{--                <video class="media" style="width: 100%" controls  playsinline loop>--}}
+{{--                    <source src="{{ $post->url ? asset($post->url) : asset('../images/blog-7-500x400.jpg') }}" type="video/mp4">--}}
+{{--                </video>--}}
+{{--            @endif--}}
+            <img class="media" style="width: 100%" src="{{ asset('storage/' . $post->image_url) }}" alt="Blog Image"/>
             <div class="absolute top-2 right-2">
 
                 <button data-post-id="{{ $post->id }}" class="like-button bg-{{ $post->likedBy->contains('id', auth()->id()) ? 'green' : 'pink' }}-500 text-white rounded-full px-2 py-1 flex items-center" type="submit">

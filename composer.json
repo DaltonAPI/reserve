@@ -27,8 +27,7 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/",
-            "League\\Flysystem\\AwsS3V3\\": "path/to/league/flysystem-aws-s3-v3/src/"
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
