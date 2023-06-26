@@ -1,5 +1,5 @@
 
-<div class="flex flex-col space-y-3">
+<div class="flex flex-col ">
     <div class="bg-white rounded-lg shadow-md relative mb-3">
 
         <form id="profileForm{{$user->id}}" method="POST" action="/profile/{{$user->id}}">
@@ -114,27 +114,29 @@
                             @endif
                         @endforeach
                     </div>
-                    <div class="flex justify-end mt-6">
-                        <form id="profileForm{{$user->id}}" method="POST" action="{{ route('profile.destroy', $user->id) }}">
-                            @csrf
-                            @method('DELETE')
-                            <!-- Rest of the form code -->
-                            <div class="flex justify-end mt-6">
-                                @auth
-                                    @if (auth()->user()->id === $user->id)
 
-                                        <button type="submit" class="ml-4 inline-block px-4 py-2 leading-none text-white bg-gradient-to-r from-red-300 to-red-600 rounded hover:bg-red-700">Remove Account</button>
-                                        <a href="/listings/create"
-                                           class="ml-4 inline-block px-4 py-2 leading-none text-white bg-gradient-to-r from-pink-300 to-pink-600 rounded hover:bg-blue-700">Make Reservation</a>
-                                    @endif
-                                @endauth
-                            </div>
-                        </form>
-
-                    </div>
                 </div>
             </div>
         </form>
+        <div class="flex justify-end mb-2 mr-2">
+            <form id="profileForm{{$user->id}}" method="POST" action="{{ route('profile.destroy', $user->id) }}">
+                @csrf
+                @method('DELETE')
+                <!-- Rest of the form code -->
+                <div class="flex justify-end mt-6">
+                    @auth
+                        @if (auth()->user()->id === $user->id)
+
+                            <button type="submit" class="ml-4 inline-block px-4 py-2 leading-none text-white bg-gradient-to-r from-red-300 to-red-600 rounded hover:bg-red-700">Remove Account</button>
+                            <a href="/listings/create"
+                               class="ml-4 inline-block px-4 py-2 leading-none text-white bg-gradient-to-r from-pink-300 to-pink-600 rounded hover:bg-blue-700">Make Reservation</a>
+                        @endif
+                    @endauth
+                </div>
+            </form>
+
+        </div>
+
     </div>
 </div>
 
