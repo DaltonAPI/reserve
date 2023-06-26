@@ -44,7 +44,7 @@ class PostController extends Controller
         // Validate the form data
         $validatedData = $request->validate([
             'title' => 'required|max:255',
-            'image_url' => 'mimes:jpeg,png,gif,mp4,avi,mov',
+            'image_url' => 'mimes:jpeg,png,gif,mp4,avi,mov|max:7082877',
             'body' => 'required',
             'price' => 'nullable|numeric',
             'published_at' => 'nullable|date',
@@ -57,13 +57,13 @@ class PostController extends Controller
         if ($request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
 
-//            // Validate the file size
-//            $maxSize = 7082877; // 40 megabytes
-//            $fileSize = $file->getSize();
-//
-//            if ($fileSize > $maxSize) {
-//                return redirect()->back()->withErrors(['thumbnail' => 'The  file size must be between 1 to 45 megabytes.']);
-//            }
+            // Validate the file size
+            $maxSize = 7082877; // 40 megabytes
+            $fileSize = $file->getSize();
+
+            if ($fileSize > $maxSize) {
+                return redirect()->back()->withErrors(['thumbnail' => 'The  file size must be between 1 to 45 megabytes.']);
+            }
 
             $validatedData['image_url'] = $file->store('thumbnail', 's3');
             $image = $file->store('thumbnail', 's3');
