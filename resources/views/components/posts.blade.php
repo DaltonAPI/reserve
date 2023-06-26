@@ -145,7 +145,7 @@
                                 <a href="{{ route('posts.edit', $post->id) }}">
                                     <i class="fas fa-edit text-grey-200 text-gray-500"></i>
                                 </a>
-                                <form method="POST" action="{{ route('posts.destroy', $post->id) }}" onsubmit="return confirm('Are you sure you want to delete this post?')">
+                                <form method="POST" action="/posts/{{$post->id}}" onsubmit="return confirm('Are you sure you want to delete this post?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit ">
