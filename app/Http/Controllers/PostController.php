@@ -155,35 +155,35 @@ class PostController extends Controller
         // Delete the post record from the database
         $post->delete();
 
-        // Set the AWS credentials
-        $credentials = [
-            'key' => 'AKIARJ7DSW2PXG6WQTF6',
-            'secret' => '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',
-        ];
-
-        // Create an S3 client
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'credentials' => $credentials,
-            'region' => 'us-east-2',
-            'use_path_style_endpoint' => false,
-        ]);
-
-        // Specify the bucket and file key
-        $bucket = 'reservifybucket';
-        $key = $bucket . '/' . $post->filename;
-
-        try {
-            // Delete the file from the bucket
-            $s3->deleteObject([
-                'Bucket' => $bucket,
-                'Key' => $key,
-            ]);
-
-            return redirect()->back()->with('success', 'Post and file deleted successfully.');
-        } catch (AwsException $e) {
-            // Log the error or handle it accordingly
-            return redirect()->back()->with('error', 'An error occurred while deleting the post and file.');
-        }
+//        // Set the AWS credentials
+//        $credentials = [
+//            'key' => 'AKIARJ7DSW2PXG6WQTF6',
+//            'secret' => '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',
+//        ];
+//
+//        // Create an S3 client
+//        $s3 = new S3Client([
+//            'version' => 'latest',
+//            'credentials' => $credentials,
+//            'region' => 'us-east-2',
+//            'use_path_style_endpoint' => false,
+//        ]);
+//
+//        // Specify the bucket and file key
+//        $bucket = 'reservifybucket';
+//        $key = $bucket . '/' . $post->filename;
+//
+//        try {
+//            // Delete the file from the bucket
+//            $s3->deleteObject([
+//                'Bucket' => $bucket,
+//                'Key' => $key,
+//            ]);
+//
+//            return redirect()->back()->with('success', 'Post and file deleted successfully.');
+//        } catch (AwsException $e) {
+//            // Log the error or handle it accordingly
+//            return redirect()->back()->with('error', 'An error occurred while deleting the post and file.');
+//        }
     }
 }
