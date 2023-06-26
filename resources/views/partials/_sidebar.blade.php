@@ -65,19 +65,21 @@
                 </a>
             </li>
 
-            @auth
-                <a href="/reservations">
-                    <section class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <div class="relative inline-block">
-                                <img src="{{ asset( 'storage/'. auth()->user()->photos) }}" alt="User Avatar" class="w-8 h-8 rounded-full">
-                                <div class="absolute inset-0 flex items-center justify-center border-2 border-pink-500 rounded-full"></div>
+            <li>
+                @auth
+                    <a href="/reservations">
+                        <section class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="relative inline-block">
+                                    <img src="{{ asset( 'storage/'. auth()->user()->photos) }}" alt="User Avatar" class="w-8 h-8 rounded-full">
+                                    <div class="absolute inset-0 flex items-center justify-center border-2 border-pink-500 rounded-full"></div>
+                                </div>
+                                <h2 class="ml-1 font-bold">{{ auth()->user()->name }}</h2>
                             </div>
-                            <h2 class="ml-1 font-bold">{{ auth()->user()->name }}</h2>
-                        </div>
-                    </section>
-                </a>
-            @endauth
+                        </section>
+                    </a>
+                @endauth
+            </li>
             <li>
                 @auth
                     @if (auth()->user()->id )
