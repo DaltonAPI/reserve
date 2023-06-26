@@ -39,49 +39,6 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-//    public function createPost(Request $request)
-//    {
-//        // Validate the form data
-//        $validatedData = $request->validate([
-//            'title' => 'required|max:255',
-//            'image_url' => 'mimes:jpeg,png,gif,mp4,avi,mov',
-//            'body' => 'required',
-//            'price' => 'nullable|numeric',
-//            'published_at' => 'nullable|date',
-//            'url' => 'nullable|url',
-//            'filename' => ['nullable', 'regex:/^[A-Za-z0-9_-]+$/'],
-//            'image_extension' => ['nullable', 'mimes:jpeg,png,gif,mp4,avi,mov'],
-//        ]);
-//
-//        // Handle thumbnail image upload if present
-//        if ($request->hasFile('thumbnail')) {
-//            $file = $request->file('thumbnail');
-//
-////            // Validate the file size
-////            $maxSize = 7082877; // 40 megabytes
-////            $fileSize = $file->getSize();
-////
-////            if ($fileSize > $maxSize) {
-////                return redirect()->back()->withErrors(['thumbnail' => 'The  file size must be between 1 to 45 megabytes.']);
-////            }
-//
-//            $validatedData['image_url'] = $file->store('thumbnail', 's3');
-//            $image = $file->store('thumbnail', 's3');
-//            Storage::disk('s3')->setVisibility($image, 'public');
-//            $validatedData['image_extension'] = $file->getClientOriginalExtension();
-//            $validatedData['filename'] = basename($image);
-//            $validatedData['url'] = Storage::disk('s3')->url($image);
-//        }
-//
-//        $validatedData['user_id'] = auth()->id();
-//
-//        // Save the data to the database
-//        $post = Post::create($validatedData);
-//
-//        // Redirect or perform additional actions as needed
-//        return redirect('/posts')->with('success', 'Post created successfully');
-//    }
-
     public function createPost(Request $request)
     {
         // Validate the form data
@@ -98,11 +55,22 @@ class PostController extends Controller
 
         // Handle thumbnail image upload if present
         if ($request->hasFile('thumbnail')) {
-            $validatedData['image_url'] = $request->file('thumbnail')->store('thumbnail', 'public');
+            $file = $request->file('thumbnail');
 
-            $validatedData['image_extension'] = "";
-            $validatedData['filename'] = "";
-            $validatedData['url'] = "";
+//            // Validate the file size
+//            $maxSize = 7082877; // 40 megabytes
+//            $fileSize = $file->getSize();
+//
+//            if ($fileSize > $maxSize) {
+//                return redirect()->back()->withErrors(['thumbnail' => 'The  file size must be between 1 to 45 megabytes.']);
+//            }
+
+            $validatedData['image_url'] = $file->store('thumbnail', 's3');
+            $image = $file->store('thumbnail', 's3');
+            Storage::disk('s3')->setVisibility($image, 'public');
+            $validatedData['image_extension'] = $file->getClientOriginalExtension();
+            $validatedData['filename'] = basename($image);
+            $validatedData['url'] = Storage::disk('s3')->url($image);
         }
 
         $validatedData['user_id'] = auth()->id();
@@ -113,6 +81,38 @@ class PostController extends Controller
         // Redirect or perform additional actions as needed
         return redirect('/posts')->with('success', 'Post created successfully');
     }
+
+//    public function createPost(Request $request)
+//    {
+//        // Validate the form data
+//        $validatedData = $request->validate([
+//            'title' => 'required|max:255',
+//            'image_url' => 'mimes:jpeg,png,gif,mp4,avi,mov',
+//            'body' => 'required',
+//            'price' => 'nullable|numeric',
+//            'published_at' => 'nullable|date',
+//            'url' => 'nullable|url',
+//            'filename' => ['nullable', 'regex:/^[A-Za-z0-9_-]+$/'],
+//            'image_extension' => ['nullable', 'mimes:jpeg,png,gif,mp4,avi,mov'],
+//        ]);
+//
+//        // Handle thumbnail image upload if present
+//        if ($request->hasFile('thumbnail')) {
+//            $validatedData['image_url'] = $request->file('thumbnail')->store('thumbnail', 'public');
+//
+//            $validatedData['image_extension'] = "";
+//            $validatedData['filename'] = "";
+//            $validatedData['url'] = "";
+//        }
+//
+//        $validatedData['user_id'] = auth()->id();
+//
+//        // Save the data to the database
+//        $post = Post::create($validatedData);
+//
+//        // Redirect or perform additional actions as needed
+//        return redirect('/posts')->with('success', 'Post created successfully');
+//    }
 
     /**
      * Display the specified resource.
