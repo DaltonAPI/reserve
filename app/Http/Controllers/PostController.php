@@ -138,8 +138,10 @@ class PostController extends Controller
             $validatedData['filename'] = basename($image);
 
             if (!empty($image)) {
+                dd('not empty');
                 $validatedData['url'] = Storage::disk('s3')->url($image);
             } else {
+                dd('empty');
                 $validatedData['url'] = 'https://reservifybucket.s3.us-east-2.amazonaws.com/thumbnail/inu5IubzdIdaiSmAoAfptka67f19gE5CJXC80Mye.jpg';
                 // Handle the case when $image is empty or null
                 // Throw an exception, return an error message, or take appropriate action
