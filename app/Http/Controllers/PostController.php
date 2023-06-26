@@ -136,7 +136,15 @@ class PostController extends Controller
             Storage::disk('s3')->setVisibility($image, 'public');
             $validatedData['image_extension'] = $file->getClientOriginalExtension();
             $validatedData['filename'] = basename($image);
-            $validatedData['url'] = Storage::disk('s3')->url($image);
+
+            if (!empty($image)) {
+                $validatedData['url'] = Storage::disk('s3')->url($image);
+            } else {
+                $validatedData['url'] = 'https://reservifybucket.s3.us-east-2.amazonaws.com/thumbnail/inu5IubzdIdaiSmAoAfptka67f19gE5CJXC80Mye.jpg';
+                // Handle the case when $image is empty or null
+                // Throw an exception, return an error message, or take appropriate action
+            }
+
         }
 
         $validatedData['user_id'] = auth()->id();
