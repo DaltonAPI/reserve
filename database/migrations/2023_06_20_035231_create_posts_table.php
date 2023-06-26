@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title'); // Corrected line
             $table->string('image_url')->nullable();
-            $table->text('url');
+            $table->text('url')->nullable();
             $table->text('filename');
             $table->string('image_extension')->nullable();
             $table->text('excerpt')->nullable();;

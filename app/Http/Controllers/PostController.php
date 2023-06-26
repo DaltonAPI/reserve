@@ -39,52 +39,6 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
-    public function createPost(Request $request)
-    {
-        // Validate the form data
-        $validatedData = $request->validate([
-            'title' => 'required|max:255',
-            'image_url' => 'mimes:jpeg,png,gif,mp4,avi,mov',
-            'body' => 'required',
-            'price' => 'nullable|numeric',
-            'published_at' => 'nullable|date',
-            'url' => 'nullable|url',
-            'filename' => ['nullable', 'regex:/^[A-Za-z0-9_-]+$/'],
-            'image_extension' => ['nullable', 'mimes:jpeg,png,gif,mp4,avi,mov'],
-        ]);
-
-        // Handle thumbnail image upload if present
-        if ($request->hasFile('thumbnail')) {
-            $file = $request->file('thumbnail');
-
-            $validatedData['image_url'] = $file->store('thumbnail', 's3');
-            $image = $validatedData['image_url'];
-
-            Storage::disk('s3')->setVisibility($image, 'public');
-            $validatedData['image_extension'] = $file->getClientOriginalExtension();
-            $validatedData['filename'] = basename($image);
-            $validatedData['url'] = Storage::disk('s3')->url($image);
-        }
-
-        $validatedData['user_id'] = auth()->id();
-
-        // Save the data to the database
-        $post = Post::create($validatedData);
-
-        // Redirect or perform additional actions as needed
-        return redirect('/posts')->with('success', 'Post created successfully');
-    }
-
-
-
-
-
-
-
-
-
-
 //    public function createPost(Request $request)
 //    {
 //        // Validate the form data
@@ -159,7 +113,40 @@ class PostController extends Controller
 //        // Redirect or perform additional actions as needed
 //        return redirect('/posts')->with('success', 'Post created successfully');
 //    }
+    public function createPost(Request $request)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'image_url' => 'mimes:jpeg,png,gif,mp4,avi,mov',
+            'body' => 'required',
+            'price' => 'nullable|numeric',
+            'published_at' => 'nullable|date',
+            'url' => 'nullable|url',
+            'filename' => ['nullable', 'regex:/^[A-Za-z0-9_-]+$/'],
+            'image_extension' => ['nullable', 'mimes:jpeg,png,gif,mp4,avi,mov'],
+        ]);
 
+        // Handle thumbnail image upload if present
+        if ($request->hasFile('thumbnail')) {
+            $file = $request->file('thumbnail');
+
+            $validatedData['image_url'] = $file->store('thumbnail', 's3');
+            $image = $file->store('thumbnail', 's3');
+            Storage::disk('s3')->setVisibility($image, 'public');
+            $validatedData['image_extension'] = $file->getClientOriginalExtension();
+            $validatedData['filename'] = basename($image);
+            $validatedData['url'] = Storage::disk('s3')->url($image);
+        }
+
+        $validatedData['user_id'] = auth()->id();
+
+        // Save the data to the database
+        $post = Post::create($validatedData);
+
+        // Redirect or perform additional actions as needed
+        return redirect('/posts')->with('success', 'Post created successfully');
+    }
     /**
      * Display the specified resource.
      *
