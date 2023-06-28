@@ -156,8 +156,9 @@
                             </div>
 
                                 <div class="mb-4">
-                                    <label for="serviceInput" class="block mb-2 text-sm font-medium text-gray-900">Services Offered</label>
-                                    <input type="text" name="serviceList" id="serviceInput" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type your service and click the button to add">
+                                    <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered</label>
+                                    <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "Remove Service" to remove service.</p>
+                                    <input type="text" name="serviceList" id="serviceInput" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="eg. repair, house cleaning, lawn cutting">
                                     @error('serviceList')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
