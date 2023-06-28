@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
 class UserController extends Controller
 {
@@ -19,59 +19,75 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $formFields = $request->except('_token', 'password_confirmation');
-        $formFields['social_media'] = json_encode($formFields['social_media']);
-        $formFields['password'] = bcrypt($formFields['password']);
-
-        if ($request->hasFile('photos')) {
-            $logoFile = $request->file('photos');
-            $filename = uniqid() . '_' . $logoFile->getClientOriginalName();
-            $formFields['photos'] = $logoFile->storeAs('logos', $filename, 'public');
+        if (isset($formFields['social_media'])) {
+            $formFields['social_media'] = json_encode($formFields['social_media']);
         }
+        $formFields['password'] = bcrypt($formFields['password']);
+        $formFields['serviceInput'] = $request->input('serviceList');
+        // Validation rules for business fields
+        $businessFields = [
+            'name' => ['required', 'min:3'],
+            'account_type' => 'required',
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'password' => 'required',
+            'bio' => 'nullable|string|min:10|max:60',
+            'contact_info' => 'required|numeric|min:10',
+            'social_media' => 'nullable',
+            'Facebook_links' => 'nullable|url',
+            'Instagram_links' => 'nullable|url',
+            'Twitter_links' => 'nullable|url',
+//            'industry_category' => 'required',
+            'serviceInput' => 'required|array',
+            'photos' => 'required|mimes:jpeg,png,gif',
+            'location' => 'required|string',
+        ];
+
+        // Validation rules for client fields
+        $clientFields = [
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'password' => 'required|confirmed|min:6',
+            'bio' => 'nullable|string|min:10|max:500',
+            'contact_info' => 'required|numeric|min:10',
+            'Facebook_links' => 'nullable|url',
+            'Instagram_links' => 'nullable|url',
+            'Twitter_links' => 'nullable|url',
+            'client-name' => ['required', 'min:3'],
+        ];
 
         if ($formFields['account_type'] === 'Business') {
+            // Validate business data
+            $businessValidator = Validator::make($formFields, $businessFields);
+
+            if ($businessValidator->fails()) {
+                return redirect()->back()->withErrors($businessValidator)->withInput();
+            }
+
             // Save business fields
-            $businessFields = [
-                'name' => ['required', 'min:3'],
-                'account_type' => 'required',
-                'email' => ['required', 'email', Rule::unique('users', 'email')],
-                'password' => 'required|confirmed|min:6',
-                'bio' => 'required|string|min:10|max:500',
-                'contact_info' => ['required', 'numeric'],
-                'social_media' => 'array',
-                'Facebook_links' => 'required|url',
-                'Instagram_links' => 'required|url',
-                'Twitter_links' => 'required|url',
-                'industry_category' => 'required',
-                'servicesOffer'=> 'required|array',
-                'location' => 'required'
-            ];
-
             $businessData = Arr::only($formFields, array_keys($businessFields));
+            if (isset($businessData['social_media'])) {
+                $businessData['social_media'] = $formFields['social_media'];
+            }
 
-            $businessData['social_media'] = $formFields['social_media'];
+
             $businessData['photos'] = $formFields['photos'] ?? null;
-
+            $businessData['serviceInput'] = $formFields['serviceInput'] ?? null;
+            dd($businessData);
             $user = User::create($businessData);
             auth()->login($user);
-        return redirect('/landing')->with('message', 'User created and logged in');
-
+            return redirect('/landing')->with('message', 'User created and logged in');
         } elseif ($formFields['account_type'] === 'Client') {
-            // Save client fields
-            $clientFields = [
-                'email' => ['required', 'email', Rule::unique('users', 'email')],
-                'password' => 'required|confirmed|min:6',
-                'bio' => 'required|string|min:10|max:500',
-                'contact_info' => ['required', 'numeric'],
-                'Facebook_links' => 'nullable|url',
-                'Instagram_links' => 'nullable|url',
-                'Twitter_links' => 'nullable|url',
-                'client-name' => ['required', 'min:3'],
-            ];
+            // Validate client data
+            $clientValidator = Validator::make($formFields, $clientFields);
 
+            if ($clientValidator->fails()) {
+                return redirect()->back()->withErrors($clientValidator)->withInput();
+            }
+
+            // Save client fields
             $clientData = Arr::only($formFields, array_keys($clientFields));
             $clientData['social_media'] = $formFields['social_media'];
             $clientData['photos'] = $formFields['photos'] ?? null;
-            dd($clientData);
+
             // Save client data to the database
             $user = User::create($clientData);
             auth()->login($user);
@@ -80,6 +96,7 @@ class UserController extends Controller
 
         // Redirect or perform any other actions
     }
+
 
 
 

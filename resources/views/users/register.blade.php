@@ -1,23 +1,16 @@
-<style>
-    @media (min-width: 768px) {
 
-        .top{
-            margin-top: 450px;
-        }
-    }
-</style>
 <x-layout>
-    <section  class="top">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen py-10 ">
-            <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+    <section  class="">
+        <div class="flex flex-col items-center justify-center px-6 py-16 mx-auto  ">
+            <div class="w-full bg-white rounded-lg shadow  sm:max-w-md ">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                         Create an account
                     </h1>
-                    <form class="space-y-4 md:space-y-6" method="POST" action="/users" enctype="multipart/form-data">
+                    <form  id="myForm" class="space-y-4 md:space-y-6" method="POST" action="/users" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
-                            <label for="account_type" class="block mb-2 text-sm font-medium text-gray-900">Account Type</label>
+                            <label for="account_type" class="block mb-2 text-sm font-medium text-gray-900">Account Type  <span class="text-red-500">*</span></label>
                             <select name="account_type" id="industry_category" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
                                 <option value="Business">Business</option>
                                 <option value="Client">Client</option>
@@ -28,7 +21,7 @@
                         </div>
 
                         <div class="mb-4" id="client-name-container" style="display: none;">
-                            <label for="client-name" class="block mb-2 text-sm font-medium text-gray-900">Client Name</label>
+                            <label for="client-name" class="block mb-2 text-sm font-medium text-gray-900">Client Name<span class="text-red-500">*</span></label>
                             <input type="text" name="client-name" id="client-name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{ old('client-name') }}" ">
                             @error('client-name')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -37,41 +30,52 @@
 
 
                         <div class="mb-4">
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email <span class="text-red-500">*</span></label>
                             <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@company.com" value="{{ old('email') }}" required="">
                             @error('email')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-4">
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
+                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password <span class="text-red-500">*</span></label>
                             <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"  required="">
                             @error('password')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                         </div>
                         <div class="mb-4">
-                            <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900">Confirm password</label>
+                            <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900">Confirm password<span class="text-red-500">*</span></label>
                             <input type="password" name="password_confirmation" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
                             @error('password_confirmation')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                         </div>
+
                         <div class="mb-4">
-                            <label for="bio" class="block mb-2 text-sm font-medium text-gray-900">Bio</label>
+                            <label for="bio" class="block mb-2 text-sm font-medium text-gray-900">Bio(optional)</label>
                             <textarea name="bio" id="bio" rows="4" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" >{{ old('bio') }}</textarea>
                             @error('bio')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="mb-4">
-                            <label for="contact_info" class="block mb-2 text-sm font-medium text-gray-900">Contact Information</label>
-                            <input type="text" name="contact_info" id="contact_info" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{ old('contact_info') }}" required oninput="validatePhoneNumber(this)">
-                            <span id="contact_info_error" class="text-red-500 text-xs mt-1"></span>
+
+                        <div>
+                            <label for="contact_info" class="block  text-sm font-medium text-gray-900 mb-2">Contact Number<span class="text-red-500">*</span></label>
+                            <div class="flex">
+                                <select id="country_code_select">
+                                    <option value="+1">+1 (USA)</option>
+                                    <option value="+44">+44 (UK)</option>
+                                    <option value="+91">+91 (India)</option>
+
+                                </select>
+                                <input type="text" name="contact_info" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600  w-full p-2.5" value="{{ old('contact_info') }}" >
+                            </div>
+                            @error('contact_info')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+
+                            </script>
                         </div>
-
-
-
                         @php
                             $socialMediaOptions = [
                                 'Facebook' => 'Facebook',
@@ -81,19 +85,25 @@
                         @endphp
 
                         <div class="mb-4">
-                            <label for="social_media" class="block mb-2 text-sm font-medium text-gray-900">Social Media Profiles</label>
+                            <label for="social_media" class="block mb-2 text-sm font-medium text-gray-900">Social Media Profiles (optional)</label>
                             <div>
-                                @foreach($socialMediaOptions as $value => $option)
-                                    <div class="flex items-center mb-2">
-                                        <input type="checkbox" name="social_media[]" value="{{ $value }}" id="{{ $value }}_checkbox" class="mr-2" {{ old('social_media') && in_array($value, old('social_media')) ? 'checked' : '' }}>
-                                        <label for="{{ $value }}_checkbox" class="text-sm text-gray-900">{{ $option }}</label>
-                                    </div>
-                                @endforeach
+                                @if(!empty($socialMediaOptions))
+                                    @foreach($socialMediaOptions as $value => $option)
+                                        <div class="flex items-center mb-2">
+                                            <input type="checkbox" name="social_media[]" value="{{ $value }}" id="{{ $value }}_checkbox" class="mr-2" {{ old('social_media') && in_array($value, old('social_media')) ? 'checked' : '' }}>
+                                            <label for="{{ $value }}_checkbox" class="text-sm text-gray-900">{{ $option }}</label>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p>No social media options available.</p>
+                                @endif
                             </div>
                             @error('social_media')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+
+
 
                         <div id="social_media_links">
                             @foreach($socialMediaOptions as $value => $option)
@@ -128,7 +138,7 @@
 
 
                         <div class="mb-6">
-                            <label for="photos" class="block mb-2 text-sm font-medium text-gray-900">Image</label>
+                            <label for="photos" class="block mb-2 text-sm font-medium text-gray-900">Image <span class="text-red-500">*</span></label>
                             <input type="file" class="border border-gray-200 rounded p-2 w-full" name="photos" value="{{ old('photos') }}" />
 
                             @error('photos')
@@ -138,46 +148,41 @@
 
                         <div class="business">
                             <div class="mb-4">
-                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Business Name</label>
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Business Name <span class="text-red-500">*</span></label>
                                 <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{ old('name') }}" >
                                 @error('name')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="mb-4">
-                                <label for="serviceInput" class="block mb-2 text-sm font-medium text-gray-900">Services Offered</label>
-                                <input type="text" name="serviceInput" id="serviceInput" multiple class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="type your service and click the button to add" value="{{ old('serviceInput') }}">
-                                @error('serviceInput')
+                                <label for="serviceInput" class="block mb-2 text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
+                                <input type="text" name="serviceList" id="serviceInput" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type your service and click the button to add"  value="{{ old('serviceList') }}">
+                                @error('serviceList')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                                 <ul id="serviceList" class="mt-2"></ul>
-                                <button onclick="addService(event)" type="submit" class="mt-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                    </svg>
+                                <button onclick="addService(event)" type="button" class="mt-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
+                                    Add Service
                                 </button>
-                                <button onclick="removeService(event)" type="submit" class="mt-3 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
-                                    </svg>
+                                <button onclick="removeService(event)" type="button" class="mt-3 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">
+                                    Remove  Service
                                 </button>
 
                             </div>
-
+{{--                            <div class="mb-4">--}}
+{{--                                <label for="industry_category" class="block mb-2 text-sm font-medium text-gray-900">Industry/Category</label>--}}
+{{--                                <select name="industry_category" id="industry_category" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">--}}
+{{--                                    <option value="" disabled selected>Select industry/category</option>--}}
+{{--                                    <option value="Salon">Salon</option>--}}
+{{--                                    <option value="Repair">Repair</option>--}}
+{{--                                </select>--}}
+{{--                                @error('industry_category')--}}
+{{--                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>--}}
+{{--                                @enderror--}}
+{{--                            </div>--}}
                             <div class="mb-4">
-                                <label for="industry_category" class="block mb-2 text-sm font-medium text-gray-900">Industry/Category</label>
-                                <select name="industry_category" id="industry_category" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                    <option value="" disabled selected>Select industry/category</option>
-                                    <option value="Salon">Salon</option>
-                                    <option value="Repair">Repair</option>
-                                </select>
-                                @error('industry_category')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="mb-4">
-                                <label for="location" class="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                                <input type="text" id="location-input" name="location"  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                <label for="location" class="block mb-2 text-sm font-medium text-gray-900">Location <span class="text-red-500">*</span></label>
+                                <input type="text" id="location-input" name="location"  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{ old('location') }}">
                                 @error('location')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
@@ -195,11 +200,12 @@
                         </div>
                         <script src="{{ asset('script/script.js') }}"></script>
                         <div class="mt-6">
-                            <button type="submit" onclick="enableSubmit()" class="w-full text-gray-900 bg-pink-500 hover:bg-pink-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">Create an account</button>
+                            <button type="submit" onclick="submitForm(event)" class="w-full text-gray-900 bg-pink-500 hover:bg-pink-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">Create an account</button>
                         </div>
                         <p class="text-sm font-light text-gray-500">
                             Already have an account? <a href="#" class="font-medium text-pink-600 hover:underline">Login here</a>
                         </p>
+
                     </form>
                 </div>
             </div>
@@ -208,60 +214,67 @@
 </x-layout>
 
 
+
+
 <script>
-        var servicesOffer = [];
-        var submitEnabled = false;
+    // Initialize an empty array to store the services
+    var services = [];
 
-        function addService(event) {
-            event.preventDefault(); // Prevent form submission
+    // Function to add a service to the array
+    function addService(event) {
+        event.preventDefault();
 
-            var serviceInput = document.getElementById("serviceInput");
-            var serviceList = document.getElementById("serviceList");
+        // Get the input field value
+        var input = document.getElementById("serviceInput");
+        var service = input.value.trim();
 
-            var services = serviceInput.value.split(","); // Split input by commas
-            services.forEach(function (service) {
-                service = service.trim(); // Remove leading/trailing spaces
-                if (service !== "") {
-                    servicesOffer.push(service);
-                    var listItem = document.createElement("li");
-                    listItem.appendChild(document.createTextNode(service));
-                    serviceList.appendChild(listItem);
-                }
-            });
-
-            serviceInput.value = ""; // Clear the input field
+        // Add the service to the array if it's not empty
+        if (service !== "") {
+            services.push(service);
+            input.value = ""; // Clear the input field
+            renderServiceList(); // Update the displayed service list
         }
-        function removeService(event) {
-            event.preventDefault();
+    }
 
-            var serviceInput = document.getElementById("serviceInput");
-            var serviceList = document.getElementById("serviceList");
+    // Function to remove the last service from the array
+    function removeService(event) {
+        event.preventDefault();
 
-            // Clear the service input
-            serviceInput.value = "";
-
-            // Clear the service list
-            while (serviceList.firstChild) {
-                serviceList.removeChild(serviceList.firstChild);
-            }
+        // Remove the last service from the array
+        if (services.length > 0) {
+            services.pop();
+            renderServiceList(); // Update the displayed service list
         }
+    }
 
+    // Function to render the service list on the page
+    function renderServiceList() {
+        var serviceList = document.getElementById("serviceList");
+        serviceList.innerHTML = ""; // Clear the list
 
-        function enableSubmit() {
-            submitEnabled = true;
-        }
-
-        document.querySelector('form').addEventListener('submit', function (event) {
-            if (!submitEnabled) {
-                event.preventDefault(); // Prevent form submission if submit is not enabled
-                console.log("Form submission prevented.");
-            } else {
-                var hiddenInput = document.createElement("input");
-                hiddenInput.setAttribute("type", "hidden");
-                hiddenInput.setAttribute("name", "servicesOffer");
-                hiddenInput.setAttribute("value", JSON.stringify(servicesOffer));
-                this.appendChild(hiddenInput);
-            }
+        // Add each service as a list item
+        services.forEach(function (service) {
+            var listItem = document.createElement("li");
+            listItem.textContent = service;
+            serviceList.appendChild(listItem);
         });
-    </script>
+    }
 
+    // Function to submit the form
+    function submitForm(event) {
+        event.preventDefault();
+
+        // Update the hidden input value with the JSON string of services
+        var input = document.getElementById("serviceInput");
+        input.value = JSON.stringify(services);
+
+        // Submit the form
+        var form = document.getElementById("myForm");
+        form.submit();
+
+        // Clear the input field and service list after submitting the form
+        input.value = "";
+        services = [];
+        renderServiceList();
+    }
+</script>
