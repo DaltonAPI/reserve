@@ -38,7 +38,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password <span class="text-red-500">*</span></label>
-                            <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"  required="">
+                            <input type="password" value="{{ old('password') }}" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"  required="">
                             @error('password')
                             <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
@@ -60,7 +60,7 @@
                         </div>
 
                         <div>
-                            <label for="contact_info" class="block  text-sm font-medium text-gray-900 mb-2">Contact Number</label>
+                            <label for="contact_info" class="block  text-sm font-medium text-gray-900 mb-2">Contact Number<span class="text-red-500">*</span></label>
                             <div class="flex">
                                 <select id="country_code_select">
                                     <option value="+1">+1 (USA)</option>
@@ -156,7 +156,7 @@
                             </div>
 
                                 <div class="mb-4">
-                                    <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered</label>
+                                    <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
                                     <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "Remove Service" to remove service.</p>
                                     <input type="text" name="serviceList" id="serviceInput" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="eg. repair, house cleaning, lawn cutting">
                                     @error('serviceList')
