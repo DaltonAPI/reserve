@@ -10,7 +10,7 @@
             <div class="mb-6">
                 <label for="title" class="inline-block text-lg mb-2">The Type of Service <span class="text-red-500">*</span></label>
                 <select name="title" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                    @foreach(json_decode($user->servicesOffer) as $title)
+                    @foreach(json_decode($user->serviceList) as $title)
                         <option value="{{ $title }}">{{ $title }}</option>
                     @endforeach
                 </select>

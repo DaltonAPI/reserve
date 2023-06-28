@@ -7,7 +7,7 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                         Create an account
                     </h1>
-                    <form  id="myForm" class="space-y-4 md:space-y-6" method="POST" action="/users" enctype="multipart/form-data">
+                    <form id="myForm" class="space-y-4 md:space-y-6" method="POST" action="/users" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="account_type" class="block mb-2 text-sm font-medium text-gray-900">Account Type  <span class="text-red-500">*</span></label>
@@ -43,13 +43,13 @@
                             <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                         </div>
-                        <div class="mb-4">
-                            <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900">Confirm password<span class="text-red-500">*</span></label>
-                            <input type="password" name="password_confirmation" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
-                            @error('password_confirmation')
-                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                            @enderror
-                        </div>
+{{--                        <div class="mb-4">--}}
+{{--                            <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900">Confirm password<span class="text-red-500">*</span></label>--}}
+{{--                            <input type="password" name="password_confirmation" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">--}}
+{{--                            @error('password_confirmation')--}}
+{{--                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>--}}
+{{--                            @enderror--}}
+{{--                        </div>--}}
 
                         <div class="mb-4">
                             <label for="bio" class="block mb-2 text-sm font-medium text-gray-900">Bio(optional)</label>
@@ -60,7 +60,7 @@
                         </div>
 
                         <div>
-                            <label for="contact_info" class="block  text-sm font-medium text-gray-900 mb-2">Contact Number<span class="text-red-500">*</span></label>
+                            <label for="contact_info" class="block  text-sm font-medium text-gray-900 mb-2">Contact Number</label>
                             <div class="flex">
                                 <select id="country_code_select">
                                     <option value="+1">+1 (USA)</option>
@@ -154,22 +154,25 @@
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="mb-4">
-                                <label for="serviceInput" class="block mb-2 text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
-                                <input type="text" name="serviceList" id="serviceInput" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type your service and click the button to add"  value="{{ old('serviceList') }}">
-                                @error('serviceList')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
-                                <ul id="serviceList" class="mt-2"></ul>
-                                <button onclick="addService(event)" type="button" class="mt-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
-                                    Add Service
-                                </button>
-                                <button onclick="removeService(event)" type="button" class="mt-3 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">
-                                    Remove  Service
-                                </button>
 
-                            </div>
-{{--                            <div class="mb-4">--}}
+                                <div class="mb-4">
+                                    <label for="serviceInput" class="block mb-2 text-sm font-medium text-gray-900">Services Offered</label>
+                                    <input type="text" name="serviceList" id="serviceInput" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type your service and click the button to add">
+                                    @error('serviceList')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                    <ul id="serviceList" class="mt-2"></ul>
+                                    <button onclick="addService(event)" type="button" class="mt-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
+                                        Add Service
+                                    </button>
+                                    <button onclick="removeService(event)" type="button" class="mt-3 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">
+                                        Remove Last Service
+                                    </button>
+
+                                </div>
+
+
+{{--                                                        <div class="mb-4">--}}
 {{--                                <label for="industry_category" class="block mb-2 text-sm font-medium text-gray-900">Industry/Category</label>--}}
 {{--                                <select name="industry_category" id="industry_category" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">--}}
 {{--                                    <option value="" disabled selected>Select industry/category</option>--}}
@@ -200,7 +203,7 @@
                         </div>
                         <script src="{{ asset('script/script.js') }}"></script>
                         <div class="mt-6">
-                            <button type="submit" onclick="submitForm(event)" class="w-full text-gray-900 bg-pink-500 hover:bg-pink-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">Create an account</button>
+                            <button onclick="submitForm(event)" type="button" class="w-full text-gray-900 bg-pink-500 hover:bg-pink-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">Create an account</button>
                         </div>
                         <p class="text-sm font-light text-gray-500">
                             Already have an account? <a href="#" class="font-medium text-pink-600 hover:underline">Login here</a>
@@ -212,6 +215,8 @@
         </div>
     </section>
 </x-layout>
+
+
 
 
 

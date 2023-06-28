@@ -20,7 +20,7 @@
             @csrf
             @method('PUT')
 
-            <div class="flex flex-col md:flex-row">
+            <div class="flex flex-col md:flex-row mt-5">
                 <div class="md:w-1/3 flex items-center justify-center">
                     <div class="rounded-full overflow-hidden w-48 h-48 md:w-56 md:h-56 mt-4 md:mt-0">
                         <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo" class="w-full h-full ">
@@ -37,10 +37,12 @@
                     </div>
 
                     <div class="flex items-center mb-2">
+                        @if($user->bio)
                         <p class="text-gray-700">
                             <i class="fas fa-info-circle text-pink-600 mr-2"></i>
                             <span class="bio-label">{{ $user->bio }}</span>
                         </p>
+                        @endif
                         <textarea class="hidden input-field bg-gray-100 rounded px-4 py-2 ml-2 w-2/3"
                                   name="bio">{{ $user->bio }}</textarea>
                     </div>
@@ -58,12 +60,12 @@
                             <input type="text" class="hidden input-field bg-gray-100 rounded px-4 py-2 ml-2 w-2/3"
                                    name="contact_info" value="{{ $user->contact_info }}">
                         </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-globe text-pink-600 mr-2"></i>
-                            <span class="industry-label">{{ $user->industry_category }}</span>
-                            <input type="text" class="hidden input-field bg-gray-100 rounded px-4 py-2 ml-2 w-2/3"
-                                   name="industry_category" value="{{ $user->industry_category }}">
-                        </div>
+{{--                        <div class="flex items-center">--}}
+{{--                            <i class="fas fa-globe text-pink-600 mr-2"></i>--}}
+{{--                            <span class="industry-label">{{ $user->industry_category }}</span>--}}
+{{--                            <input type="text" class="hidden input-field bg-gray-100 rounded px-4 py-2 ml-2 w-2/3"--}}
+{{--                                   name="industry_category" value="{{ $user->industry_category }}">--}}
+{{--                        </div>--}}
                     </div>
 
                     <!-- Add Location Field -->
@@ -77,42 +79,44 @@
                     <!-- Add Services Offered -->
                     <div class="flex items-center mb-2">
                         <i class="fas fa-tools text-pink-600 mr-2"></i>
-                        <span class="services-offer-label">{{ implode(', ', json_decode($user->servicesOffer)) }}</span>
-                        <input type="hidden" name="servicesOffer" value="{{ $user->servicesOffer }}">
+                        <span class="services-offer-label">{{ implode(', ', json_decode($user->serviceList)) }}</span>
+                        <input type="hidden" name="servicesOffer" value="{{ $user->serviceList }}">
                     </div>
 
                     <div id="social_media_links" class="flex items-center justify-end">
-                        @php
-                            $socialMedia = json_decode($user->social_media, true);
-                        @endphp
-                        @foreach ($socialMedia as $platform)
+                        @if($user->social_media)
                             @php
-                                $platformLink = $user->{$platform . '_links'};
-                                $iconColor = '';
-                                switch ($platform) {
-                                    case 'Facebook':
-                                        $iconColor = 'text-blue-600';
-                                        break;
-                                    case 'Instagram':
-                                        $iconColor = 'text-pink-600';
-                                        break;
-                                    case 'Twitter':
-                                        $iconColor = 'text-blue-400';
-                                        break;
-                                    // Add more cases for additional social media platforms if needed
-                                    default:
-                                        $iconColor = 'text-gray-600';
-                                        break;
-                                }
+                                $socialMedia = json_decode($user->social_media, true);
                             @endphp
-                            @if ($platformLink)
-                                <div class="flex items-center mb-2">
-                                    <a href="{{ $platformLink }}" target="_blank" rel="noopener noreferrer">
-                                        <i class="fab fa-{{ strtolower($platform) }} {{ $iconColor }} mr-2"></i>
-                                    </a>
-                                </div>
-                            @endif
-                        @endforeach
+                            @foreach ($socialMedia as $platform)
+                                @php
+                                    $platformLink = $user->{$platform . '_links'};
+                                    $iconColor = '';
+                                    switch ($platform) {
+                                        case 'Facebook':
+                                            $iconColor = 'text-blue-600';
+                                            break;
+                                        case 'Instagram':
+                                            $iconColor = 'text-pink-600';
+                                            break;
+                                        case 'Twitter':
+                                            $iconColor = 'text-blue-400';
+                                            break;
+                                        // Add more cases for additional social media platforms if needed
+                                        default:
+                                            $iconColor = 'text-gray-600';
+                                            break;
+                                    }
+                                @endphp
+                                @if ($platformLink)
+                                    <div class="flex items-center mb-2">
+                                        <a href="{{ $platformLink }}" target="_blank" rel="noopener noreferrer">
+                                            <i class="fab fa-{{ strtolower($platform) }} {{ $iconColor }} mr-2"></i>
+                                        </a>
+                                    </div>
+                                @endif
+                            @endforeach
+                        @endif
                     </div>
 
                 </div>

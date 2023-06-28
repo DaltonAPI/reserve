@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('photos')->nullable();
             $table->string('account_type')->nullable();
             $table->string('client-name')->nullable();
-            $table->string('serviceInput')->nullable();
+            $table->string('serviceList')->nullable();
             $table->string('location')->nullable();
             $table->rememberToken();
             $table->timestamps();

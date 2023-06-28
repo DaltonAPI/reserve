@@ -31,7 +31,7 @@ class User extends Authenticatable
         'photo',
         'account_type',
         'client_name',
-        'servicesOffer',
+        'serviceList',
         'location'
     ];
 
