@@ -79,9 +79,15 @@
                     <!-- Add Services Offered -->
                     <div class="flex items-center mb-2">
                         <i class="fas fa-tools text-pink-600 mr-2"></i>
-                        <span class="services-offer-label">{{ implode(', ', json_decode($user->serviceList)) }}</span>
+                        @php
+                            $colors = ['bg-pink-200', 'bg-blue-200', 'bg-green-200', 'bg-yellow-200'];
+                        @endphp
+                        @foreach(json_decode($user->serviceList) as $key => $service)
+                            <span class="inline-block {{ $colors[$key % count($colors)] }} text-pink-800 text-xs font-medium py-1 px-2 rounded-full mr-1">{{ $service }}</span>
+                        @endforeach
                         <input type="hidden" name="servicesOffer" value="{{ $user->serviceList }}">
                     </div>
+
 
                     <div id="social_media_links" class="flex items-center justify-end">
                         @if($user->social_media)
