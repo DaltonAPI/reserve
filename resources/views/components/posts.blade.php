@@ -20,15 +20,42 @@
     <a href="#" class="block">
         <div class="relative">
             <a href="/posts/{{$post->id}}">
-                @if ($post->image_extension === 'png' or $post->image_extension === 'jpg' or $post->image_extension === 'gif' or $post->image_extension === 'jpeg' or $post->image_extension === 'webp')
-                    <img class="media" style="width: 100%" src="{{ $post->url ? asset($post->url) : asset('../images/blog-7-500x400.jpg') }}" alt="Blog Image">
+                @if ($post->image_extension === 'png' || $post->image_extension === 'jpg' || $post->image_extension === 'gif' || $post->image_extension === 'jpeg' || $post->image_extension === 'webp')
+                    <img class="media object-cover rounded-lg" style="width: 100%" src="{{ $post->url ? asset($post->url) : asset('../images/blog-7-500x400.jpg') }}" alt="Blog Image">
                 @endif
 
-                @if ($post->image_extension === 'mp4' or $post->image_extension === 'mp3' or $post->image_extension === 'mov')
-                    <video class="media" style="width: 100%" controls  playsinline loop>
-                        <source src="{{ $post->url ? asset($post->url) : asset('../images/blog-7-500x400.jpg') }}" type="video/mp4">
-                    </video>
-                @endif
+                    @if ($post->image_extension === 'mp4' || $post->image_extension === 'mp3' || $post->image_extension === 'mov')
+                        <video class="media rounded-lg" style="width: 100%" controls loop poster="{{ $post->poster_url ? asset($post->poster_url) : asset('../images/poster.jpg') }}">
+                            <source src="{{ $post->url ? asset($post->url) : asset('../images/blog-7-500x400.jpg') }}" type="video/mp4">
+                            <script>
+                                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                                    var video = document.querySelector('.media');
+                                    video.autoplay = true;
+                                    video.muted = true; // Optional: Mute the video for autoplay
+
+                                    // Remove poster image and start playing when video is clicked
+                                    video.addEventListener('click', function() {
+                                        video.removeAttribute('poster');
+                                        video.play();
+                                    });
+
+                                    // Pause the video when it is scrolled past
+                                    window.addEventListener('scroll', function() {
+                                        var rect = video.getBoundingClientRect();
+                                        var isVisible = rect.top <= window.innerHeight && rect.bottom >= 0;
+                                        if (!isVisible) {
+                                            video.pause();
+                                        } else {
+                                            video.play();
+                                        }
+                                    });
+                                }
+                            </script>
+                        </video>
+                    @endif
+
+
+
             </a>
 {{--            <img class="media" style="width: 100%" src="{{ asset('storage/' . $post->image_url) }}" alt="Blog Image"/>--}}
 

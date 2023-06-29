@@ -44,7 +44,7 @@ class PostController extends Controller
         // Validate the form data
         $validatedData = $request->validate([
             'title' => 'required|max:255',
-            'image_url' => 'mimes:jpeg,png,gif,mp4,avi,mov|max:7082877',
+            'image_url' => 'mimes:jpeg,png,gif,mp4,avi,mov|max:73728960',
             'body' => 'required',
             'price' => 'nullable|numeric',
             'published_at' => 'nullable|date',
@@ -58,7 +58,7 @@ class PostController extends Controller
             $file = $request->file('thumbnail');
 
             // Validate the file size
-            $maxSize = 7082877; // 40 megabytes
+            $maxSize = 73728960; // 40 megabytes
             $fileSize = $file->getSize();
 
             if ($fileSize > $maxSize) {

@@ -48,7 +48,7 @@
                                 <path d="M10 9a2 2 0 100-4 2 2 0 000 4z" />
                             </svg>
                         </div>
-                        <span class="ml-3">Upload Thumbnail</span>
+                        <span class="ml-3 text-red-400" style="font-size: x-small">Upload Image or Video(max size(70 mb)</span>
                     </label>
                 </div>
                 <div class="mt-2">
