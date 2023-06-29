@@ -14,8 +14,8 @@
             <div class="flex items-center">
                 <img class="w-16 h-16 rounded-full mr-4"  src="{{ asset('storage/' . $listing->user->photos) }}" alt="Business Logo">
                 <div>
-                    <h5 class="text-xl font-bold">{{$listing->user->name }}</h5>
-                    <p class="text-gray-500">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
+                    <h2 class=" font-bold">{{ $listing->user->name }}</h2>
+                    <p class="text-gray-500" style="font-size: x-small">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
                 </div>
             </div>
             <div class="flex items-center">
@@ -70,10 +70,10 @@
             </div>
 
         </div>
-        <h2 class="text-2xl font-bold">{{ $listing->title }}</h2>
+
         <div class="flex items-center justify-between">
             <div class="w-2/3">
-                <h3 class="text-gray-700 font-semibold">Customer Details</h3>
+                <p class="text-gray-600">Type of Service: <span class="font-semibold"> {{ $listing->title }} </span></p>
                 @if ($listing->customer_name)
                     <p class="text-gray-600">Customer Name: <span class="font-semibold">{{ $listing->customer_name }}</span></p>
                 @endif
@@ -109,9 +109,9 @@
         </div>
 
 
-        <div>
-            <h3 class="text-xl font-bold">Status</h3>
-            <p>{{ $listing->status }}</p>
+        <div class="bg-gray-100 p-4 rounded">
+            <h3 class=" font-bold">Status</h3>
+            <p class="text-base text-gray-800">{{ $listing->status }}</p>
         </div>
     </div>
 
@@ -120,10 +120,10 @@
         <div class="bg-white rounded-lg shadow-md p-6 mb-8">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
-                <img class="w-16 h-16 rounded-full mr-4" src="https://cdn.pixabay.com/photo/2020/05/18/16/17/social-media-5187243_640.png" alt="Business Logo">
+                <img class="w-16 h-16 rounded-full mr-4"  src="{{ asset('storage/' . $listing->user->photos) }}" alt="Business Logo">
                 <div>
-                    <h2 class="text-2xl font-bold">{{ $listing->title }}</h2>
-                    <p class="text-gray-500">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
+                    <h2 class=" font-bold">{{ $listing->user->name }}</h2>
+                    <p class="text-gray-500" style="font-size: x-small">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
                 </div>
             </div>
             <div class="flex items-center">
@@ -181,7 +181,8 @@
 
             <div class="flex items-center justify-between">
                 <div class="w-2/3">
-                    <h3 class="text-gray-700 font-semibold">Customer Details</h3>
+
+                    <p class="text-gray-600">Type of Service: <span class="font-semibold"> {{ $listing->title }} </span></p>
                     @if ($listing->customer_name)
                         <p class="text-gray-600">Customer Name: <span class="font-semibold">{{ $listing->customer_name }}</span></p>
                     @endif
@@ -216,11 +217,12 @@
                 @endif
             </div>
 
-        <div>
-            <h3 class="text-xl font-bold">Status</h3>
-            <p>{{ $listing->status }}</p>
+            <div class="bg-gray-100 p-4 rounded">
+                <h3 class=" font-bold">Status</h3>
+                <p class="text-base text-gray-800">{{ $listing->status }}</p>
+            </div>
+
         </div>
-    </div>
 
 
     @endif
