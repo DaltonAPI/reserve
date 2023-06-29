@@ -85,7 +85,8 @@
                         @endphp
 
                         <div class="mb-4">
-                            <label for="social_media" class="block mb-2 text-sm font-medium text-gray-900">Social Media Profiles (optional)</label>
+                            <label for="social_media" class="block  text-sm font-medium text-gray-900">Social Media Profiles (optional)</label>
+                            <p style="font-size: x-small">Copy link from any of your social my profile and paste it in the input file(optional)</p>
                             <div>
                                 @if(!empty($socialMediaOptions))
                                     @foreach($socialMediaOptions as $value => $option)
@@ -106,6 +107,7 @@
 
 
                         <div id="social_media_links">
+
                             @foreach($socialMediaOptions as $value => $option)
                                 <div class="mb-4" id="{{ $value }}_links" style="display: none;">
                                     <label class="block mb-2 text-sm font-medium text-gray-900">{{ $option }} Link(s)</label>
