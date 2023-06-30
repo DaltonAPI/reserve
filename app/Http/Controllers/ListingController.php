@@ -78,7 +78,6 @@ class ListingController extends Controller
         );
 
         $formFields['user_id'] = auth()->id();
-       dd($formFields);
         Listing::create($formFields);
         return redirect('/reservations')->with('message', 'Listing created successfully!');
     }
