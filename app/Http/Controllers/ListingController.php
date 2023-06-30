@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Services\TwilioService;
-
+use Twilio\Exceptions\TwilioException;
 class ListingController extends Controller
 {
     // Show all listings
@@ -60,22 +60,33 @@ class ListingController extends Controller
         }
 
         // Send SMS using Twilio
-        $twilioSid = env('TWILIO_SID');
-        $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
-        $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
-        $customerPhoneNumber = $formFields['customer_phone'];
 
 
+        try {
+            $twilioSid = env('TWILIO_SID');
+            $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
+            $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
+            $customerPhoneNumber = $formFields['customer_phone'];
 
-        $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
-        $messageBody = 'Hello ' . $formFields['customer_name'] . ', your reservation has been saved successfully! Date: ' . $formFields['date'] . ', Time: ' . $formFields['time'];
-        $client->messages->create(
-            $customerPhoneNumber,
-            [
-                'from' => $twilioPhoneNumber,
-                'body' => $messageBody
-            ]
-        );
+            $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
+            $messageBody = 'Hello ' . $formFields['customer_name'] . ', your reservation has been saved successfully! Date: ' . $formFields['date'] . ', Time: ' . $formFields['time'];
+
+            $client->messages->create(
+                $customerPhoneNumber,
+                [
+                    'from' => $twilioPhoneNumber,
+                    'body' => $messageBody
+                ]
+            );
+
+            // Message sent successfully
+            // ... your remaining code ...
+        } catch (TwilioException $e) {
+            // Exception occurred while sending SMS
+            // Handle the exception as per your requirements
+            return redirect()->back()->with('error', 'Failed to send SMS: ' . $e->getMessage());
+        }
+
 
         $formFields['user_id'] = auth()->id();
         Listing::create($formFields);
