@@ -8,7 +8,6 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Services\TwilioService;
-use Carbon\Carbon;
 
 class ListingController extends Controller
 {
@@ -40,9 +39,8 @@ class ListingController extends Controller
         return view('listings.create', compact('user'));
     }
 
-
-
-    public function store(Request $request, TwilioService $twilioService)
+    // Store Listing Data
+    public function store(Request $request)
     {
         $formFields = $request->validate([
             'title' => 'required|string',
@@ -61,29 +59,29 @@ class ListingController extends Controller
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
-        // Format the time as AM/PM
-        $time = Carbon::createFromFormat('H:i', $formFields['time'])->format('h:i A');
-        $formFields['time'] = $time;
+        // Send SMS using Twilio
+        $twilioSid = env('TWILIO_SID');
+        $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
+        $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
+        $customerPhoneNumber = $formFields['customer_phone'];
 
-        // Format the date as dd/mm/yy
-        $date = Carbon::createFromFormat('Y-m-d', $formFields['date'])->format('F j, Y');
-        $formFields['date'] = $date;
 
-        // Call the sendSMS method from the TwilioService instance
-        $twilioService->sendSMS(
-            $formFields['customer_phone'],
-            $formFields['customer_name'],
-            $formFields['date'],
-            $formFields['time']
+
+        $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
+        $messageBody = 'Hello ' . $formFields['customer_name'] . ', your reservation has been saved successfully! Date: ' . $formFields['date'] . ', Time: ' . $formFields['time'];
+        $client->messages->create(
+            $customerPhoneNumber,
+            [
+                'from' => $twilioPhoneNumber,
+                'body' => $messageBody
+            ]
         );
 
         $formFields['user_id'] = auth()->id();
-        dd($formFields);
+       dd($formFields);
         Listing::create($formFields);
         return redirect('/reservations')->with('message', 'Listing created successfully!');
     }
-
-
 
 
     // Show Edit Form
