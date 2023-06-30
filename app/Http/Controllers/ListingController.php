@@ -57,9 +57,27 @@ class ListingController extends Controller
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
-        $formFields['user_id'] = auth()->id();
-        Listing::create($formFields);
+        // Send SMS using Twilio
+        $twilioSid = env('TWILIO_SID');
+        $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
+        $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
+        $customerPhoneNumber = $formFields['customer_phone'];
 
+
+
+        $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
+        $messageBody = 'Hello ' . $formFields['customer_name'] . ', your reservation has been saved successfully! Date: ' . $formFields['date'] . ', Time: ' . $formFields['time'];
+        $client->messages->create(
+            $customerPhoneNumber,
+            [
+                'from' => $twilioPhoneNumber,
+                'body' => $messageBody
+            ]
+        );
+
+        $formFields['user_id'] = auth()->id();
+       dd($formFields);
+        Listing::create($formFields);
         return redirect('/reservations')->with('message', 'Listing created successfully!');
     }
 
