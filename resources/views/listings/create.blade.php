@@ -130,6 +130,12 @@
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div class="mb-6">
                 <button class="text-white rounded py-2 px-4 hover:bg-black bg-pink-500">
                     Reserve

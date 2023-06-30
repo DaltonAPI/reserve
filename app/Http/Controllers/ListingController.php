@@ -84,7 +84,8 @@ class ListingController extends Controller
         } catch (TwilioException $e) {
             // Exception occurred while sending SMS
             // Handle the exception as per your requirements
-            return redirect()->back()->with('error', 'Failed to send SMS: ' . $e->getMessage());
+            $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
+            return redirect()->back()->with('error', $errorMessage);
         }
 
 
