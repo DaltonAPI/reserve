@@ -20,13 +20,13 @@
             @csrf
             @method('PUT')
 
-            <div class="flex flex-col md:flex-row mt-5">
+            <div class="flex flex-col md:flex-row">
                 <div class="md:w-1/3 flex items-center justify-center">
-                    <div class="rounded-full overflow-hidden w-48 h-48 md:w-56 md:h-56 mt-4 md:mt-0 border-2 border-pink-300">
-                        <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo" class="w-full h-full " >
+                    <div class=" overflow-hidden w-28 h-28 md:w-56 md:h-56 rounded-lg border border-gray-300">
+                        <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo"  class="">
                     </div>
                 </div>
-                <div class="p-6 md:w-2/3">
+                <div class="p-6 md:w-2/3 mt-8">
                     <div class="flex items-center mb-2">
                         <i class="fas fa-envelope text-pink-600 mr-2"></i>
                         <h5 class="text-2xl font-bold text-gray-900">
