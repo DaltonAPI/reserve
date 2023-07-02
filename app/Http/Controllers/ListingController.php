@@ -20,6 +20,13 @@ class ListingController extends Controller
         return view('listings.index', compact('user', 'listings'));
     }
 
+    public function allLisings()
+    {
+
+        $listings = Listing::latest()->filter(request(['tag', 'search']))->paginate(6);
+        return view('listings.allListings', compact( 'listings'));
+    }
+
 
 
 
@@ -69,7 +76,8 @@ class ListingController extends Controller
             $customerPhoneNumber = $formFields['customer_phone'];
 
             $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
-            $messageBody = 'Hello ' . $formFields['customer_name'] . ', your reservation has been saved successfully! Date: ' . $formFields['date'] . ', Time: ' . $formFields['time'];
+            $messageBody = 'Hello ' . $formFields['customer_name'] . ',  looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time']. ' '
+            . 'Sincerely ' . auth()->user()->name;
 
             $client->messages->create(
                 $customerPhoneNumber,
@@ -132,7 +140,7 @@ class ListingController extends Controller
 
     // Delete Listing
     public function destroy(Listing $listing) {
-        // Make sure logged in user is owner
+
         if($listing->user_id != auth()->id()) {
             abort(403, 'Unauthorized Action');
         }

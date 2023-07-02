@@ -31,6 +31,7 @@ use App\Models\Listing;
 
 // All Listings
 Route::get('/reservations', [ListingController::class, 'index'])->middleware('auth');;
+Route::get('/allListings', [ListingController::class, 'allLisings'])->middleware('auth');;
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 Route::post('/createPost', [PostController::class, 'createPost'])->name('posts.create');;

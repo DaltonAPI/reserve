@@ -10,7 +10,7 @@
     integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick.css" />
     <!-- Include the Tippy.js library -->
     <script src="https://unpkg.com/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/tippy.js@6.3.5/dist/tippy-bundle.umd.min.js"></script>

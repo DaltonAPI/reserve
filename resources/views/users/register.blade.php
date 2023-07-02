@@ -12,8 +12,8 @@
                         <div class="mb-4">
                             <label for="account_type" class="block mb-2 text-sm font-medium text-gray-900">Account Type  <span class="text-red-500">*</span></label>
                             <select name="account_type" id="industry_category" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
-                                <option value="Business">Business</option>
-                                <option value="Client">Client</option>
+                                <option value="Business" @if(old('account_type') === 'Business') selected @endif>Business</option>
+                                <option value="Client"  @if(old('account_type') === 'Client') selected @endif>Client</option>
                             </select>
                             @error('account_type')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -51,13 +51,7 @@
 {{--                            @enderror--}}
 {{--                        </div>--}}
 
-                        <div class="mb-4">
-                            <label for="bio" class="block mb-2 text-sm font-medium text-gray-900">Bio(optional)</label>
-                            <textarea name="bio" id="bio" rows="4" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" >{{ old('bio') }}</textarea>
-                            @error('bio')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
+
 
                         <div>
                             <label for="contact_info" class="block  text-sm font-medium text-gray-900 mb-2">Contact Number<span class="text-red-500">*</span></label>
@@ -150,13 +144,19 @@
 
                         <div class="business">
                             <div class="mb-4">
-                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Business Name <span class="text-red-500">*</span></label>
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900"> Name <span class="text-red-500">*</span></label>
                                 <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{ old('name') }}" >
                                 @error('name')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
-
+                            <div class="mb-4">
+                                <label for="bio" class="block mb-2 text-sm font-medium text-gray-900">Bio(optional)</label>
+                                <textarea name="bio" id="bio" rows="4" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" >{{ old('bio') }}</textarea>
+                                @error('bio')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
                                 <div class="mb-4">
                                     <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
                                     <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "Remove Service" to remove service.</p>
