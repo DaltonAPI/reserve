@@ -69,32 +69,32 @@ class ListingController extends Controller
         // Send SMS using Twilio
 
 
-        try {
-            $twilioSid = env('TWILIO_SID');
-            $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
-            $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
-            $customerPhoneNumber = $formFields['customer_phone'];
-
-            $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
-            $messageBody = 'Hello ' . $formFields['customer_name'] . ',  looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time']. ' '
-            . 'Sincerely ' . auth()->user()->name;
-
-            $client->messages->create(
-                $customerPhoneNumber,
-                [
-                    'from' => $twilioPhoneNumber,
-                    'body' => $messageBody
-                ]
-            );
-
-            // Message sent successfully
-            // ... your remaining code ...
-        } catch (TwilioException $e) {
-            // Exception occurred while sending SMS
-            // Handle the exception as per your requirements
-            $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
-            return redirect()->back()->with('error', $errorMessage);
-        }
+//        try {
+//            $twilioSid = env('TWILIO_SID');
+//            $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
+//            $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
+//            $customerPhoneNumber = $formFields['customer_phone'];
+//
+//            $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
+//            $messageBody = 'Hello ' . $formFields['customer_name'] . ',  looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time']. ' '
+//            . 'Sincerely ' . auth()->user()->name;
+//
+//            $client->messages->create(
+//                $customerPhoneNumber,
+//                [
+//                    'from' => $twilioPhoneNumber,
+//                    'body' => $messageBody
+//                ]
+//            );
+//
+//            // Message sent successfully
+//            // ... your remaining code ...
+//        } catch (TwilioException $e) {
+//            // Exception occurred while sending SMS
+//            // Handle the exception as per your requirements
+//            $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
+//            return redirect()->back()->with('error', $errorMessage);
+//        }
 
 
         $formFields['user_id'] = auth()->id();
