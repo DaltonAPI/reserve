@@ -13,13 +13,52 @@
                     @foreach($filteredUsers as $user)
                         @if($user->account_type === 'Client')
                             <li class="flex  items-center space-x-1">
+
                                 <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-teal-400">
-                                    <img src="https://cdn.pixabay.com/photo/2016/01/13/22/46/boy-1139042_640.jpg" alt="User Avatar" class="w-full h-full object-cover rounded-full">
+                                    <img src="{{ asset('storage/' . $user->photos) }}" alt="User Avatar" class="w-full h-full object-cover rounded-full">
                                 </div>
                                 <h3 class=" font-semibold text-center ">{{$user['client-name']}}</h3>
-                                <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2">
-                                    Connect
-                                </button>
+                                @auth
+                                    @if ($user->id !== auth()->user()->id)
+                                        @if ($user->sentConnectionRequests->contains(auth()->user()))
+                                            <!-- Request received -->
+                                            <form method="POST" action="/connections/{{$user->id}}">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2">
+                                                    Accept Request
+                                                </button>
+                                            </form>
+                                        @elseif ($user->receivedConnectionRequests->contains(auth()->user()))
+                                            <!-- Request sent -->
+                                            <button class="bg-gray-500 text-white px-4 py-2 rounded-full mt-2">
+                                                Request Sent
+                                            </button>
+
+                                        @elseif ($user->connectedUsers->contains(auth()->user())|| auth()->user()->connectedUsers->contains($user))
+                                            <!-- Connected -->
+                                            <button class="bg-green-500 text-white px-4 py-2 rounded-full mt-2">
+                                                Connected
+                                            </button>
+                                        @else
+                                            <!-- No connection -->
+                                            <form method="POST" action="/connections">
+                                                @csrf
+                                                <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                                <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2">
+                                                    Connect
+                                                </button>
+                                            </form>
+                                            @if (session('success'))
+                                                <div class="bg-green-500 text-white px-4 py-2 rounded-lg mb-3">
+                                                    {{ session('success') }}
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endauth
+
+
                             </li>
                         @endif
                     @endforeach

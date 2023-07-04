@@ -114,3 +114,7 @@ Route::get('/privacy', function (){
 
 Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('posts.like')->middleware('auth');
 Route::post('/posts/{post}/unlike', [LikeController::class, 'destroy'])->name('posts.unlike')->name('posts.like')->middleware('auth');
+use App\Http\Controllers\ConnectionsController;
+
+Route::post('/connections', [ConnectionsController::class, 'store'])->name('connections.store');
+Route::patch('/connections/{user}', [ConnectionsController::class, 'acceptRequest'])->name('connections.acceptRequest');

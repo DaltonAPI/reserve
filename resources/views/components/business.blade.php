@@ -137,13 +137,49 @@
         </form>
         <div class="flex justify-end mb-2 mr-2">
             @auth
-                @if (auth()->user()->id === $user->id)
-                    <a href="/listings/create"
-                       class="ml-4 inline-block px-4 py-2 leading-none text-white bg-gradient-to-r from-pink-300 to-pink-600 rounded hover:bg-blue-700">Make Reservation</a>
-                 @endif
-              @endauth
+                @if ($user->id !== auth()->user()->id)
+                    @if ($user->sentConnectionRequests->contains(auth()->user()))
+                        <!-- Request received -->
+                        <form method="POST" action="/connections/{{$user->id}}">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2">
+                                Accept Request
+                            </button>
+                        </form>
+                    @elseif ($user->receivedConnectionRequests->contains(auth()->user()))
+                        <!-- Request sent -->
+                        <button class="bg-gray-500 text-white px-4 py-2 rounded-full mt-2">
+                            Request Sent
+                        </button>
 
-{{--            <form id="profileForm{{$user->id}}" method="POST" action="{{ route('profile.destroy', $user->id) }}">--}}
+                    @elseif ($user->connectedUsers->contains(auth()->user()))
+                        <!-- Connected -->
+                        <button class="bg-green-500 text-white px-4 py-2 rounded-full mt-2">
+                            Connected
+                        </button>
+                    @else
+                        <!-- No connection -->
+                        <form method="POST" action="/connections">
+                            @csrf
+                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+                            <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2">
+                                Connect
+                            </button>
+                        </form>
+                        @if (session('success'))
+                            <div class="bg-green-500 text-white px-4 py-2 rounded-lg mb-3">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                    @endif
+                @endif
+            @endauth
+
+
+
+
+            {{--            <form id="profileForm{{$user->id}}" method="POST" action="{{ route('profile.destroy', $user->id) }}">--}}
 {{--                @csrf--}}
 {{--                @method('DELETE')--}}
 {{--                <!-- Rest of the form code -->--}}

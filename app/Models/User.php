@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -81,6 +81,39 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->belongsToMany(Post::class, 'likes');
+    }
+    public function connections(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'connections', 'user_id', 'connected_user_id')
+            ->withPivot('accepted')
+            ->withTimestamps();
+    }
+
+    public function sentConnectionRequests(): BelongsToMany
+    {
+        return $this->connections()->wherePivot('accepted', false);
+    }
+
+    public function receivedConnectionRequests(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'connections', 'connected_user_id', 'user_id')
+            ->wherePivot('accepted', false)
+            ->withTimestamps();
+    }
+
+    public function connectedUsers(): BelongsToMany
+    {
+        return $this->connections()->wherePivot('accepted', true);
+    }
+
+    public function connect(User $user): void
+    {
+        $this->connections()->attach($user, ['accepted' => false]);
+    }
+
+    public function acceptConnectionRequest(User $user): void
+    {
+        $this->receivedConnectionRequests()->updateExistingPivot($user, ['accepted' => true]);
     }
 
 }
