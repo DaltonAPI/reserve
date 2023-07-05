@@ -40,14 +40,21 @@ class ListingController extends Controller
     }
 
     // Show Create Form
-    public function create(Request $request)
+    public function create(Request $request, $id)
     {
         // Get the currently authenticated user
         $user = Auth::user();
+
+        // Retrieve the client based on the provided ID
+        $client = User::findOrFail($id);
+
+        // Retrieve the filtered users for the sidebar
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
-        return view('listings.create', compact('user','filteredUsers'));
+
+        return view('listings.create', compact('user', 'filteredUsers', 'client'));
     }
+
 
     // Store Listing Data
     public function store(Request $request)

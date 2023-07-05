@@ -1,4 +1,5 @@
-<x-layout>
+<x-sidbar :filteredUsers="$filteredUsers"></x-sidbar>
+<x-layout :filteredUsers="$filteredUsers">
     <x-card class="p-10 max-w-lg mx-auto mt-24">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">Create a Reservation</h2>
@@ -26,7 +27,7 @@
                 <label for="customer_name" class="inline-block text-lg mb-2">
                     Customer Name <span class="text-red-500">*</span>
                 </label>
-                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="customer_name" value="{{old('customer_name')}}" />
+                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="client-name" value="{{$client['client-name']}}" />
 
                 @error('customer_name')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -36,7 +37,7 @@
                 <label for="email" class="inline-block text-lg mb-2">
                     Customer Email
                 </label>
-                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="email" value="{{old('email')}}" />
+                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="email" value="{{$client['email']}}" />
 
                 @error('email')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -47,7 +48,7 @@
                 <label for="customer_phone" class="inline-block text-lg mb-2">
                     Customer Phone
                 </label>
-                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="customer_phone" value="{{old('customer_phone')}}" />
+                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="contact_info" value="{{$client->contact_info}}" />
 
                 @error('customer_phone')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
