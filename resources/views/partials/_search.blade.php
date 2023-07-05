@@ -1,6 +1,6 @@
 <div class="container mx-auto">
     <p class="text-4xl md:text-3xl text-center leading-2.625rem non-italic font-montserrat font-bold uppercase text-indigo-base mb-7 md:leading-xl-loose">
-        <span class="hidden md:inline">Reservify Listing Platform<br></span>Simply bookings with Reservify
+        <span class="hidden md:inline"><span class="text-teal-400">Reservify</span> Listing Platform<br></span>Simply bookings with Reservify
     </p>
     <div class="w-full md:w-1/4 mx-auto px-4">
 

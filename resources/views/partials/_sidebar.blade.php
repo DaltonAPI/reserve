@@ -32,39 +32,6 @@
                 </a>
             </li>
 
-
-
-            <li>
-                <a href="/listings/manage" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <i class="fas fa-tachometer-alt text-pink-500"></i>
-                    <span class="ml-3">Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a href="/reservations" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <i class="fas fa-calendar-check text-pink-500"></i>
-                    <span class="ml-3">My Reservations</span>
-                </a>
-            </li>
-            <li>
-                <a href="/posts" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <i class="fas fa-newspaper text-pink-500"></i>
-                    <span class="ml-2">Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="/calendar" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <i class="fas fa-calendar-alt text-pink-500"></i>
-                    <span class="ml-3">Calendar</span>
-                </a>
-            </li>
-            <li>
-                <a href="/landing" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <i class="fas fa-building text-pink-500"></i>
-                    <span class="ml-3">Business List</span>
-                </a>
-            </li>
-
             <li>
                 @auth
                     <a href="/reservations">
@@ -72,10 +39,10 @@
                             <div class="flex items-center">
                                 <div class="relative inline-block">
                                     <img src="{{ asset( 'storage/'. auth()->user()->photos) }}" alt="User Avatar" class="w-8 h-8 rounded-full">
-                                    <div class="absolute inset-0 flex items-center justify-center border-2 border-pink-500 rounded-full"></div>
+                                    <div class="absolute inset-0 flex items-center justify-center border-2 border-teal-500 rounded-full"></div>
                                 </div>
                                 @if( auth()->user()->name )
-                                <h2 class="ml-1 font-bold">{{ auth()->user()->name }}</h2>
+                                    <h2 class="ml-1 font-bold">{{ auth()->user()->name }}</h2>
                                 @elseif(auth()->user()->getAttribute('client-name'))
                                     <h2 class="ml-1 font-bold">{{auth()->user()->getAttribute('client-name') }}</h2>
                                 @endif
@@ -84,6 +51,39 @@
                     </a>
                 @endauth
             </li>
+
+            <li>
+                <a href="/listings/manage" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-tachometer-alt text-teal-500"></i>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/reservations" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-calendar-check text-teal-500"></i>
+                    <span class="ml-3">My Reservations</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-newspaper text-teal-500"></i>
+                    <span class="ml-2">Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/calendar" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-calendar-alt text-teal-500"></i>
+                    <span class="ml-3">Calendar</span>
+                </a>
+            </li>
+            <li>
+                <a href="/landing" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-building text-teal-500"></i>
+                    <span class="ml-3">Business List</span>
+                </a>
+            </li>
+
+
             <li>
                 @auth
                     @if (auth()->user()->id )
@@ -94,6 +94,8 @@
             </li>
 
         </ul>
+        <x-connectedUsers/>
+
     </div>
 </aside>
 

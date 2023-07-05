@@ -43,7 +43,7 @@ Route::post('/comments', [CommentController::class, 'store'])->name('comments.st
 
 
 // Show Create Form
-Route::get('/listings/create', [ListingController::class, 'create'])->middleware('auth');
+Route::get('/listings/create/{id}', [ListingController::class, 'create'])->middleware('auth');
 Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
 Route::get('/create', [PostController::class, 'create'])->middleware('auth');
 

@@ -139,7 +139,7 @@
 
 
             @auth
-                @if ($user->id !== auth()->user()->id)
+                @if (($user->account_type === 'Client' && auth()->user()->account_type === 'Business') || ($user->account_type === 'Business' && auth()->user()->account_type === 'Client') )
                     @if ($user->sentConnectionRequests->contains(auth()->user()))
                         <!-- Request received -->
                         <form method="POST" action="/connections/{{$user->id}}">
@@ -151,9 +151,9 @@
                         </form>
                     @elseif ($user->receivedConnectionRequests->contains(auth()->user()))
                         <!-- Request sent -->
-                        <a href="/listings/create" class="ml-4 inline-block">
-                            <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
-                        </a>
+                        <button class="bg-gray-500 text-white px-4 py-2 rounded-full mt-2">
+                            Request Sent
+                        </button>
 
                     @elseif ($user->connectedUsers->contains(auth()->user()))
                         <!-- Connected -->

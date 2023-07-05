@@ -1,4 +1,8 @@
-
+@if (session('success'))
+    <div class="bg-green-500 text-white px-4 py-2 rounded-lg mb-3">
+        {{ session('success') }}
+    </div>
+@endif
 
 <div class="bg-gray-100 py-6">
     <div class="max-w-6xl mx-auto">
@@ -19,7 +23,7 @@
                                 </div>
                                 <h3 class=" font-semibold text-center ">{{$user['client-name']}}</h3>
                                 @auth
-                                    @if ($user->id !== auth()->user()->id)
+                                    @if (($user->account_type === 'Client' && auth()->user()->account_type === 'Business') || ($user->account_type === 'Business' && auth()->user()->account_type === 'Client') )
                                         @if ($user->sentConnectionRequests->contains(auth()->user()))
                                             <!-- Request received -->
                                             <form method="POST" action="/connections/{{$user->id}}">
@@ -35,7 +39,7 @@
                                                 Request Sent
                                             </button>
 
-                                        @elseif ($user->connectedUsers->contains(auth()->user())|| auth()->user()->connectedUsers->contains($user))
+                                        @elseif ($user->connectedUsers->contains(auth()->user()))
                                             <!-- Connected -->
                                             <a href="/listings/create" class="ml-4 inline-block">
                                                 <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
@@ -49,11 +53,7 @@
                                                     <i class="fas fa-user-plus text-pink-500 text-2xl"></i>
                                                 </button>
                                             </form>
-                                            @if (session('success'))
-                                                <div class="bg-green-500 text-white px-4 py-2 rounded-lg mb-3">
-                                                    {{ session('success') }}
-                                                </div>
-                                            @endif
+
                                         @endif
                                     @endif
                                 @endauth
