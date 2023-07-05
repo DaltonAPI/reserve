@@ -39,7 +39,7 @@
                                                 Request Sent
                                             </button>
 
-                                        @elseif ($user->connectedUsers->contains(auth()->user()))
+                                        @elseif ($user->connectedUsers->contains(auth()->user()) || auth()->user()->connectedUsers->contains($user))
                                             <!-- Connected -->
                                             <a href="/listings/create" class="ml-4 inline-block">
                                                 <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
