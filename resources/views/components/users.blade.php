@@ -37,16 +37,16 @@
 
                                         @elseif ($user->connectedUsers->contains(auth()->user())|| auth()->user()->connectedUsers->contains($user))
                                             <!-- Connected -->
-                                            <button class="bg-green-500 text-white px-4 py-2 rounded-full mt-2">
-                                                Connected
-                                            </button>
+                                            <a href="/listings/create" class="ml-4 inline-block">
+                                                <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
+                                            </a>
                                         @else
                                             <!-- No connection -->
                                             <form method="POST" action="/connections">
                                                 @csrf
                                                 <input type="hidden" name="user_id" value="{{ $user->id }}">
-                                                <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2">
-                                                    Connect
+                                                <button type="submit" >
+                                                    <i class="fas fa-user-plus text-pink-500 text-2xl"></i>
                                                 </button>
                                             </form>
                                             @if (session('success'))

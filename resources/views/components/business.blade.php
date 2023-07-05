@@ -136,6 +136,8 @@
             </div>
         </form>
         <div class="flex justify-end mb-2 mr-2">
+
+
             @auth
                 @if ($user->id !== auth()->user()->id)
                     @if ($user->sentConnectionRequests->contains(auth()->user()))
@@ -149,22 +151,22 @@
                         </form>
                     @elseif ($user->receivedConnectionRequests->contains(auth()->user()))
                         <!-- Request sent -->
-                        <button class="bg-gray-500 text-white px-4 py-2 rounded-full mt-2">
-                            Request Sent
-                        </button>
+                        <a href="/listings/create" class="ml-4 inline-block">
+                            <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
+                        </a>
 
                     @elseif ($user->connectedUsers->contains(auth()->user()))
                         <!-- Connected -->
-                        <button class="bg-green-500 text-white px-4 py-2 rounded-full mt-2">
-                            Connected
-                        </button>
+                        <a href="/listings/create" class="ml-4 inline-block">
+                            <i class="fas fa-calendar-plus text-pink-500 text-2xl"></i>
+                        </a>
                     @else
                         <!-- No connection -->
                         <form method="POST" action="/connections">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ $user->id }}">
-                            <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2">
-                                Connect
+                            <button type="submit" >
+                                <i class="fas fa-user-plus text-pink-500 text-2xl"></i>
                             </button>
                         </form>
                         @if (session('success'))
