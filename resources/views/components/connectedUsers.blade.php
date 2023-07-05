@@ -1,37 +1,27 @@
-<div class="space-y-4 mt-5">
-    <div class="flex items-center space-x-1">
-        <img class="w-8 h-8 rounded-full" src="https://cdn.pixabay.com/photo/2023/05/30/15/36/pigeon-8028951_640.jpg" alt="User 1 Image">
-        <div>
-            <p >John Doe</p>
-
-        </div>
-    </div>
-    <div class="flex items-center space-x-1">
-        <img class="w-8 h-8 rounded-full" src="https://cdn.pixabay.com/photo/2023/05/08/22/07/indigenous-7979876_640.jpg" alt="User 2 Image">
-        <div>
-            <p class="font-bold">Jane Smith</p>
-
-        </div>
-    </div>
-    <div class="flex items-center space-x-1">
-        <img class="w-8 h-8 rounded-full" src="https://cdn.pixabay.com/photo/2023/06/24/09/17/iguana-8084900_640.jpg" alt="User 3 Image">
-        <div>
-            <p class="font-bold">Alex Johnson</p>
-
-        </div>
-    </div>
-    <div class="flex items-center space-x-1">
-        <img class="w-8 h-8 rounded-full" src="https://cdn.pixabay.com/photo/2023/06/27/13/57/imperial-coat-8092340_640.jpg" alt="User 4 Image">
-        <div>
-            <p class="font-bold">Emily Williams</p>
-
-        </div>
-    </div>
-    <div class="flex items-center space-x-1">
-        <img class="w-8 h-8 rounded-full" src="https://cdn.pixabay.com/photo/2023/05/21/01/08/flowers-8007614_640.jpg" alt="User 5 Image">
-        <div>
-            <p class="font-bold">Michael Johnson</p>
-
-        </div>
-    </div>
-</div>
+@auth
+    @if($filteredUsers->count() > 0)
+        <h3 class="font-semibold text-lg mt-5">Connections</h3>
+    @endif
+    @foreach($filteredUsers as $user)
+        @if (($user->account_type === 'Client' && auth()->user()->account_type === 'Business') || ($user->account_type === 'Business' && auth()->user()->account_type === 'Client'))
+            @if($user->connectedUsers->contains(auth()->user()))
+                <div class="space-y-4 mt-5">
+                    <div class="flex items-center space-x-1">
+                        <img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $user->photos) }}" alt="User 1 Image">
+                        <div>
+                            @if($user['client-name'])
+                                <h3 class="ml-3 font-semibold">{{$user['client-name']}}</h3>
+                            @elseif($user->name)
+                                <h3 class="ml-3 font-semibold">{{$user->name}}</h3>
+                            @endif
+                        </div>
+                        <a href="/listings/create" class="ml-4 inline-block">
+                            <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
+                        </a>
+                    </div>
+                    <!-- Additional content for users with pending requests or connected users -->
+                </div>
+            @endif
+        @endif
+    @endforeach
+@endauth

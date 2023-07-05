@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Listing;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -12,12 +13,13 @@ use Twilio\Exceptions\TwilioException;
 class ListingController extends Controller
 {
     // Show all listings
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
         $listings = $user->listings()->latest()->filter(request(['tag', 'search']))->paginate(6);
-
-        return view('listings.index', compact('user', 'listings'));
+        $searchTerm = $request->input('search');
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
+        return view('listings.index', compact('user', 'listings','filteredUsers'));
     }
 
     public function allLisings()

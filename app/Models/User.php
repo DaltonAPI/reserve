@@ -103,7 +103,9 @@ class User extends Authenticatable
 
     public function connectedUsers(): BelongsToMany
     {
-        return $this->connections()->wherePivot('accepted', true);
+        return $this->belongsToMany(User::class, 'connections', 'user_id', 'connected_user_id')
+            ->wherePivot('accepted', true)
+            ->withTimestamps();
     }
 
     public function connect(User $user): void
@@ -115,5 +117,6 @@ class User extends Authenticatable
     {
         $this->receivedConnectionRequests()->updateExistingPivot($user, ['accepted' => true]);
     }
+
 
 }

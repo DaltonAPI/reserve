@@ -1,8 +1,13 @@
 <x-layout :filteredUsers="$filteredUsers">
     <div>
 
-        @include('partials._search')
 
+
+{{--        @include('partials._search')--}}
+
+
+
+        <x-sidbar :filteredUsers="$filteredUsers"/>
         <div class="container mx-auto gap-4 mx-4 mt-4 sm:w-3/4 lg:w-2/3 xl:w-1/2">
             <div class="text-center md:text-left">
                 @unless(count($filteredUsers) == 0)

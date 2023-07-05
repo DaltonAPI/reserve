@@ -136,8 +136,6 @@
             </div>
         </form>
         <div class="flex justify-end mb-2 mr-2">
-
-
             @auth
                 @if (($user->account_type === 'Client' && auth()->user()->account_type === 'Business') || ($user->account_type === 'Business' && auth()->user()->account_type === 'Client') )
                     @if ($user->sentConnectionRequests->contains(auth()->user()))
@@ -155,7 +153,7 @@
                             Request Sent
                         </button>
 
-                    @elseif ($user->connectedUsers->contains(auth()->user()))
+                    @elseif ($user->connectedUsers->contains(auth()->user()) || auth()->user()->connectedUsers->contains($user))
                         <!-- Connected -->
                         <a href="/listings/create" class="ml-4 inline-block">
                             <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
@@ -169,16 +167,10 @@
                                 <i class="fas fa-user-plus text-pink-500 text-2xl"></i>
                             </button>
                         </form>
-                        @if (session('success'))
-                            <div class="bg-green-500 text-white px-4 py-2 rounded-lg mb-3">
-                                {{ session('success') }}
-                            </div>
-                        @endif
+
                     @endif
                 @endif
             @endauth
-
-
 
 
             {{--            <form id="profileForm{{$user->id}}" method="POST" action="{{ route('profile.destroy', $user->id) }}">--}}
