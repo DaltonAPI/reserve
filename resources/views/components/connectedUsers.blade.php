@@ -4,8 +4,8 @@
     @endif
     @foreach($filteredUsers as $user)
         @if (($user->account_type === 'Client' && auth()->user()->account_type === 'Business') || ($user->account_type === 'Business' && auth()->user()->account_type === 'Client'))
-            @if($user->connectedUsers->contains(auth()->user()))
-                <div class="space-y-4 mt-5">
+            @if($user->connectedUsers->contains(auth()->user()) || auth()->user()->connectedUsers->contains($user))
+                <div class="space-y-4 mt-3">
                     <div class="flex items-center space-x-1">
                         <img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $user->photos) }}" alt="User 1 Image">
                         <div>
@@ -16,7 +16,7 @@
                             @endif
                         </div>
                         <a href="/listings/create" class="ml-4 inline-block">
-                            <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
+                            <i class="fas fa-calendar-plus text-teal-500 "></i>
                         </a>
                     </div>
                     <!-- Additional content for users with pending requests or connected users -->

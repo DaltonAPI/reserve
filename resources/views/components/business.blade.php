@@ -155,7 +155,13 @@
 
                     @elseif ($user->connectedUsers->contains(auth()->user()) || auth()->user()->connectedUsers->contains($user))
                         <!-- Connected -->
-                        <a href="/listings/create" class="ml-4 inline-block">
+                        @php
+                            $id = $user->connectedUsers->contains(auth()->user()) || auth()->user()->connectedUsers->contains($user)
+                                ? $user->connectedUsers->contains(auth()->user()) ? $user->connectedUsers->where('id', auth()->user()->id)->first()->pivot->id : auth()->user()->connectedUsers->where('id', $user->id)->first()->pivot->id
+                                : null;
+                        @endphp
+
+                        <a href="/listings/create/{{$id}}" class="ml-4 inline-block">
                             <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
                         </a>
                     @else
