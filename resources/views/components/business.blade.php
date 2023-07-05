@@ -158,7 +158,7 @@
                     @elseif ($user->connectedUsers->contains(auth()->user()))
                         <!-- Connected -->
                         <a href="/listings/create" class="ml-4 inline-block">
-                            <i class="fas fa-calendar-plus text-pink-500 text-2xl"></i>
+                            <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
                         </a>
                     @else
                         <!-- No connection -->
