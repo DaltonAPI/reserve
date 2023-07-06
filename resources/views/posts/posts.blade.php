@@ -1,4 +1,5 @@
-<x-layout>
+<x-sidbar :filteredUsers="$filteredUsers"></x-sidbar>
+<x-layout :filteredUsers="$filteredUsers">
     <!-- Main content -->
     <div class="md:ml-64">
         <!-- Hero section -->

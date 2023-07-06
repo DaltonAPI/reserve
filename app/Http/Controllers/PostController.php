@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Aws\S3\S3Client;
 use Aws\Exception\AwsException;
@@ -17,10 +18,10 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-
+        $searchTerm = $request->input('search');
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
         $posts = Post::with('comments','author','likedBy')->latest()->filter(request(['search']))->paginate(6);
-
-        return view('posts.posts', compact('posts'));
+        return view('posts.posts', compact('posts','filteredUsers'));
     }
 
     /**
@@ -28,11 +29,15 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('posts.create');
-    }
 
+    public function create(Request $request)
+    {
+        // Retrieve the filtered users for the sidebar
+        $searchTerm = $request->input('search');
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
+
+        return view('posts.create', compact( 'filteredUsers', ));
+    }
     /**
      * Store a newly created resource in storage.
      *

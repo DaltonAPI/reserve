@@ -51,10 +51,13 @@
     <ul class="flex space-x-6 mr-6 text-lg">
         @auth
             <li>
+                <a href="/listings/create" class="ml-4 inline-block">
+                    <i class="fas fa-calendar-plus text-teal-500 text-2xl"></i>
+                </a>
+            </li>
+            <li>
                 <button id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" class="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button">
-                    <svg class="w-7 h-7" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="#008080" viewBox="0 0 14 20">
-                        <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z"/>
-                    </svg>
+                    <i class="fas fa-bell text-2xl text-teal-500"></i>
 
                     <div class="relative flex">
                         <div class="relative inline-flex w-4 h-4 bg-pink-500 rounded-full -top-1 right-2 flex items-center justify-center">
@@ -85,9 +88,10 @@
                                     <form method="POST" action="/connections/{{$user->id}}">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="ml-2 bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2">
+                                        <button type="submit" class="ml-2 bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2 sm:mt-0 sm:ml-4">
                                             Accept Request
                                         </button>
+
                                     </form>
                                 @endif
                             </a>

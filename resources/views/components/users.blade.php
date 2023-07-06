@@ -29,13 +29,14 @@
                                             <form method="POST" action="/connections/{{$user->id}}">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2">
+                                                <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full mt-2 whitespace-nowrap text-sm">
                                                     Accept Request
                                                 </button>
+
                                             </form>
                                         @elseif ($user->receivedConnectionRequests->contains(auth()->user()))
                                             <!-- Request sent -->
-                                            <button class="bg-gray-500 text-white px-4 py-2 rounded-full mt-2">
+                                            <button class="bg-gray-500 text-white px-4 py-2 rounded-full mt-2 mt-2 whitespace-nowrap text-sm">
                                                 Request Sent
                                             </button>
 
