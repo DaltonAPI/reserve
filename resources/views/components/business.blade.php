@@ -153,15 +153,14 @@
                             Request Sent
                         </button>
 
-                    @elseif ($user->connectedUsers->contains(auth()->user()) || auth()->user()->connectedUsers->contains($user))
+                    @elseif ($user->connectedUsers->contains(auth()->user()) )
                         <!-- Connected -->
-                        @php
-                            $id = $user->connectedUsers->contains(auth()->user()) || auth()->user()->connectedUsers->contains($user)
-                                ? $user->connectedUsers->contains(auth()->user()) ? $user->connectedUsers->where('id', auth()->user()->id)->first()->pivot->id : auth()->user()->connectedUsers->where('id', $user->id)->first()->pivot->id
-                                : null;
-                        @endphp
+{{--                        @php--}}
+{{--                            $clientId = auth()->id(); // Retrieve the client ID--}}
+{{--                            $connectedUser = $user->connectedUsers->firstWhere('id', $clientId);--}}
+{{--                        @endphp--}}
 
-                        <a href="/listings/create/{{$id}}" class="ml-4 inline-block">
+                        <a href="/listings/create/{{auth()->id()}}/{{$user->id}}" class="ml-4 inline-block">
                             <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
                         </a>
                     @else

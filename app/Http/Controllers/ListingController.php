@@ -16,11 +16,28 @@ class ListingController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $listings = $user->listings()->latest()->filter(request(['tag', 'search']))->paginate(6);
+        $listings = Listing::query();
+
+        if ($user->account_type === 'Client' || $user->account_type === 'Business') {
+            $listings->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                    ->orWhere('client_id', $user->id)
+                    ->orWhere('business_id', $user->id);
+            });
+        }
+
+        // Apply additional filters and pagination
+        $listings = $listings->latest()->filter(request(['tag', 'search']))->paginate(6);
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
-        return view('listings.index', compact('user', 'listings','filteredUsers'));
+
+        return view('listings.index', compact('user', 'listings', 'filteredUsers'));
     }
+
+
+
+
+
 
     public function allLisings()
     {
@@ -40,25 +57,27 @@ class ListingController extends Controller
     }
 
     // Show Create Form
-    public function create(Request $request, $id)
+    public function create(Request $request, $clientId = null, $businessId = null)
     {
         // Get the currently authenticated user
-        $user = Auth::user();
+        $user = $request->user();
 
-        // Retrieve the client based on the provided ID
-        $client = User::findOrFail($id);
+        // Retrieve the client based on the provided ID if it exists
+        $client = $clientId ? User::findOrFail($clientId) : null;
 
         // Retrieve the filtered users for the sidebar
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
 
-        return view('listings.create', compact('user', 'filteredUsers', 'client'));
+        return view('listings.create', compact('user', 'filteredUsers', 'client', 'clientId', 'businessId'));
     }
+
 
 
     // Store Listing Data
     public function store(Request $request)
     {
+
         $formFields = $request->validate([
             'title' => 'required|string',
             'tags' => 'nullable',
@@ -70,6 +89,7 @@ class ListingController extends Controller
             'description' => 'nullable|string',
             'status' => 'required',
             'logo' => 'image|mimes:jpeg,png,jpg,gif',
+
         ]);
 
         if ($request->hasFile('logo')) {
@@ -108,6 +128,15 @@ class ListingController extends Controller
 
 
         $formFields['user_id'] = auth()->id();
+        if( $request->input('client_id'))
+        {
+            $formFields['client_id'] = $request->input('client_id');
+        }
+        if($request->input('business_id'))
+        {
+            $formFields['business_id'] = $request->input('business_id');
+        }
+
         Listing::create($formFields);
         return redirect('/reservations')->with('message', 'Listing created successfully!');
     }

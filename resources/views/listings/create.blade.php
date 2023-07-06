@@ -11,10 +11,10 @@
             <div class="mb-6">
                 <label for="title" class="inline-block text-lg mb-2">The Type of Service <span class="text-red-500">*</span></label>
                 <select name="title" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                    @if($user->serviceList)
-                        @foreach(json_decode($user->serviceList) as $title)
-                            <option value="{{ $title }}">{{ $title }}</option>
-                        @endforeach
+                   @if($user->serviceList)
+                    @foreach(json_decode($user->serviceList) as $title)
+                        <option value="{{ $title }}">{{ $title }}</option>
+                    @endforeach
                     @endif
                 </select>
 
@@ -23,11 +23,17 @@
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
+
+            <div class="mb-6">
+                <input type="hidden" name="client_id" value="{{ $clientId }}">
+                <input type="hidden" name="business_id" value="{{ $businessId }}">
+            </div>
+
             <div class="mb-6">
                 <label for="customer_name" class="inline-block text-lg mb-2">
                     Customer Name <span class="text-red-500">*</span>
                 </label>
-                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="client-name" value="{{$client['client-name']}}" />
+                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="customer_name" value="{{ $client['client-name'] ?? '' }}" />
 
                 @error('customer_name')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -37,7 +43,7 @@
                 <label for="email" class="inline-block text-lg mb-2">
                     Customer Email
                 </label>
-                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="email" value="{{$client['email']}}" />
+                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="email" value="{{$client->email ?? ''}}  " />
 
                 @error('email')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -48,7 +54,7 @@
                 <label for="customer_phone" class="inline-block text-lg mb-2">
                     Customer Phone
                 </label>
-                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="contact_info" value="{{$client->contact_info}}" />
+                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="customer_phone" value="{{$client->contact_info ?? ''}}" />
 
                 @error('customer_phone')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>

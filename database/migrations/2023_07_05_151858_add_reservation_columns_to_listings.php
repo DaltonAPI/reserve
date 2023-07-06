@@ -14,13 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::table('listings', function (Blueprint $table) {
-            // New columns for handling reservations
-            $table->unsignedBigInteger('client_id')->nullable();
-            $table->unsignedBigInteger('business_id')->nullable();
+            if (!Schema::hasColumn('listings', 'client_id')) {
+                $table->unsignedBigInteger('client_id')->nullable();
+                $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
+            }
 
-            // Foreign keys for client and business
-            $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('business_id')->references('id')->on('users')->onDelete('cascade');
+            if (!Schema::hasColumn('listings', 'business_id')) {
+                $table->unsignedBigInteger('business_id')->nullable();
+                $table->foreign('business_id')->references('id')->on('users')->onDelete('cascade');
+            }
         });
     }
 
@@ -32,7 +34,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('listings', function (Blueprint $table) {
-            //
+            $table->dropForeign(['client_id']);
+            $table->dropForeign(['business_id']);
+            $table->dropColumn(['client_id', 'business_id']);
         });
     }
 };
+

@@ -1,4 +1,4 @@
-<x-layout>
+
     <x-card class="max-w-lg mx-auto">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">Show your work</h2>
@@ -67,7 +67,7 @@
             </div>
         </form>
     </x-card>
-</x-layout>
+
 <script>
     function previewMedia(event) {
         const file = event.target.files[0];

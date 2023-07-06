@@ -72,7 +72,7 @@ class User extends Authenticatable
 
     // Relationship With Listings
     public function listings() {
-        return $this->hasMany(Listing::class, 'user_id');
+        return $this->hasMany(Listing::class, 'user_id','business_id','client_id',);
     }
 
     public function posts() {

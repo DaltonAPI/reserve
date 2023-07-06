@@ -15,9 +15,20 @@
                                 <h3 class="ml-3 font-semibold">{{$user->name}}</h3>
                             @endif
                         </div>
-                        <a href="/listings/create" class="ml-4 inline-block">
-                            <i class="fas fa-calendar-plus text-teal-500 "></i>
-                        </a>
+                        @if(auth()->user()->account_type === 'Business')
+                            <a href="/listings/create/{{$user->id}}/{{auth()->id()}}" class="ml-4 inline-block">
+                                <i class="fas fa-calendar-plus text-teal-500 "></i>
+                            </a>
+                        @elseif(auth()->user()->account_type === 'Client')
+{{--                            @php--}}
+{{--                                $clientId = auth()->id(); // Retrieve the client ID--}}
+{{--                                $connectedUser = $user->connectedUsers->firstWhere('id', $clientId);--}}
+{{--                            @endphp--}}
+                            <a href="/listings/create/{{auth()->id()}}/{{$user->id}}" class="ml-4 inline-block">
+                                <i class="fas fa-calendar-plus text-teal-500 "></i>
+                            </a>
+                        @endif
+
                     </div>
                     <!-- Additional content for users with pending requests or connected users -->
                 </div>
