@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('connections', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // The ID of the user sending the connection request
-            $table->unsignedBigInteger('connected_user_id'); // The ID of the user receiving the connection request
-            $table->boolean('accepted')->default(false); // Indicates whether the connection request has been accepted
+            $table->unsignedBigInteger('user_id')->nullable(); // The ID of the user sending the connection request
+            $table->unsignedBigInteger('connected_user_id')->nullable(); // The ID of the user receiving the connection request
+            $table->boolean('accepted')->default(false)->nullable(); // Indicates whether the connection request has been accepted
             $table->timestamps();
         });
     }
