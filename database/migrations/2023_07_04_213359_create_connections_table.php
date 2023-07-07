@@ -30,8 +30,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('connections', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('connected_user_id');
+            $table->dropColumn(['user_id', 'connected_user_id']);
         });
     }
 };
