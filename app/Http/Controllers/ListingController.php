@@ -180,32 +180,18 @@ class ListingController extends Controller
     }
 
     // Delete Listing
-    public function destroy(Listing $listing)
-    {
-        if ($listing->user_id != auth()->id()) {
+    public function destroy(Listing $listing) {
+
+        if($listing->user_id != auth()->id()) {
             abort(403, 'Unauthorized Action');
         }
 
-        if ($listing->logo && Storage::disk('public')->exists($listing->logo)) {
+        if($listing->logo && Storage::disk('public')->exists($listing->logo)) {
             Storage::disk('public')->delete($listing->logo);
         }
-
-        $confirmationMessage = 'Are you sure you want to delete this reservation?';
-        $confirmed = $this->confirm($confirmationMessage);
-
-        if (!$confirmed) {
-            return redirect('/landing')->with('message', 'Deletion canceled');
-        }
-        return 'deleted';
-//        $listing->delete();
+        $listing->delete();
         return redirect('/landing')->with('message', 'Listing deleted successfully');
     }
-
-    private function confirm($message)
-    {
-        return "<script>return confirm('$message');</script>";
-    }
-
 
     // Manage Listings
     public function manage(Request $request)
