@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('listings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('business_id')->nullable();
             $table->string('title');
             $table->string('logo')->nullable();
             $table->string('tags')->nullable();
@@ -27,6 +29,10 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
+
+            // Foreign keys for client and business
+            $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('business_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
