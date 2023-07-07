@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :filteredUsers="$filteredUsers">
     <div >
 
 

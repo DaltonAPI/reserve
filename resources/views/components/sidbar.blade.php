@@ -38,10 +38,15 @@
                         <section class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="relative inline-block">
-                                    <img src="{{ asset( 'storage/'. auth()->user()->photos) }}" alt="User Avatar" class="w-8 h-8 rounded-full">
+                                    @if(auth()->user()->photos)
+                                        <img src="{{ asset('storage/' . auth()->user()->photos) }}" alt="User Avatar" class="w-8 h-8 rounded-full">
+                                    @else
+                                        <img src="{{ asset('/images/avatar.png') }}" alt="Default Image" class="w-8 h-8 rounded-full">
+                                    @endif
                                     <div class="absolute inset-0 flex items-center justify-center border-2 border-teal-500 rounded-full"></div>
                                 </div>
-                                @if( auth()->user()->name )
+
+                            @if( auth()->user()->name )
                                     <h2 class="ml-1 font-bold">{{ auth()->user()->name }}</h2>
                                 @elseif(auth()->user()->getAttribute('client-name'))
                                     <h2 class="ml-1 font-bold">{{auth()->user()->getAttribute('client-name') }}</h2>

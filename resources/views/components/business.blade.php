@@ -5,15 +5,15 @@
         <form id="profileForm{{$user->id}}" method="POST" action="/profile/{{$user->id}}">
             @auth
                 @if (auth()->user()->id === $user->id)
-                    <div class="flex ">
+{{--                    <div class="flex ">--}}
 
-                        <a class="edit-icon absolute top-0 right-0 m-2 text-pink-600 hover:text-pink-700">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a class="save-icon hidden absolute top-0 right-0 m-2 text-pink-600 hover:text-pink-700">
-                            <button><i class="fas fa-save"></i></button>
-                        </a>
-                    </div>
+{{--                        <a class="edit-icon absolute top-0 right-0 m-2 text-pink-600 hover:text-pink-700">--}}
+{{--                            <i class="fas fa-edit"></i>--}}
+{{--                        </a>--}}
+{{--                        <a class="save-icon hidden absolute top-0 right-0 m-2 text-pink-600 hover:text-pink-700">--}}
+{{--                            <button><i class="fas fa-save"></i></button>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                 @endif
             @endauth
 
@@ -26,7 +26,7 @@
                         @if ($user->photos)
                             <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo" class="h-full w-full">
                         @else
-                            <img src="https://cdn.pixabay.com/photo/2022/03/13/12/00/hydrangeas-7065907_640.jpg" alt="Default User Photo" class="h-full w-full">
+                            <img src="/images/business.png" alt="Default User Photo" class="h-full w-full">
                         @endif
                     </div>
 

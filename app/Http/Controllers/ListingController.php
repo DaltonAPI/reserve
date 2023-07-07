@@ -39,11 +39,12 @@ class ListingController extends Controller
 
 
 
-    public function allLisings()
+    public function allLisings(Request $request)
     {
-
+        $searchTerm = $request->input('search');
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
         $listings = Listing::latest()->filter(request(['tag', 'search']))->paginate(6);
-        return view('listings.allListings', compact( 'listings'));
+        return view('listings.allListings', compact( 'listings','filteredUsers'));
     }
 
 
@@ -51,6 +52,7 @@ class ListingController extends Controller
 
     //Show single listing
     public function show(Listing $listing) {
+
         return view('listings.show', [
             'listing' => $listing
         ]);
@@ -178,23 +180,45 @@ class ListingController extends Controller
     }
 
     // Delete Listing
-    public function destroy(Listing $listing) {
-
-        if($listing->user_id != auth()->id()) {
+    public function destroy(Listing $listing)
+    {
+        if ($listing->user_id != auth()->id()) {
             abort(403, 'Unauthorized Action');
         }
 
-        if($listing->logo && Storage::disk('public')->exists($listing->logo)) {
+        if ($listing->logo && Storage::disk('public')->exists($listing->logo)) {
             Storage::disk('public')->delete($listing->logo);
         }
-        $listing->delete();
-        return redirect('/')->with('message', 'Listing deleted successfully');
+
+        $confirmationMessage = 'Are you sure you want to delete this reservation?';
+        $confirmed = $this->confirm($confirmationMessage);
+
+        if (!$confirmed) {
+            return redirect('/landing')->with('message', 'Deletion canceled');
+        }
+        return 'deleted';
+//        $listing->delete();
+        return redirect('/landing')->with('message', 'Listing deleted successfully');
     }
 
-    // Manage Listings
-    public function manage() {
-        return view('listings.manage', ['listings' => auth()->user()->listings()->get()]);
+    private function confirm($message)
+    {
+        return "<script>return confirm('$message');</script>";
     }
+
+
+    // Manage Listings
+    public function manage(Request $request)
+    {
+        $user = Auth::user();
+        $searchTerm = $request->input('search');
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
+        $listings = Listing::where('user_id', $user->id)->get();
+
+        return view('listings.manage', compact('listings', 'filteredUsers'));
+    }
+
+
 
     public function cancelReservation($reservationId)
     {
@@ -218,11 +242,14 @@ class ListingController extends Controller
         }
     }
 
-    public function calendar()
+
+    public function calendar(Request $request)
     {
+        $searchTerm = $request->input('search');
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
         $user = auth()->user();
         $reservationData = $user->listings()->latest()->filter(request(['tag', 'search']))->paginate(6);
-        return view('listings.calendar', compact('user', 'reservationData'));
+        return view('listings.calendar', compact('user', 'reservationData','filteredUsers'));
     }
 
 

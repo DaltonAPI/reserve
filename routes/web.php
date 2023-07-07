@@ -118,7 +118,3 @@ use App\Http\Controllers\ConnectionsController;
 
 Route::post('/connections', [ConnectionsController::class, 'store'])->name('connections.store');
 Route::patch('/connections/{user}', [ConnectionsController::class, 'acceptRequest'])->name('connections.acceptRequest');
-
-Route::fallback(function () {
-    return view('404');
-});
