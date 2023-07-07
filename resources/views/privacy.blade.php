@@ -13,7 +13,7 @@
                 </ul>
 
                 <h2 class="text-2xl font-bold mb-4 mt-8">2. Use of Collected Information</h2>
-                <p>We use the collected information to:</p>
+                <p>We use the collected information to</p>
                 <ul class="list-disc list-inside">
                     <li>Provide and improve our services</li>
                     <li>Personalize user experience</li>
