@@ -30,7 +30,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('connections', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['connected_user_id']);
             $table->dropColumn(['user_id', 'connected_user_id']);
         });
     }
+
 };
