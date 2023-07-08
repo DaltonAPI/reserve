@@ -76,6 +76,7 @@ Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
 // Show Register/Create Form
 Route::get('/register', [UserController::class, 'create'])->middleware('guest');
+Route::get('/edit/user', [UserController::class, 'edit'])->middleware('auth');
 
 // Create New User
 Route::post('/users', [UserController::class, 'store']);
@@ -93,7 +94,7 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
 
-Route::put('/profile/{id}', [UserController::class, 'updateProfile'])->middleware('auth');
+Route::post('/profile/{id}', [UserController::class, 'updateUser'])->middleware('auth');
 
 Route::get('/', function (){
     return view('landing');

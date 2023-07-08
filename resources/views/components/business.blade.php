@@ -2,18 +2,23 @@
 <div class="flex flex-col ">
     <div class="bg-white rounded-lg shadow-md relative mb-3">
 
-        <form id="profileForm{{$user->id}}" method="POST" action="/profile/{{$user->id}}">
+
             @auth
                 @if (auth()->user()->id === $user->id)
-{{--                    <div class="flex ">--}}
+                    <div class="flex ">
 
-{{--                        <a class="edit-icon absolute top-0 right-0 m-2 text-pink-600 hover:text-pink-700">--}}
-{{--                            <i class="fas fa-edit"></i>--}}
-{{--                        </a>--}}
-{{--                        <a class="save-icon hidden absolute top-0 right-0 m-2 text-pink-600 hover:text-pink-700">--}}
-{{--                            <button><i class="fas fa-save"></i></button>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
+                        <a href="/edit/user" class="edit-icon absolute top-0 right-6 m-2 text-pink-600 hover:text-pink-700">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form id="profileForm{{$user->id}}" method="POST" action="{{ route('profile.destroy', $user->id) }}" onsubmit="return confirm('Are you sure you want to delete this account?')">
+                            @csrf
+                            @method('DELETE')
+                            <!-- Rest of the form code -->
+                            <button type="submit" ><a class="save-icon  absolute top-0 right-0 m-2 text-pink-600 hover:text-pink-700">
+                                <button><i class="fas fa-trash"></i></button>
+                             </a></button>
+
+                    </div>
                 @endif
             @endauth
 
@@ -134,7 +139,7 @@
 
                 </div>
             </div>
-        </form>
+
         <div class="flex justify-end mb-2 mr-2">
             @auth
                 @if (($user->account_type === 'Client' && auth()->user()->account_type === 'Business') || ($user->account_type === 'Business' && auth()->user()->account_type === 'Client') )
@@ -178,20 +183,7 @@
             @endauth
 
 
-            {{--            <form id="profileForm{{$user->id}}" method="POST" action="{{ route('profile.destroy', $user->id) }}">--}}
-{{--                @csrf--}}
-{{--                @method('DELETE')--}}
-{{--                <!-- Rest of the form code -->--}}
-{{--                <div class="flex justify-end mt-6">--}}
-{{--                    @auth--}}
-{{--                        @if (auth()->user()->id === $user->id)--}}
 
-{{--                            <button type="submit" class="ml-4 inline-block px-4 py-2 leading-none text-white bg-gradient-to-r from-red-300 to-red-600 rounded hover:bg-red-700">Remove Account</button>--}}
-{{--                           --}}
-{{--                        @endif--}}
-{{--                    @endauth--}}
-{{--                </div>--}}
-{{--            </form>--}}
 
         </div>
 
