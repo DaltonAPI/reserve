@@ -27,7 +27,7 @@
 
             <div class="flex flex-col md:flex-row">
                 <div class="md:w-1/3 flex items-center justify-center">
-                    <div class="overflow-hidden w-28 h-28 md:w-56 md:h-56 rounded-lg border border-gray-300 mt-5">
+                    <div class="overflow-hidden w-28 h-16 md:w-56 md:h-56 rounded-lg border border-gray-300 mt-5">
                         @if ($user->photos)
                             <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo" class="h-full w-full">
                         @else
@@ -182,7 +182,14 @@
                 @endif
             @endauth
 
+              @if($user->id === auth()->user()->id && auth()->user()->account_type === 'Business'))
 
+               <div class="">
+                   <a href=""  {!! QrCode::size(70)->generate("https://reservify.in/reservations/" . auth()->user()->id) !!}</a>
+
+               </div>
+
+                @endif
 
 
         </div>

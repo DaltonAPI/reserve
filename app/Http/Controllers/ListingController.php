@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Services\TwilioService;
 use Twilio\Exceptions\TwilioException;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class ListingController extends Controller
 {
     // Show all listings
@@ -30,8 +31,9 @@ class ListingController extends Controller
         $listings = $listings->latest()->filter(request(['tag', 'search']))->paginate(6);
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
-
-        return view('listings.index', compact('user', 'listings', 'filteredUsers'));
+        $userId = auth()->user()->id;
+        $qrCode = QrCode::size(200)->generate("https://reservify.in/reservations/$userId");
+        return view('listings.index', compact('user', 'listings', 'filteredUsers','qrCode'));
     }
 
 

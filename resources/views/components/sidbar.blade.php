@@ -64,10 +64,12 @@
                 </a>
             </li>
             <li>
-                <a href="/reservations" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                @auth
+                <a href="/reservations/{{auth()->user()->id}}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
                     <i class="fas fa-calendar-check text-teal-500"></i>
-                    <span class="ml-3">My Reservations</span>
+                    <span class="ml-3">My Reservations </span>
                 </a>
+                @endauth
             </li>
             <li>
                 <a href="/posts" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
