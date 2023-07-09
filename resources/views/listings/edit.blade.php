@@ -1,4 +1,6 @@
-<x-layout>
+
+<x-sidbar :filteredUsers="$filteredUsers"/>
+<x-layout :filteredUsers="$filteredUsers">
     <x-card class="p-10 max-w-lg mx-auto mt-24">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">Edit Reservation</h2>
@@ -10,7 +12,7 @@
             @method('PUT')
 
             <div class="mb-6">
-                <label for="title" class="inline-block text-lg mb-2">Job Title</label>
+                <label for="title" class="inline-block text-lg mb-2">Type of service</label>
                 <input type="text" class="border border-gray-200 rounded p-2 w-full" name="title"
                        placeholder="Example: Senior Laravel Developer" value="{{$listing->title}}" />
 
@@ -22,7 +24,7 @@
             <div class="mb-6">
                 <label for="tags" class="inline-block text-lg mb-2">Tags (Comma Separated)</label>
                 <input type="text" class="border border-gray-200 rounded p-2 w-full" name="tags"
-                       placeholder="Example: Laravel, Backend, Postgres, etc" value="{{$listing->tags}}" />
+                       placeholder="Example: Repair, Haircare, Painter, etc" value="{{$listing->tags}}" />
 
                 @error('tags')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -86,8 +88,6 @@
                <div class="mt-4">
                    @if ($listing->logo)
                        <img class="w-48 " src="{{ asset('storage/' . $listing->logo) }}" alt="Company Logo" />
-                   @else
-                       <img class="w-48 mt-4" src="{{ asset('/images/no-image.png') }}" alt="No Image" />
                    @endif
 
                    @error('logo')
@@ -121,7 +121,7 @@
 
 
             <div class="mb-6">
-                <button class="text-white rounded py-2 px-4 hover:bg-black bg-blue-500">Update Reservation</button>
+                <button class="text-white rounded py-2 px-4 hover:bg-black bg-pink-500">Update Reservation</button>
                 <a href="/" class="text-black ml-4">Back</a>
             </div>
         </form>

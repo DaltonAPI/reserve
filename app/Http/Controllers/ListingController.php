@@ -145,8 +145,14 @@ class ListingController extends Controller
 
 
     // Show Edit Form
-    public function edit(Listing $listing) {
-        return view('listings.edit', ['listing' => $listing]);
+    public function edit(Request $request, Listing $listing) {
+        $searchTerm = $request->input('search');
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
+
+
+
+        return view('listings.edit', compact('listing', 'filteredUsers'));
+
     }
 
     // Update Listing Data
