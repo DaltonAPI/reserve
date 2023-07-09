@@ -17,7 +17,7 @@
                             <button type="submit" ><a class="save-icon  absolute top-0 right-0 m-2 text-pink-600 hover:text-pink-700">
                                 <button><i class="fas fa-trash"></i></button>
                              </a></button>
-
+                            </form>
                     </div>
                 @endif
             @endauth
