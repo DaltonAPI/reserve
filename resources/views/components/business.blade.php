@@ -180,14 +180,7 @@
 
                     @endif
                 @endif
-                    @if($user->id === auth()->user()->id && auth()->user()->account_type === 'Business'))
 
-                    <div class="">
-                        <a href=""  {!! QrCode::size(70)->generate("https://reservify.in/reservations/" . auth()->user()->id) !!}</a>
-
-                    </div>
-
-                    @endif
             @endauth
 
 
