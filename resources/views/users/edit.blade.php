@@ -1,7 +1,7 @@
 <x-sidbar :filteredUsers="$filteredUsers"/>
 <x-layout :filteredUsers="$filteredUsers">
     <section  class="">
-        <div class="flex flex-col items-center justify-center px-6 py-16 mx-auto  ">
+        <div class="flex flex-col items-center justify-center px-6 mx-auto  ">
             <div class="w-full bg-white rounded-lg shadow  sm:max-w-md ">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
@@ -92,21 +92,22 @@
 
 
                         <div class="mb-6">
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900"> Business Logo <span class="text-red-500">*</span></label>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Business Logo <span class="text-red-500">*</span></label>
                             <input type="file" class="border border-gray-200 rounded p-2 w-full" name="photos" />
 
                             <div class="mt-4">
                                 @if ($user->photos)
-                                    <img class="w-48 " src="{{ asset('storage/' . $user->photos) }}" alt="Company Logo" />
+                                    <img class="w-48" src="{{ asset('storage/' . $user->photos) }}" alt="Company Logo" />
                                 @else
                                     <img class="w-48 mt-4" src="{{ asset('/images/no-image.png') }}" alt="No Image" />
                                 @endif
 
                                 @error('photos')
-                                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
+
 
 
 
@@ -211,18 +212,6 @@
                                 }
                             </script>
 
-
-                            {{--                                                        <div class="mb-4">--}}
-                            {{--                                <label for="industry_category" class="block mb-2 text-sm font-medium text-gray-900">Industry/Category</label>--}}
-                            {{--                                <select name="industry_category" id="industry_category" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">--}}
-                            {{--                                    <option value="" disabled selected>Select industry/category</option>--}}
-                            {{--                                    <option value="Salon">Salon</option>--}}
-                            {{--                                    <option value="Repair">Repair</option>--}}
-                            {{--                                </select>--}}
-                            {{--                                @error('industry_category')--}}
-                            {{--                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>--}}
-                            {{--                                @enderror--}}
-                            {{--                            </div>--}}
                             <div class="mb-4">
                                 <label for="location" class="block mb-2 text-sm font-medium text-gray-900">Location <span class="text-red-500">*</span></label>
                                 <input type="text" id="location-input" name="location" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{ old('location', $user->location) }}">

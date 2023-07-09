@@ -234,7 +234,7 @@ class ListingController extends Controller
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
         $user = auth()->user();
-        $reservationData = $user->listings()->latest()->filter(request(['tag', 'search']))->paginate(6);
+        $reservationData =  Listing::where('user_id', $user->id)->get();
         return view('listings.calendar', compact('user', 'reservationData','filteredUsers'));
     }
 

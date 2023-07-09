@@ -1,7 +1,7 @@
 
 <x-layout>
     <section  class="">
-        <div class="flex flex-col items-center justify-center px-6 py-16 mx-auto  ">
+        <div class="flex flex-col items-center justify-center px-6  mx-auto  ">
             <div class="w-full bg-white rounded-lg shadow  sm:max-w-md ">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
