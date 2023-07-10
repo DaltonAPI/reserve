@@ -4,7 +4,7 @@
     </div>
 @endif
 
-<div class="bg-gray-100 py-3">
+<div class="bg-gray-100 py-3 p-5">
     <div class="max-w-6xl mx-auto">
         <div class="overflow-x-auto relative">
             <div class="flex items-center">
@@ -12,10 +12,10 @@
                     <i class="fas fa-chevron-left text-white bg-pink-500 rounded-full p-2"></i>
 
                 </button>
-                <ul id="userList" class="flex space-x-4 overflow-x-auto">
+                <ul id="userList" class="flex space-x-2 overflow-x-auto ">
                     @foreach($filteredUsers as $user)
                         @if($user->account_type === 'Client')
-                            <li class="flex  items-center space-x-1">
+                            <li class="flex  items-center space-x-1 border border-gray-200 p-2 bg-white rounded-lg shadow-md">
 
                                 <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-teal-400">
                                     <img src="{{ asset('storage/' . $user->photos) }}" alt="User Avatar" class="w-full h-full object-cover rounded-full">
