@@ -10,7 +10,7 @@
                     <div class="absolute inset-y-0 left-2 flex items-center pl-2">
                         <i class="fa fa-search text-gray-400"></i>
                     </div>
-                    <input type="text" name="search" class="h-12 w-full pl-12 pr-8 rounded-full bg-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Search Reservations" />
+                    <input type="text" name="search" class="h-12 w-full pl-12 pr-8 rounded-full bg-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Search for your Business" />
                 </div>
                 <button type="submit" class="h-12 w-12 flex items-center justify-center text-white rounded-full bg-pink-500 hover:bg-pink-600 ml-1">
                     <i class="fa fa-search"></i>
