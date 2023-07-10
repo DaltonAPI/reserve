@@ -143,11 +143,11 @@ class ListingController extends Controller
         {
             $formFields['business_id'] = $request->input('business_id');
         }
-        $client = Listing::find($formFields['client_id']);
-        if ($client && $client->email) {
-            $client->notify(new ReservationCreatedNotification());
-        }
-        dd($formFields);
+//        $client = Listing::find($formFields['client_id']);
+//        if ($client && $client->email) {
+//            $client->notify(new ReservationCreatedNotification());
+//        }
+//        dd($formFields);
         Listing::create($formFields);
         return redirect('/reservations')->with('message', 'Listing created successfully!');
     }
