@@ -9,6 +9,9 @@
         <div class="container mx-auto gap-4 mx-4 mt-4 sm:w-3/4 lg:w-2/3 xl:w-1/2">
             <div class="text-center md:text-left">
                 @unless(count($filteredUsers) == 0)
+                    <h2 class=" font-bold text-gray-900 text-center">
+                        Connect with <span class="text-pink-500">Clients </span> here
+                    </h2>
                      <x-users :filteredUsers="$filteredUsers"></x-users>
                 @endunless
 

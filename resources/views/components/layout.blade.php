@@ -44,7 +44,7 @@
 <body class=" bg-gray-100">
 
 
-<nav class="flex justify-between items-center  mt-4 mb-10">
+<nav class="flex justify-between items-  mt-4 ">
     <div>
         @include('partials._sidebar')
     </div>
