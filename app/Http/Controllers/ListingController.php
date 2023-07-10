@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Services\TwilioService;
 use Twilio\Exceptions\TwilioException;
+use App\Notifications\ReservationCreatedNotification;
+use Carbon\Carbon;
 class ListingController extends Controller
 {
     // Show all listings
@@ -25,13 +27,16 @@ class ListingController extends Controller
                     ->orWhere('business_id', $user->id);
             });
         }
+        $currentDate = Carbon::now();
 
-        // Apply additional filters and pagination
+
         $listings = $listings->latest()->filter(request(['tag', 'search']))->paginate(6);
+        $upcomingListings = $listings->where('date', '>', $currentDate)->count();
+        $pastListings = $listings->where('date', '<', $currentDate)->count();
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
 
-        return view('listings.index', compact('user', 'listings', 'filteredUsers'));
+        return view('listings.index', compact('user', 'listings', 'filteredUsers','upcomingListings','pastListings'));
     }
 
 
@@ -138,7 +143,11 @@ class ListingController extends Controller
         {
             $formFields['business_id'] = $request->input('business_id');
         }
-
+        $client = Listing::find($formFields['client_id']);
+        if ($client && $client->email) {
+            $client->notify(new ReservationCreatedNotification());
+        }
+        dd($formFields);
         Listing::create($formFields);
         return redirect('/reservations')->with('message', 'Listing created successfully!');
     }
