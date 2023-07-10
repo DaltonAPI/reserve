@@ -29,9 +29,9 @@
                 <div class="md:w-1/3 flex items-center justify-center">
                     <div class="overflow-hidden w-28 h-16 md:w-56 md:h-56  border-gray-300 mt-5">
                         @if ($user->photos)
-                            <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo" class="rounded-lg border h-full w-2/3">
+                            <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo" class="rounded-lg border h-full md:w-full sm:w-2/3">
                         @else
-                            <img src="/images/business.png" alt="Default User Photo" class="rounded-lg border h-full w-2/3">
+                            <img src="/images/business.png" alt="Default User Photo" class="rounded-lg border md:w-full h-full w-2/3">
                         @endif
                     </div>
 
