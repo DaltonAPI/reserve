@@ -123,12 +123,12 @@
 
             <li>
                 <a href="/register" class="hover:text-laravel">
-                    <i class="fa-solid fa-user-plus text-green-500"></i>
+                    <i class="text-2xl  fa-solid fa-user-plus text-teal-500"></i>
                 </a>
             </li>
             <li>
                 <a href="/login" class="hover:text-laravel ">
-                    <i class="fa-solid fa-arrow-right-to-bracket text-green-500"></i>
+                    <i class="text-2xl  fa-solid fa-arrow-right-to-bracket text-teal-500"></i>
                 </a>
             </li>
         @endauth
