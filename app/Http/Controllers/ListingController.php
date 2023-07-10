@@ -31,8 +31,8 @@ class ListingController extends Controller
 
 
         $listings = $listings->latest()->filter(request(['tag', 'search']))->paginate(6);
-        $upcomingListings = $listings->where('date', '>', $currentDate)->count();
-        $pastListings = $listings->where('date', '<', $currentDate)->count();
+        $upcomingListings = $listings->where('date', '<', $currentDate)->count();
+        $pastListings = $listings->where('date', '>', $currentDate)->count();
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
 
