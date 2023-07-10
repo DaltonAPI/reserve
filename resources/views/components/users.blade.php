@@ -4,14 +4,13 @@
     </div>
 @endif
 
-<div class="bg-gray-100 py-6">
+<div class="bg-gray-100 py-3">
     <div class="max-w-6xl mx-auto">
         <div class="overflow-x-auto relative">
             <div class="flex items-center">
                 <button id="leftButton" class="text-pink px-3 py-2 rounded-l-full absolute top-0 bottom-0 flex items-center">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
+                    <i class="fas fa-chevron-left text-white bg-pink-500 rounded-full p-2"></i>
+
                 </button>
                 <ul id="userList" class="flex space-x-4 overflow-x-auto">
                     @foreach($filteredUsers as $user)
@@ -67,9 +66,7 @@
 
                 </ul>
                 <button id="rightButton" class=" text-pink px-3 py-2 rounded-r-full absolute top-0 bottom-0 flex items-center right-0">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+                    <i class="fas fa-chevron-right text-white bg-pink-500 rounded-full p-2"></i>
                 </button>
             </div>
         </div>

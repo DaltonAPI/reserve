@@ -36,7 +36,7 @@
                     </div>
 
                 </div>
-                <div class="p-6 md:w-2/3 mt-8">
+                <div class="p-6 md:w-2/3 md:mt-8">
                     <div class="flex items-center mb-2">
                         <i class="fas fa-user text-pink-600 mr-2"></i>
                         <h5 class="text-2xl font-bold text-gray-900">
