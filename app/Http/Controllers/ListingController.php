@@ -27,12 +27,12 @@ class ListingController extends Controller
                     ->orWhere('business_id', $user->id);
             });
         }
-        $currentDate = Carbon::now();
+        $currentDate = date('Y-m-d');
 
 
         $listings = $listings->latest()->filter(request(['tag', 'search']))->paginate(6);
-        $upcomingListings = $listings->where('date', '>=', $currentDate)->count();
-        $pastListings = $listings->where('date', '<', $currentDate)->count();
+        $upcomingListings = $listings->where('date', '>=', date('Y-m-d', strtotime($currentDate)))->count();
+        $pastListings = $listings->where('date', '<', date('Y-m-d', strtotime($currentDate)))->count();
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
 
