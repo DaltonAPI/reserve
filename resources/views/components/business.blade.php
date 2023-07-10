@@ -36,9 +36,9 @@
                     </div>
 
                 </div>
-                <div class="p-6 md:w-2/3 ">
+                <div class="p-6 md:w-2/3 mt-4">
                     <div class="flex items-center mb-2">
-                        <i class="fas fa-user text-pink-600 mr-2"></i>
+                        <i class="fas fa-user text-teal-600 mr-2"></i>
                         <h5 class="text-2xl font-bold text-gray-900">
                             @if($user->name)
                             <span class="name-label">{{ $user->name }}</span>
@@ -51,7 +51,7 @@
                     <div class="flex items-center mb-2">
                         @if($user->bio)
                         <p class="text-gray-700">
-                            <i class="fas fa-info-circle text-pink-600 mr-2"></i>
+                            <i class="fas fa-info-circle text-teal-600 mr-2"></i>
                             <span class="bio-label">{{ $user->bio }}</span>
                         </p>
                         @endif
@@ -60,13 +60,11 @@
 
                     <div class="contact-info">
                         <div class="flex items-center mb-2">
-                            <i class="fas fa-envelope text-pink-600 mr-2"></i>
+                            <i class="fas fa-envelope text-teal-600 mr-2"></i>
                             <span class="email-label">{{ $user->email }}</span>
-                            <input type="text" class="hidden input-field bg-gray-100 rounded px-4 py-2 ml-2 w-2/3"
-                                   name="email" value="{{ $user->email }}">
                         </div>
                         <div class="flex items-center mb-2">
-                            <i class="fas fa-phone-alt text-pink-600 mr-2"></i>
+                            <i class="fas fa-phone-alt text-teal-600 mr-2"></i>
                             <span class="contact-label">{{ $user->contact_info }}</span>
 
                         </div>
@@ -81,14 +79,14 @@
                     <!-- Add Location Field -->
                     @if($user->location)
                     <div class="flex items-center mb-2">
-                        <i class="fas fa-map-marker-alt text-pink-600 mr-2"></i>
+                        <i class="fas fa-map-marker-alt text-teal-600 mr-2"></i>
                         <span class="location-label">{{ $user->location }}</span>
                     </div>
                     @endif
                     <!-- Add Services Offered -->
                   @if($user->serviceList)
                         <div class="flex items-center mb-2">
-                            <i class="fas fa-tools text-pink-600 mr-2"></i>
+                            <i class="fas fa-tools text-teal-600 mr-2"></i>
                             <div class="flex flex-wrap">
                                 @php
                                     $colors = ['bg-pink-200', 'bg-blue-200', 'bg-green-200', 'bg-yellow-200'];
@@ -136,7 +134,15 @@
                             @endforeach
                         @endif
                     </div>
-
+                    @auth
+                        @if($user->id === auth()->user()->id)
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-qrcode text-teal-600 mr-2"></i>
+                                <p style="font-size: x-small">Add this link on your business card so that clients can connect with you <a
+                                        href="https://reservify.in/{{$user->id}}" class="text-pink-500">https://reservify.in/{{$user->id}}</a> </p>
+                            </div>
+                        @endif
+                    @endauth
                 </div>
             </div>
 
@@ -182,7 +188,6 @@
                 @endif
 
             @endauth
-
 
 
 
