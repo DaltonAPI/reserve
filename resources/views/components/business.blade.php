@@ -27,16 +27,16 @@
 
             <div class="flex flex-col md:flex-row">
                 <div class="md:w-1/3 flex items-center justify-center">
-                    <div class="overflow-hidden w-28 h-16 md:w-56 md:h-56  border-gray-300 mt-5">
+                    <div class="overflow-hidden w-28 h-16 md:w-56 md:h-56 rounded-lg border border-gray-300 mt-5">
                         @if ($user->photos)
-                            <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo" class="rounded-lg border h-full w-full ">
+                            <img src="{{ asset('storage/' . $user->photos) }}" alt="User Photo" class="h-full w-full">
                         @else
-                            <img src="/images/business.png" alt="Default User Photo" class="rounded-lg border md:w-full h-full ">
+                            <img src="/images/business.png" alt="Default User Photo" class="h-full w-full">
                         @endif
                     </div>
 
                 </div>
-                <div class="p-6 md:w-2/3 md:mt-8">
+                <div class="p-6 md:w-2/3 mt-8">
                     <div class="flex items-center mb-2">
                         <i class="fas fa-user text-pink-600 mr-2"></i>
                         <h5 class="text-2xl font-bold text-gray-900">
