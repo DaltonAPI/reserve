@@ -4,7 +4,7 @@
     </div>
 @endif
 
-<div class="bg-gray-100 py-3 p-5">
+<div class="bg-gray-100 py-3 ">
     <div class="max-w-6xl mx-auto">
         <div class="overflow-x-auto relative">
             <div class="flex items-center">

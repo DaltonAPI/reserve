@@ -103,7 +103,7 @@
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-qrcode text-teal-600 mr-2"></i>
                                 <p style="font-size: x-small">Add this link on your business card so that clients can connect with you <a
-                                        href="https://reservify.in/{{$user->id}}" class="text-pink-500">https://reservify.in/{{$user->id}}</a> </p>
+                                        href="https://reservify.in/reservations/{{$user->id}}" class="text-pink-500">https://reservify.in/reservations/{{$user->id}}</a> </p>
                             </div>
                         @endif
                     @endauth
