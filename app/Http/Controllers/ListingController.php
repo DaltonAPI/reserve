@@ -149,7 +149,7 @@ class ListingController extends Controller
 //        }
 //        dd($formFields);
         Listing::create($formFields);
-        return redirect('/reservations')->with('message', 'Listing created successfully!');
+        return redirect('/reservations/'. \auth()->user()->id)->with('message', 'Listing created successfully!');
     }
 
 
