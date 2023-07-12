@@ -164,7 +164,7 @@
                             Request Sent
                         </button>
 
-                    @elseif ($user->connectedUsers->contains(auth()->user()) )
+                    @elseif ($user->connectedUsers->contains(auth()->user())  || auth()->user()->connectedUsers->contains($user) )
                         <!-- Connected -->
 {{--                        @php--}}
 {{--                            $clientId = auth()->id(); // Retrieve the client ID--}}
