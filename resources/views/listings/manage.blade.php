@@ -11,7 +11,7 @@
                             <a href="/listings/{{$listing->id}}" class="text-blue-500 hover:underline">{{ $listing->title }}</a>
                             <div>
                                 <a href="/listings/{{$listing->id}}/edit" class="text-blue-500 hover:underline">Edit</a>
-                                <form method="POST" action="/listings/{{$listing->id}}" class="inline">
+                                <form method="POST" action="/listings/{{$listing->id}}" onsubmit="return confirm('Are you sure you want to delete this account?')"   class="inline" >
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-500 hover:underline ml-2">Delete</button>
