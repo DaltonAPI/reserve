@@ -19,7 +19,7 @@
                     @else
                         <h2 class=" font-bold">{{ $listing->user['client-name'] }}</h2>
                     @endif
-                    <p class="text-gray-500" style="font-size: x-small">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
+                    <p class="text-gray-500 font-bold" style="font-size: small">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
                 </div>
             </div>
             <div class="flex items-center">
