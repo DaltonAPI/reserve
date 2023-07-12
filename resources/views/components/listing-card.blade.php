@@ -14,7 +14,11 @@
             <div class="flex items-center">
                 <img class="w-16 h-16 rounded-full mr-4"  src="{{ asset('storage/' . $listing->user->photos) }}" alt="Business Logo">
                 <div>
+                    @if($listing->user->name)
                     <h2 class=" font-bold">{{ $listing->user->name }}</h2>
+                    @else
+                        <h2 class=" font-bold">{{ $listing->user['client-name'] }}</h2>
+                    @endif
                     <p class="text-gray-500" style="font-size: x-small">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
                 </div>
             </div>
