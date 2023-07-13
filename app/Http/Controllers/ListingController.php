@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Listing;
+use App\Models\Notifications\ReservationCreatedNotification;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use App\Services\TwilioService;
+use Illuminate\Support\Facades\Storage;
 use Twilio\Exceptions\TwilioException;
-use App\Notifications\ReservationCreatedNotification;
-use Carbon\Carbon;
+
 class ListingController extends Controller
 {
     // Show all listings
@@ -103,35 +101,35 @@ class ListingController extends Controller
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
-        // Send SMS using Twilio
 
 
-//        try {
-//            $twilioSid = env('TWILIO_SID');
-//            $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
-//            $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
-//            $customerPhoneNumber = $formFields['customer_phone'];
-//
-//            $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
-//            $messageBody = 'Hello ' . $formFields['customer_name'] . ',  looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time']. ' '
-//            . 'Sincerely ' . auth()->user()->name;
-//
-//            $client->messages->create(
-//                $customerPhoneNumber,
-//                [
-//                    'from' => $twilioPhoneNumber,
-//                    'body' => $messageBody
-//                ]
-//            );
-//
-//            // Message sent successfully
-//            // ... your remaining code ...
-//        } catch (TwilioException $e) {
-//            // Exception occurred while sending SMS
-//            // Handle the exception as per your requirements
-//            $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
-//            return redirect()->back()->with('error', $errorMessage);
-//        }
+
+            $twilioSid = env('TWILIO_SID');
+            $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
+            $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
+            $customerPhoneNumber = $formFields['customer_phone'];
+
+            $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
+            $messageBody = 'Hello ' . $formFields['customer_name'] . ',  looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time']. ' '
+            . 'Sincerely ' . auth()->user()->name;
+            try {
+
+            $client->messages->create(
+                $customerPhoneNumber,
+                [
+                    'from' => $twilioPhoneNumber,
+                    'body' => $messageBody
+                ]
+            );
+
+            // Message sent successfully
+            // ... your remaining code ...
+        } catch (TwilioException $e) {
+            // Exception occurred while sending SMS
+            // Handle the exception as per your requirements
+            $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
+            return redirect()->back()->with('error', $errorMessage);
+        }
 
 
         $formFields['user_id'] = auth()->id();
@@ -143,12 +141,12 @@ class ListingController extends Controller
         {
             $formFields['business_id'] = $request->input('business_id');
         }
-//        $client = Listing::find($formFields['client_id']);
-//        if ($client && $client->email) {
-//            $client->notify(new ReservationCreatedNotification());
-//        }
-//        dd($formFields);
-        Listing::create($formFields);
+        $client = Listing::find($formFields['client_id']);
+        if ($client && $client->email) {
+            $client->notify(new ReservationCreatedNotification());
+        }
+        dd($formFields);
+//        Listing::create($formFields);
         return redirect('/reservations/'. \auth()->user()->id)->with('message', 'Listing created successfully!');
     }
 
