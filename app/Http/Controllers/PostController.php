@@ -94,11 +94,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         $post = Post::with('comments', 'author')->findOrFail($id);
-
-        return view('posts.singlePost', compact('post'));
+        $searchTerm = $request->input('search');
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
+        return view('posts.singlePost', compact('post','filteredUsers'));
     }
 
     /**
