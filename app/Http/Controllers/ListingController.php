@@ -145,8 +145,8 @@ class ListingController extends Controller
         if ($client && $client->email) {
             $client->notify(new ReservationCreatedNotification());
         }
-        dd($formFields);
-//        Listing::create($formFields);
+
+        Listing::create($formFields);
         return redirect('/reservations/'. \auth()->user()->id)->with('message', 'Listing created successfully!');
     }
 
