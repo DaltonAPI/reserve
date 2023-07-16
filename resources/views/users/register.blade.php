@@ -103,6 +103,8 @@
                                     'Facebook' => 'Facebook',
                                     'Instagram' => 'Instagram',
                                     'Twitter' => 'Twitter',
+                                    'TikTok' => 'TikTok',
+                                    'YouTube' => 'YouTube',
                                 ];
                             @endphp
 
@@ -116,6 +118,13 @@
                                                 <input type="checkbox" name="social_media[]" value="{{ $value }}" id="{{ $value }}_checkbox" class="mr-2" {{ old('social_media') && in_array($value, old('social_media')) ? 'checked' : '' }}>
                                                 <label for="{{ $value }}_checkbox" class="text-sm text-gray-900">{{ $option }}</label>
                                             </div>
+                                            <div class="mb-4" id="{{ $value }}_links" style="display: none;">
+{{--                                                <label class="block mb-2 text-sm font-medium text-gray-900">{{ $option }} Link(s)</label>--}}
+                                                <input type="text" name="{{ $value }}_links" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="{{ $option }} link" value="{{ old($value.'_links') ? old($value.'_links') : '' }}">
+                                                @error($value.'_links')
+                                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                                @enderror
+                                            </div>
                                         @endforeach
                                     @else
                                         <p>No social media options available.</p>
@@ -127,37 +136,7 @@
                             </div>
 
 
-
-                            <div id="social_media_links">
-
-                                @foreach($socialMediaOptions as $value => $option)
-                                    <div class="mb-4" id="{{ $value }}_links" style="display: none;">
-                                        <label class="block mb-2 text-sm font-medium text-gray-900">{{ $option }} Link(s)</label>
-                                        <input type="text" name="{{ $value }}_links" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{ old($value.'_links') ? old($value.'_links') : '' }}">
-                                    </div>
-                                @endforeach
-                            </div>
-                            @php
-                                // Validation Rules
-                                $validationRules = [
-                                    // Existing validation rules
-                                    // ...
-                                    'Facebook_links' => 'nullable|url',
-                                    'Instagram_links' => 'nullable|url',
-                                    'Twitter_links' => 'nullable|url',
-                                ];
-                            @endphp
-
-                            @error('social_media')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            @foreach($socialMediaOptions as $value => $option)
-                                @error($value.'_links')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
-                            @endforeach
-                                <div class="mb-4">
+                            <div class="mb-4">
 
                                    <div class="mb-2">
                                        <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>

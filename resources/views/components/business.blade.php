@@ -130,7 +130,13 @@
                                         case 'Twitter':
                                             $iconColor = 'text-blue-400';
                                             break;
-                                        // Add more cases for additional social media platforms if needed
+                                        case 'TikTok':
+                                            $iconColor = 'text-black';
+                                            break;
+                                        case 'YouTube':
+                                            $iconColor = 'text-red-600';
+                                            break;
+
                                         default:
                                             $iconColor = 'text-gray-600';
                                             break;
@@ -146,6 +152,7 @@
                             @endforeach
                         @endif
                     </div>
+
 
                 </div>
             </div>

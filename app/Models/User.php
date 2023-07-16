@@ -27,6 +27,8 @@ class User extends Authenticatable
         'Facebook_links',
         'Instagram_links',
         'Twitter_links',
+        'TikTok_links',
+        'YouTube_links',
         'industry_category',
         'photo',
         'account_type',

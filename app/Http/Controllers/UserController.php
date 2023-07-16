@@ -38,6 +38,8 @@ class UserController extends Controller
             'Facebook_links' => 'nullable|url',
             'Instagram_links' => 'nullable|url',
             'Twitter_links' => 'nullable|url',
+            'TikTok_links' => 'nullable|url',
+            'YouTube_links' => 'nullable|url',
             'serviceList' => ['required', 'min:3'],
             'location' => 'required|string',
             'photos' => 'nullable|mimes:jpeg,png,gif'
@@ -53,6 +55,8 @@ class UserController extends Controller
             'Facebook_links' => 'nullable|url',
             'Instagram_links' => 'nullable|url',
             'Twitter_links' => 'nullable|url',
+            'TikTok_links' => 'nullable|url',
+            'YouTube_links' => 'nullable|url',
             'photos' => 'nullable|mimes:jpeg,png,gif'
         ];
 
