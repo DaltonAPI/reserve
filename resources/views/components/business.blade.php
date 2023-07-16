@@ -7,6 +7,9 @@
                 @if (auth()->user()->id === $user->id)
                     <div class="flex ">
 
+                        <a href="/createTimePicker" class="edit-icon absolute top-0 right-12 m-2 text-pink-600 hover:text-pink-700">
+                            <i class="fas fa-clock"></i>
+                        </a>
                         <a href="/edit/user" class="edit-icon absolute top-0 right-6 m-2 text-pink-600 hover:text-pink-700">
                             <i class="fas fa-edit"></i>
                         </a>

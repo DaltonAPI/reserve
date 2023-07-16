@@ -34,7 +34,7 @@
 
             <li>
                 @auth
-                    <a href="/reservations">
+                    <a href="/getTime/{{auth()->user()->id}}">
                         <section class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="relative inline-block">

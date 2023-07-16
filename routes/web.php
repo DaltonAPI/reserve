@@ -8,7 +8,7 @@ use App\Http\Controllers\LikeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Listing;
-
+use App\Http\Controllers\TimeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -119,3 +119,10 @@ use App\Http\Controllers\ConnectionsController;
 
 Route::post('/connections', [ConnectionsController::class, 'store'])->name('connections.store');
 Route::patch('/connections/{user}', [ConnectionsController::class, 'acceptRequest'])->name('connections.acceptRequest');
+
+
+
+
+Route::post('/addtimes', [TimeController::class, 'store']);
+Route::get('/createTimePicker', [TimeController::class, 'create']);
+Route::get('/getTime/{id}', [TimeController::class, 'index']);

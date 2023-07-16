@@ -15,6 +15,7 @@
     <script src="https://unpkg.com/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/tippy.js@6.3.5/dist/tippy-bundle.umd.min.js"></script>
     <script src="https://cdn.tailwindcss.com/2.2.19/tailwind.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <script src="//unpkg.com/alpinejs" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>

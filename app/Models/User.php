@@ -118,5 +118,10 @@ class User extends Authenticatable
         $this->receivedConnectionRequests()->updateExistingPivot($user, ['accepted' => true]);
     }
 
+    public function time()
+    {
+        return $this->belongsTo(Time::class);
+    }
+
 
 }
