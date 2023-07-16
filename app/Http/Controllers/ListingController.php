@@ -141,7 +141,7 @@ class ListingController extends Controller
         {
             $formFields['business_id'] = $request->input('business_id');
         }
-        $client = Listing::find($formFields['client_id']);
+        $client = Listing::find($formFields['user_id']);
         if ($client && $client->email) {
             $client->notify(new ReservationCreatedNotification());
         }
