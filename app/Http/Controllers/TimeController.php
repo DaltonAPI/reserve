@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class TimeController extends Controller
-
 {
     /**
      * Display a listing of the resource.
@@ -93,7 +92,7 @@ class TimeController extends Controller
 
         Time::create($validatedData);
 
-        return redirect()->route('/getTime')->with('success', 'Time saved successfully.');
+        return redirect('/getTime/' . \auth()->user()->id)->with('success', 'Time saved successfully.');
     }
 
 

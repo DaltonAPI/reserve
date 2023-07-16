@@ -203,16 +203,13 @@
             const day = this.dataset.day;
             const startInput = document.getElementById(`${day}-start`);
             const endInput = document.getElementById(`${day}-end`);
-            const isMobileView = window.innerWidth < 768;
 
             if (this.checked) {
                 startInput.classList.remove('hidden');
                 endInput.classList.remove('hidden');
-                if (isMobileView) {
-                    // If it's mobile view, initialize Flatpickr for the current day inputs
-                    initializeFlatpickr(startInput);
-                    initializeFlatpickr(endInput);
-                }
+                // Initialize Flatpickr for both mobile and desktop views
+                initializeFlatpickr(startInput);
+                initializeFlatpickr(endInput);
             } else {
                 startInput.classList.add('hidden');
                 endInput.classList.add('hidden');
@@ -268,6 +265,7 @@
                 });
             }
         });
+
     </script>
 
 
