@@ -164,7 +164,17 @@
                                     @error('serviceList')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
-                                    <ul id="serviceList" class="mt-2"></ul>
+                                    <ul id="serviceList" class="mt-2">
+                                        @if(old('serviceList'))
+                                            @php
+                                                $services = json_decode(old('serviceList'));
+                                            @endphp
+                                            @foreach($services as $service)
+                                                <li>{{ $service }}</li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                                    <input type="hidden" name="serviceList" id="hiddenServiceInput" value="{{ old('serviceList') }}">
                                     <button onclick="addService(event)" type="button" class="mt-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
                                         Add Service
                                     </button>
@@ -224,9 +234,10 @@
 
 
 
+<!-- Add the following script after the HTML content -->
 <script>
     // Initialize an empty array to store the services
-    var services = [];
+    var services = {!! old('serviceList', '[]') !!};;
 
     // Function to add a service to the array
     function addService(event) {
@@ -273,8 +284,8 @@
         event.preventDefault();
 
         // Update the hidden input value with the JSON string of services
-        var input = document.getElementById("serviceInput");
-        input.value = JSON.stringify(services);
+        var hiddenInput = document.getElementById("hiddenServiceInput");
+        hiddenInput.value = JSON.stringify(services);
 
         // Submit the form
         var form = document.getElementById("myForm");
