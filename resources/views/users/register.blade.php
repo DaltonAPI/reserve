@@ -158,29 +158,24 @@
                                 @enderror
                             @endforeach
                                 <div class="mb-4">
-                                    <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
-                                    <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "Remove Service" to remove service.</p>
+
+                                   <div class="mb-2">
+                                       <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
+                                       <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "X" to remove service.</p>
+                                   </div>
                                     <input type="text" name="serviceList" id="serviceInput" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="eg. repair, house cleaning, lawn cutting">
                                     @error('serviceList')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
                                     <ul id="serviceList" class="mt-2">
-                                        @if(old('serviceList'))
-                                            @php
-                                                $services = json_decode(old('serviceList'));
-                                            @endphp
-                                            @foreach($services as $service)
-                                                <li>{{ $service }}</li>
-                                            @endforeach
-                                        @endif
                                     </ul>
                                     <input type="hidden" name="serviceList" id="hiddenServiceInput" value="{{ old('serviceList') }}">
-                                    <button onclick="addService(event)" type="button" class="mt-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
-                                        Add Service
+                                    <button onclick="addService(event)" type="button" class=" bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
+                                       <icon class="fa fa-plus"></icon>
                                     </button>
-                                    <button onclick="removeService(event)" type="button" class="mt-3 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">
-                                        Remove Last Service
-                                    </button>
+{{--                                    <button onclick="removeService(event)" type="button" class="mt-3 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">--}}
+{{--                                        Remove Last Service--}}
+{{--                                    </button>--}}
 
                                 </div>
 
@@ -252,6 +247,7 @@
             services.push(service);
             input.value = ""; // Clear the input field
             renderServiceList(); // Update the displayed service list
+            saveServicesToLocalStorage();
         }
     }
 
@@ -264,6 +260,7 @@
             services.pop();
             renderServiceList(); // Update the displayed service list
         }
+        saveServicesToLocalStorage();
     }
 
     // Function to render the service list on the page
@@ -272,14 +269,58 @@
         serviceList.innerHTML = ""; // Clear the list
 
         // Add each service as a list item
-        services.forEach(function (service) {
+        services.forEach(function (service, index) {
             var listItem = document.createElement("li");
             listItem.textContent = service;
+
+
+            listItem.className = "inline-flex items-center bg-gray-100 text-gray-800 rounded-full px-3 py-1 mr-2 mb-2";
+
+            // Create a span element for the "x" and add a click event to remove the item
+            var removeButton = document.createElement("span");
+            removeButton.textContent = "x";
+            removeButton.className = "text-red-500 hover:text-red-700 ml-2 remove-item-button";
+            removeButton.setAttribute("data-index", index);
+            removeButton.onclick = removeItem;
+
+            // Append the removeButton to the listItem
+            listItem.appendChild(removeButton);
+
+            // Append the listItem to the serviceList
             serviceList.appendChild(listItem);
         });
     }
 
-    // Function to submit the form
+    // Function to remove a specific item from the services array
+    function removeItem(event) {
+        var indexToRemove = event.target.getAttribute("data-index");
+        if (indexToRemove !== null) {
+            services.splice(indexToRemove, 1);
+            renderServiceList(); // Update the displayed service list
+        }
+        saveServicesToLocalStorage();
+    }
+    function saveServicesToLocalStorage() {
+        localStorage.setItem("services", JSON.stringify(services));
+    }
+
+
+    function loadServicesFromLocalStorage() {
+        var storedServices = localStorage.getItem("services");
+        if (storedServices) {
+            services = JSON.parse(storedServices);
+            renderServiceList(); // Update the displayed service list
+        }
+    }
+
+    // Call the loadServicesFromLocalStorage function when the page loads
+    window.onload = function () {
+        loadServicesFromLocalStorage(); // Load services array from localStorage
+
+        // After loading the services, clear the local storage so that items are not retained if the form submission fails
+        localStorage.removeItem("services");
+    };
+
     function submitForm(event) {
         event.preventDefault();
 
@@ -293,7 +334,7 @@
 
         // Clear the input field and service list after submitting the form
         input.value = "";
-        services = [];
-        renderServiceList();
     }
+
+
 </script>
