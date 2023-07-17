@@ -7,18 +7,18 @@
                 @if (auth()->user()->id === $user->id)
                     <div class="flex ">
                         @if (!isset($id))
-                            <a href="/createTimePicker" class="edit-icon absolute top-0 right-12 m-2 text-pink-600 hover:text-pink-700">
+                            <a href="/createTimePicker" class="edit-icon absolute top-0 right-12 m-2 text-gray-600 hover:text-pink-700">
                                 <i class="fas fa-clock"></i>
                             </a>
                         @endif
-                        <a href="/edit/user" class="edit-icon absolute top-0 right-6 m-2 text-pink-600 hover:text-pink-700">
+                        <a href="/edit/user" class="edit-icon absolute top-0 right-6 m-2 text-gray-600 hover:text-pink-300">
                             <i class="fas fa-edit"></i>
                         </a>
                         <form id="profileForm{{$user->id}}" method="POST" action="{{ route('profile.destroy', $user->id) }}" onsubmit="return confirm('Are you sure you want to delete this account?')">
                             @csrf
                             @method('DELETE')
                             <!-- Rest of the form code -->
-                            <button type="submit" ><a class="save-icon  absolute top-0 right-0 m-2 text-pink-600 hover:text-pink-700">
+                            <button type="submit" ><a class="save-icon  absolute top-0 right-0 m-2 text-gray-600 hover:text-pink-300">
                                 <button><i class="fas fa-trash"></i></button>
                              </a></button>
                             </form>

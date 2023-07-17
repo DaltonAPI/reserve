@@ -2,7 +2,7 @@
     <x-card class=" max-w-lg mx-auto ">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">Login</h2>
-            <p class="mb-4">Log into your account to post gigs</p>
+            <p class="mb-4">Log into your account to post work</p>
         </header>
 
         <form method="POST" action="/users/authenticate">
