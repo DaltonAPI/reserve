@@ -1,6 +1,6 @@
 @auth
     @unless(count($filteredUsers) == 0)
-        <h3 class="font-semibold text-lg mt-5">Connections</h3>
+        <h3 class="font-semibold text-lg mt-5" style="color: white !important;">Connections</h3>
     @endunless
     @foreach($filteredUsers as $user)
         @if (($user->account_type === 'Client' && auth()->user()->account_type === 'Business') || ($user->account_type === 'Business' && auth()->user()->account_type === 'Client'))
