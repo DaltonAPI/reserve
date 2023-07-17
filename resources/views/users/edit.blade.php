@@ -148,7 +148,7 @@
                                     <input type="hidden" name="serviceList" id="hiddenServiceInput" value="{{ $user->serviceList}}">
 
                                     <button onclick="addService(event)" type="button" class="mt-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
-                                        Add Service
+                                       <icon class="fa fa-plus"></icon>
                                     </button>
 
                                 </div>
