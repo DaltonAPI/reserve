@@ -6,28 +6,31 @@
         @if (($user->account_type === 'Client' && auth()->user()->account_type === 'Business') || ($user->account_type === 'Business' && auth()->user()->account_type === 'Client'))
             @if($user->connectedUsers->contains(auth()->user()) || auth()->user()->connectedUsers->contains($user))
                 <div class="space-y-4 mt-3">
-                    <div class="flex items-center space-x-1">
-                        <img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $user->photos) }}" alt="User 1 Image">
-                        <div style="color: white !important;">
-                            @if($user['client-name'])
-                                <h3 class="ml-3 font-semibold">{{$user['client-name']}}</h3>
-                            @elseif($user->name)
-                                <h3 class="ml-3 font-semibold">{{$user->name}}</h3>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $user->photos) }}" alt="User 1 Image">
+                            <div class="text-white">
+                                @if($user['client-name'])
+                                    <h3 class="ml-3 font-semibold">{{$user['client-name']}}</h3>
+                                @elseif($user->name)
+                                    <h3 class="ml-3 font-semibold">{{$user->name}}</h3>
+                                @endif
+                            </div>
+                            @if(auth()->user()->account_type === 'Business')
+                                <a href="/listings/create/{{$user->id}}/{{auth()->id()}}" class="ml-4 inline-block">
+                                    <i class="fas fa-calendar-plus text-teal-500"></i>
+                                </a>
+                            @elseif(auth()->user()->account_type === 'Client')
+                                <a href="/listings/create/{{auth()->id()}}/{{$user->id}}" class="ml-4 inline-block">
+                                    <i class="fas fa-calendar-plus text-teal-500"></i>
+                                </a>
                             @endif
                         </div>
-                        @if(auth()->user()->account_type === 'Business')
-                            <a href="/listings/create/{{$user->id}}/{{auth()->id()}}" class="ml-4 inline-block">
-                                <i class="fas fa-calendar-plus text-teal-500 "></i>
-                            </a>
-                        @elseif(auth()->user()->account_type === 'Client')
-                            <a href="/listings/create/{{auth()->id()}}/{{$user->id}}" class="ml-4 inline-block">
-                                <i class="fas fa-calendar-plus text-teal-500 "></i>
-                            </a>
-                        @endif
-
+                        <!-- Additional content for users with pending requests or connected users -->
                     </div>
-                    <!-- Additional content for users with pending requests or connected users -->
                 </div>
+
+
             @endif
         @endif
     @endforeach
