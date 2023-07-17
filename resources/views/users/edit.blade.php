@@ -116,17 +116,54 @@
                                     @if(!empty($socialMediaOptions))
                                         @foreach($socialMediaOptions as $value => $option)
                                             <div class="flex items-center mb-2">
-                                                <input type="checkbox" name="social_media[]" value="{{ $value }}" id="{{ $value }}_checkbox" class="mr-2" {{ in_array($value, is_array(old('social_media', $user->social_media)) ? old('social_media', $user->social_media) : []) ? 'checked' : '' }}>
+                                                @php
+                                                    $isChecked = in_array($value, json_decode($user->social_media, true) ?? []);
+                                                    $linkValue = $user->{$value.'_links'} ?? '';
+                                                @endphp
+                                                <input type="checkbox" name="social_media[]" value="{{ $value }}" id="{{ $value }}_checkbox" class="mr-2 social-media-checkbox" {{ $isChecked ? 'checked' : '' }}>
                                                 <label for="{{ $value }}_checkbox" class="text-sm text-gray-900">{{ $option }}</label>
                                             </div>
-                                            <div class="mb-4" id="{{ $value }}_links" style="display: {{ in_array($value, is_array(old('social_media', $user->social_media)) ? old('social_media', $user->social_media) : []) ? 'block' : 'none' }};">
+                                            <div class="mb-4" id="{{ $value }}_links" style="display: {{ $isChecked ? 'block' : 'none' }};">
                                                 <label class="block mb-2 text-sm font-medium text-gray-900">{{ $option }} Link(s)</label>
-                                                <input type="text" name="{{ $value }}_links" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{ old($value.'_links', $user->{$value.'_links'} ?? '') }}">
+                                                <input type="text" name="{{ $value }}_links" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{ $linkValue }}">
                                                 @error($value.'_links')
                                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                                 @enderror
                                             </div>
                                         @endforeach
+
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function () {
+                                                // Get all the checkboxes with the social-media-checkbox class
+                                                const checkboxes = document.querySelectorAll('.social-media-checkbox');
+
+                                                checkboxes.forEach(checkbox => {
+                                                    // Get the corresponding input field using the checkbox's value
+                                                    const value = checkbox.value;
+                                                    const inputField = document.querySelector(`input[name="${value}_links"]`);
+
+                                                    // Check the checkbox if the corresponding input field has a value
+                                                    checkbox.checked = inputField.value.trim() !== '';
+
+                                                    // Show/hide the input field based on the checkbox state
+                                                    if (checkbox.checked) {
+                                                        document.getElementById(`${value}_links`).style.display = 'block';
+                                                    } else {
+                                                        document.getElementById(`${value}_links`).style.display = 'none';
+                                                    }
+
+                                                    // Add event listener to toggle the input field visibility when the checkbox state changes
+                                                    checkbox.addEventListener('change', function () {
+                                                        if (this.checked) {
+                                                            document.getElementById(`${value}_links`).style.display = 'block';
+                                                        } else {
+                                                            document.getElementById(`${value}_links`).style.display = 'none';
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
                                     @else
                                         <p>No social media options available.</p>
                                     @endif
@@ -135,7 +172,11 @@
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
-                           @if($user->serviceList)
+
+
+
+
+                        @if($user->serviceList)
                                 <div class="mb-4">
                                     <label for="serviceInput" class="block text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
                                     <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "Remove Service" to remove a service.</p>
