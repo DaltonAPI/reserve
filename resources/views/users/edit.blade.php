@@ -104,6 +104,8 @@
                                     'Facebook' => 'Facebook',
                                     'Instagram' => 'Instagram',
                                     'Twitter' => 'Twitter',
+                                    'TikTok' => 'TikTok', // Add TikTok to the social media options
+                                    'YouTube' => 'YouTube', // Add YouTube to the social media options
                                 ];
                             @endphp
 

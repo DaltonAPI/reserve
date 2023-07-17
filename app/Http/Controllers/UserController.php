@@ -192,7 +192,8 @@ class UserController extends Controller
             'Facebook_links' => 'nullable|url',
             'Instagram_links' => 'nullable|url',
             'Twitter_links' => 'nullable|url',
-
+            'TikTok_links' => 'nullable|url',
+            'YouTube_links' => 'nullable|url',
             'location' => 'required|string',
             'photos' => 'nullable|mimes:jpeg,png,gif'
         ];
