@@ -144,82 +144,16 @@
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
                                     <ul id="serviceList" class="mt-2">
-                                        @php
-                                            $services = json_decode($user->serviceList);
-                                        @endphp
-                                        @foreach($services as $service)
-                                            <li>{{ $service }}</li>
-                                        @endforeach
                                     </ul>
+                                    <input type="hidden" name="serviceList" id="hiddenServiceInput" value="{{ $user->serviceList}}">
+
                                     <button onclick="addService(event)" type="button" class="mt-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
                                         Add Service
                                     </button>
-                                    <button onclick="removeService(event)" type="button" class="mt-3 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">
-                                        Remove Last Service
-                                    </button>
+
                                 </div>
-                                <script>
-                                    // Initialize the array with the values from $user->serviceList
-                                    var services = {!! $user->serviceList !!};
 
-                                    // Function to add a service to the array
-                                    function addService(event) {
-                                        event.preventDefault();
 
-                                        // Get the input field value
-                                        var input = document.getElementById("serviceInput");
-                                        var service = input.value.trim();
-
-                                        // Add the service to the array if it's not empty
-                                        if (service !== "") {
-                                            services.push(service);
-                                            input.value = ""; // Clear the input field
-                                            renderServiceList(); // Update the displayed service list
-                                        }
-                                    }
-
-                                    // Function to remove the last service from the array
-                                    function removeService(event) {
-                                        event.preventDefault();
-
-                                        // Remove the last service from the array
-                                        if (services.length > 0) {
-                                            services.pop();
-                                            renderServiceList(); // Update the displayed service list
-                                        }
-                                    }
-
-                                    // Function to render the service list on the page
-                                    function renderServiceList() {
-                                        var serviceList = document.getElementById("serviceList");
-                                        serviceList.innerHTML = ""; // Clear the list
-
-                                        // Add each service as a list item
-                                        services.forEach(function (service) {
-                                            var listItem = document.createElement("li");
-                                            listItem.textContent = service;
-                                            serviceList.appendChild(listItem);
-                                        });
-                                    }
-
-                                    // Function to submit the form
-                                    function submitForm(event) {
-                                        event.preventDefault();
-
-                                        // Update the hidden input value with the JSON string of services
-                                        var input = document.getElementById("serviceInput");
-                                        input.value = JSON.stringify(services);
-
-                                        // Submit the form
-                                        var form = document.getElementById("myForm");
-                                        form.submit();
-
-                                        // Clear the input field and service list after submitting the form
-                                        input.value = "";
-                                        services = [];
-                                        renderServiceList();
-                                    }
-                                </script>
 
                             @endif
                             <div class="mb-4">
@@ -257,68 +191,112 @@
 
 
 
+<script>
+    // Initialize an empty array to store the services
+    var services = {!! $user->serviceList !!};;
+
+    // Function to add a service to the array
+    function addService(event) {
+        event.preventDefault();
+
+        // Get the input field value
+        var input = document.getElementById("serviceInput");
+        var service = input.value.trim();
+
+        // Add the service to the array if it's not empty
+        if (service !== "") {
+            services.push(service);
+            input.value = ""; // Clear the input field
+            renderServiceList(); // Update the displayed service list
+            saveServicesToLocalStorage();
+        }
+    }
+
+    // Function to remove the last service from the array
+    function removeService(event) {
+        event.preventDefault();
+
+        // Remove the last service from the array
+        if (services.length > 0) {
+            services.pop();
+            renderServiceList(); // Update the displayed service list
+        }
+        saveServicesToLocalStorage();
+    }
+
+    // Function to render the service list on the page
+    function renderServiceList() {
+        var serviceList = document.getElementById("serviceList");
+        serviceList.innerHTML = ""; // Clear the list
+
+        // Add each service as a list item
+        services.forEach(function (service, index) {
+            var listItem = document.createElement("li");
+            listItem.textContent = service;
+
+
+            listItem.className = "inline-flex items-center bg-gray-100 text-gray-800 rounded-full px-3 py-1 mr-2 mb-2";
+
+            // Create a span element for the "x" and add a click event to remove the item
+            var removeButton = document.createElement("span");
+            removeButton.textContent = "x";
+            removeButton.className = "text-red-500 hover:text-red-700 ml-2 remove-item-button";
+            removeButton.setAttribute("data-index", index);
+            removeButton.onclick = removeItem;
+
+            // Append the removeButton to the listItem
+            listItem.appendChild(removeButton);
+
+            // Append the listItem to the serviceList
+            serviceList.appendChild(listItem);
+        });
+    }
+
+    // Function to remove a specific item from the services array
+    function removeItem(event) {
+        var indexToRemove = event.target.getAttribute("data-index");
+        if (indexToRemove !== null) {
+            services.splice(indexToRemove, 1);
+            renderServiceList(); // Update the displayed service list
+        }
+        saveServicesToLocalStorage();
+    }
+    function saveServicesToLocalStorage() {
+        localStorage.setItem("services", JSON.stringify(services));
+    }
+
+
+    function loadServicesFromLocalStorage() {
+        var storedServices = localStorage.getItem("services");
+        services = storedServices ? JSON.parse(storedServices) : [];
+        renderServiceList(); // Update the displayed service list
+    }
+
+    // Add an event listener to execute the loadServicesFromLocalStorage function when the DOM content is loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        loadServicesFromLocalStorage(); // Load services array from localStorage
+    });
 
 
 
-{{--<script>--}}
-{{--    // Initialize an empty array to store the services--}}
-{{--    var services = [];--}}
 
-{{--    // Function to add a service to the array--}}
-{{--    function addService(event) {--}}
-{{--        event.preventDefault();--}}
+    function submitForm(event) {
+        event.preventDefault();
 
-{{--        // Get the input field value--}}
-{{--        var input = document.getElementById("serviceInput");--}}
-{{--        var service = input.value.trim();--}}
+        // Update the hidden input value with the JSON string of services
+        var hiddenInput = document.getElementById("hiddenServiceInput");
+        hiddenInput.value = JSON.stringify(services);
 
-{{--        // Add the service to the array if it's not empty--}}
-{{--        if (service !== "") {--}}
-{{--            services.push(service);--}}
-{{--            input.value = ""; // Clear the input field--}}
-{{--            renderServiceList(); // Update the displayed service list--}}
-{{--        }--}}
-{{--    }--}}
+        // Submit the form
+        var form = document.getElementById("myForm");
+        form.submit();
 
-{{--    // Function to remove the last service from the array--}}
-{{--    function removeService(event) {--}}
-{{--        event.preventDefault();--}}
+        // Clear the input field and service list after submitting the form
+        input.value = "";
+    }
 
-{{--        // Remove the last service from the array--}}
-{{--        if (services.length > 0) {--}}
-{{--            services.pop();--}}
-{{--            renderServiceList(); // Update the displayed service list--}}
-{{--        }--}}
-{{--    }--}}
 
-{{--    // Function to render the service list on the page--}}
-{{--    function renderServiceList() {--}}
-{{--        var serviceList = document.getElementById("serviceList");--}}
-{{--        serviceList.innerHTML = ""; // Clear the list--}}
+</script>
 
-{{--        // Add each service as a list item--}}
-{{--        services.forEach(function (service) {--}}
-{{--            var listItem = document.createElement("li");--}}
-{{--            listItem.textContent = service;--}}
-{{--            serviceList.appendChild(listItem);--}}
-{{--        });--}}
-{{--    }--}}
 
-{{--    // Function to submit the form--}}
-{{--    function submitForm(event) {--}}
-{{--        event.preventDefault();--}}
 
-{{--        // Update the hidden input value with the JSON string of services--}}
-{{--        var input = document.getElementById("serviceInput");--}}
-{{--        input.value = JSON.stringify(services);--}}
-
-{{--        // Submit the form--}}
-{{--        var form = document.getElementById("myForm");--}}
-{{--        form.submit();--}}
-
-{{--        // Clear the input field and service list after submitting the form--}}
-{{--        input.value = "";--}}
-{{--        services = [];--}}
-{{--        renderServiceList();--}}
-{{--    }--}}
-{{--</script>--}}
