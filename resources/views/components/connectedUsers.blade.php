@@ -8,7 +8,7 @@
                 <div class="space-y-4 mt-3">
                     <div class="flex items-center space-x-1">
                         <img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $user->photos) }}" alt="User 1 Image">
-                        <div>
+                        <div style="color: white !important;">
                             @if($user['client-name'])
                                 <h3 class="ml-3 font-semibold">{{$user['client-name']}}</h3>
                             @elseif($user->name)
@@ -20,10 +20,6 @@
                                 <i class="fas fa-calendar-plus text-teal-500 "></i>
                             </a>
                         @elseif(auth()->user()->account_type === 'Client')
-{{--                            @php--}}
-{{--                                $clientId = auth()->id(); // Retrieve the client ID--}}
-{{--                                $connectedUser = $user->connectedUsers->firstWhere('id', $clientId);--}}
-{{--                            @endphp--}}
                             <a href="/listings/create/{{auth()->id()}}/{{$user->id}}" class="ml-4 inline-block">
                                 <i class="fas fa-calendar-plus text-teal-500 "></i>
                             </a>
