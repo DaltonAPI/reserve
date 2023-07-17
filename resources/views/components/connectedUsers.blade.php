@@ -16,6 +16,8 @@
                                     <h3 class="ml-3 font-semibold">{{$user->name}}</h3>
                                 @endif
                             </div>
+                        </div>
+                        <div class="flex items-center">
                             @if(auth()->user()->account_type === 'Business')
                                 <a href="/listings/create/{{$user->id}}/{{auth()->id()}}" class="ml-4 inline-block">
                                     <i class="fas fa-calendar-plus text-teal-500"></i>
@@ -25,10 +27,11 @@
                                     <i class="fas fa-calendar-plus text-teal-500"></i>
                                 </a>
                             @endif
+                            <!-- Additional content for users with pending requests or connected users -->
                         </div>
-                        <!-- Additional content for users with pending requests or connected users -->
                     </div>
                 </div>
+
 
 
             @endif
