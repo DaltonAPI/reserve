@@ -75,13 +75,57 @@
 
 
                         <div class="mb-6">
-                            <label for="photos" class="block mb-2 text-sm font-medium text-gray-900"> Logo(optional)</label>
-                            <input type="file" class="border border-gray-200 rounded p-2 w-full" name="photos" value="{{ old('photos') }}" />
-
+                            <label for="photos" class="block mb-2 text-sm font-medium text-gray-900">Logo (optional)</label>
+                            <div class="relative">
+                                <label for="photos-input" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 cursor-pointer">
+                                    <input type="file" class="hidden" name="photos" accept="image/*, video/*" id="photos-input" onchange="previewMedia(event)" value="{{ old('photos') }}" />
+                                    <div class="flex items-center justify-center">
+                                        <svg id="photos-upload-icon" xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M3 4a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V4zm2-1a1 1 0 00-1 1v2a1 1 0 001 1h10a1 1 0 001-1V4a1 1 0 00-1-1H5z" clip-rule="evenodd" />
+                                            <path d="M10 9a2 2 0 100-4 2 2 0 000 4z" />
+                                        </svg>
+                                    </div>
+                                    <span class="ml-3 text-red-400" style="font-size: x-small">Upload Image(jpg,png,gif)</span>
+                                </label>
+                            </div>
+                            <div class="mt-2">
+                                <div id="photos-preview" class="w-40 h-40 object-cover rounded-lg border border-gray-300" style="display: none;"></div>
+                            </div>
                             @error('photos')
                             <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                         </div>
+                        <script>
+                            function previewMedia(event) {
+                                const file = event.target.files[0];
+                                const previewElement = document.getElementById('photos-preview');
+                                const uploadIcon = document.getElementById('photos-upload-icon');
+
+                                previewElement.innerHTML = ''; // Clear previous preview content
+
+                                if (file.type.startsWith('image/')) {
+                                    const img = document.createElement('img');
+                                    img.classList.add('w-40', 'h-40', 'object-cover', 'rounded-lg', 'border', 'border-gray-300');
+                                    img.src = URL.createObjectURL(file);
+                                    previewElement.appendChild(img);
+                                } else if (file.type.startsWith('video/')) {
+                                    const video = document.createElement('video');
+                                    video.classList.add('w-40', 'h-40', 'object-cover', 'rounded-lg', 'border', 'border-gray-300');
+                                    video.src = URL.createObjectURL(file);
+                                    video.controls = true;
+                                    previewElement.appendChild(video);
+                                }
+
+                                previewElement.style.display = 'block';
+                                uploadIcon.classList.add('animate-spin'); // Start the spin animation
+
+                                // Simulate file upload delay
+                                setTimeout(function() {
+                                    uploadIcon.classList.remove('animate-spin'); // Stop the spin animation
+                                }, 2000); // Replace this with your actual file upload logic
+                            }
+                        </script>
+
 
                         <div class="business">
                             <div class="mb-4">
