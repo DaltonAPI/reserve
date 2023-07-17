@@ -100,7 +100,7 @@
                                     $colors = ['bg-pink-200', 'bg-blue-200', 'bg-green-200', 'bg-yellow-200'];
                                 @endphp
                                 @foreach(json_decode($user->serviceList) as $key => $service)
-                                    <span class="inline-block {{ $colors[$key % count($colors)] }} text-pink-800 text-xs font-medium py-1 px-2 rounded-full mb-1 mr-1">{{ $service }}</span>
+                                    <span class="inline-block {{ $colors[$key % count($colors)] }} text-black text-xs font-medium py-1 px-2 rounded-full mb-1 mr-1" style="color: black">{{ $service }}</span>
                                 @endforeach
                             </div>
 
