@@ -9,16 +9,16 @@
         <div class="container mx-auto gap-4 mx-4 mt-4 sm:w-3/4 lg:w-2/3 xl:w-1/2">
             <div class="text-center md:text-left">
                 @unless(count($filteredUsers) == 0)
-                    <h2 class=" font-bold text-gray-900 text-center">
+                    <h2 class=" font-bold text-white text-center ">
                         Connect with <span class="text-pink-500">Clients </span> here
                     </h2>
                      <x-users :filteredUsers="$filteredUsers"></x-users>
                 @endunless
 
-                <h1 class="text-3xl font-bold text-gray-900">
+                <h1 class="text-3xl font-bold  text-white">
                     Explore Our <span class="text-pink-500">Business List</span>
                 </h1>
-                <p class="font-semibold text-gray-700 mb-3">
+                <p class="font-semibold text-gray-100 mb-3">
                     Discover Local Businesses Near You
                 </p>
             </div>

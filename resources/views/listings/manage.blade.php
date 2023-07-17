@@ -1,6 +1,6 @@
 <x-sidbar :filteredUsers="$filteredUsers"/>
 <x-layout :filteredUsers="$filteredUsers">
-    <div class="flex items-center justify-center  bg-gray-100">
+    <div class="flex items-center justify-center  bg-black">
         <div class="bg-white rounded-lg shadow-md p-8">
             <h1 class="text-3xl font-bold mb-6">Manage Reservations</h1>
 

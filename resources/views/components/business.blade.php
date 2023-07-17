@@ -1,24 +1,28 @@
-
+<style>
+    .business span, p{
+        color: white;
+    }
+</style>
 <div class="flex flex-col ">
-    <div class="bg-white rounded-lg shadow-md relative mb-3">
+    <div class="bg-black rounded-lg shadow-md relative mb-3 border border-white">
 
 
             @auth
                 @if (auth()->user()->id === $user->id)
                     <div class="flex ">
                         @if (!isset($id))
-                            <a href="/createTimePicker" class="edit-icon absolute top-0 right-12 m-2 text-gray-600 hover:text-pink-700">
+                            <a href="/createTimePicker" class="edit-icon absolute top-0 right-12 m-2 text-teal-600 hover:text-pink-700">
                                 <i class="fas fa-clock"></i>
                             </a>
                         @endif
-                        <a href="/edit/user" class="edit-icon absolute top-0 right-6 m-2 text-gray-600 hover:text-pink-300">
+                        <a href="/edit/user" class="edit-icon absolute top-0 right-6 m-2 text-teal-600 hover:text-pink-300">
                             <i class="fas fa-edit"></i>
                         </a>
                         <form id="profileForm{{$user->id}}" method="POST" action="{{ route('profile.destroy', $user->id) }}" onsubmit="return confirm('Are you sure you want to delete this account?')">
                             @csrf
                             @method('DELETE')
                             <!-- Rest of the form code -->
-                            <button type="submit" ><a class="save-icon  absolute top-0 right-0 m-2 text-gray-600 hover:text-pink-300">
+                            <button type="submit" ><a class="save-icon  absolute top-0 right-0 m-2 text-teal-600 hover:text-pink-300">
                                 <button><i class="fas fa-trash"></i></button>
                              </a></button>
                             </form>
@@ -29,7 +33,7 @@
             @csrf
             @method('PUT')
 
-            <div class="flex flex-col md:flex-row">
+            <div class="flex flex-col md:flex-row business">
                 <div class="md:w-1/3 flex items-center justify-center">
                     <div class="overflow-hidden w-16 h-16 md:w-56 md:h-56 rounded-lg border border-gray-300 mt-5">
                         @if ($user->photos)
@@ -131,7 +135,7 @@
                                             $iconColor = 'text-blue-400';
                                             break;
                                         case 'TikTok':
-                                            $iconColor = 'text-black';
+                                            $iconColor = 'text-white';
                                             break;
                                         case 'YouTube':
                                             $iconColor = 'text-red-600';

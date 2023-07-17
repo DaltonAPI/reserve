@@ -45,9 +45,7 @@
             width: 100%;
         }
 
-        .bg-white {
-            background-color: #fff;
-        }
+
 
         .rounded-md {
             border-radius: 0.375rem;
@@ -74,9 +72,13 @@
                 display: block;
             }
         }
+        .time label,h1{
+            color: white !important;
+
+        }
     </style>
 
-    <div class="mx-auto gap-4 md:space-y-4 mx-4 mt-4 sm:w-3/4 lg:w-2/3 xl:w-1/2 p-4">
+    <div class="mx-auto gap-4 md:space-y-4 mx-4 mt-4 sm:w-3/4 lg:w-2/3 xl:w-1/2 p-4 time">
         <h1 class="text-3xl font-bold mb-4 text-center">Choose your available hours</h1>
         @if ($errors->any())
             <div>

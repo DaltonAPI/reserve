@@ -1,3 +1,9 @@
+<style>
+    tr td{
+        color: white;
+    }
+</style>
+
 <tr>
     <td class="border px-4 py-2">Monday</td>
     <td class="border px-4 py-2">

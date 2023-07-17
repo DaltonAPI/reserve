@@ -5,7 +5,7 @@
         <!-- Hero section -->
         <header class="text-white py-4">
             <div class="container mx-auto px-4">
-                <h1 class="text-5xl font-bold text-gray-900"><span class="text-pink-500">Discover</span> a World of People Work</h1>
+                <h1 class="text-5xl font-bold text-white"><span class="text-pink-500">Discover</span> a World of People Work</h1>
                 <p class="text-xl text-gray-900 mt-4">Explore a wide range of videos from <span class="text-pink-500">creators.</span> </p>
             </div>
         </header>

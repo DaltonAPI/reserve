@@ -13,6 +13,10 @@
 
         height: 200px;  /* Set the desired height */
     }
+    h2,p{
+        color: white !important;
+    }
+
 </style>
 
 

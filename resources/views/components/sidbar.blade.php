@@ -13,7 +13,10 @@
 
     <style>
         body {
-            background-color: #f2f2f2;
+            background-color: black;
+        }
+        li span,.me{
+            color: white !important;
         }
     </style>
 </head>
@@ -23,8 +26,8 @@
     <i class="fas fa-bars text-teal-500 text-2xl"></i>
 </button>
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transform -translate-x-full sm:translate-x-0 transition-transform ease-in-out duration-300 bg-white  ">
-    <div class="h-full px-3  overflow-y-auto bg-gray-100">
+<aside id="logo-sidebar"  class="fixed top-0 left-0 z-40 w-64 h-screen transform -translate-x-full sm:translate-x-0 transition-transform ease-in-out duration-300    border-r border-white">
+    <div class="h-full px-3  overflow-y-auto bg-black">
         <ul class="space-y-2 font-medium">
             <li>
                 <a href="/" class="flex items-center justify-center mt-2">
@@ -47,9 +50,9 @@
                                 </div>
 
                             @if( auth()->user()->name )
-                                    <h2 class="ml-1 font-bold">{{ auth()->user()->name }}</h2>
+                                    <h2 class="ml-1 font-bold me">{{ auth()->user()->name }}</h2>
                                 @elseif(auth()->user()->getAttribute('client-name'))
-                                    <h2 class="ml-1 font-bold">{{auth()->user()->getAttribute('client-name') }}</h2>
+                                    <h2 class="ml-1 font-bold me">{{auth()->user()->getAttribute('client-name') }}</h2>
                                 @endif
                             </div>
                         </section>

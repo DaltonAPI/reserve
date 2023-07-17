@@ -1,7 +1,12 @@
+<style>
+    .list p,h3{
+        color: white !important;
+
+    }
+</style>
 
 
-
-<div class="container mx-auto gap-4 space-y-4 md:space-y-0 mx-4 mt-4">
+<div class="container mx-auto gap-4 space-y-4 md:space-y-0 mx-4 mt-4 list">
     <?php
     $currentDate = date('Y-m-d');
     $listingDate = date('Y-m-d', strtotime($listing->date));
@@ -9,7 +14,7 @@
 
     @if ((!isset($_GET['active']) || $_GET['active'] === 'upcoming') && $listingDate >= $currentDate)
         <!-- Display only upcoming listings -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <div class="bg-black text-white rounded-lg shadow-md p-6 mb-8">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
                 <img class="w-16 h-16 rounded-full mr-4"  src="{{ asset('storage/' . $listing->user->photos) }}" alt="Business Logo">
@@ -114,14 +119,14 @@
 
 
         <div class="bg-gray-100 p-4 rounded">
-            <h3 class=" font-bold">Status</h3>
-            <p class="text-base text-gray-800">{{ $listing->status }}</p>
+            <h3 class=" font-bold " style="color: black !important;">Status</h3>
+            <p class="text-base text-gray-800" style="color: black !important;">{{ $listing->status }}</p>
         </div>
     </div>
 
 
     @elseif (isset($_GET['active']) && $_GET['active'] === 'past' && $listingDate < $currentDate)
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <div class="bg-black text-white rounded-lg shadow-md p-6 mb-8">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
                 <img class="w-16 h-16 rounded-full mr-4"  src="{{ asset('storage/' . $listing->user->photos) }}" alt="Business Logo">
@@ -222,8 +227,8 @@
             </div>
 
             <div class="bg-gray-100 p-4 rounded">
-                <h3 class=" font-bold">Status</h3>
-                <p class="text-base text-gray-800">{{ $listing->status }}</p>
+                <h3 class=" font-bold " style="color: black !important;">Status</h3>
+                <p class="text-base text-gray-800" style="color: black !important;">{{ $listing->status }}</p>
             </div>
 
         </div>

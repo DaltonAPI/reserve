@@ -4,7 +4,7 @@
     </div>
 @endif
 
-<div class="bg-gray-100 py-3 ">
+<div class="bg-black py-3 ">
     <div class="max-w-6xl mx-auto">
         <div class="overflow-x-auto relative">
             <div class="flex items-center">
@@ -15,7 +15,7 @@
                 <ul id="userList" class="flex space-x-2 overflow-x-auto ">
                     @foreach($filteredUsers as $user)
                         @if($user->account_type === 'Client')
-                            <li class="flex  items-center space-x-1 border border-gray-200 p-2 bg-white rounded-lg shadow-md">
+                            <li class="flex  items-center space-x-1 border border-gray-200 p-2 bg-black rounded-lg shadow-md">
                                 @if($user->photos)
                                 <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-teal-400">
                                     <img src="{{ asset('storage/' . $user->photos) }}" alt="User Avatar" class="w-full h-full object-cover rounded-full">
@@ -25,7 +25,7 @@
                                         <img src="/images/avatar.png" alt="User Avatar" class="w-full h-full object-cover rounded-full">
                                     </div>
                                 @endif
-                                <h3 class=" font-semibold text-center ">{{$user['client-name']}}</h3>
+                                <h3 class=" font-semibold text-center text-white">{{$user['client-name']}}</h3>
                                 @auth
                                     @if (($user->account_type === 'Client' && auth()->user()->account_type === 'Business') || ($user->account_type === 'Business' && auth()->user()->account_type === 'Client') )
                                         @if ($user->sentConnectionRequests->contains(auth()->user()))

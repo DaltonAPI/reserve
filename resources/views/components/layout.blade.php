@@ -42,7 +42,7 @@
   <title>Reservify | Simply bookings with Reservify</title>
 </head>
 
-<body class=" bg-gray-100">
+<body style="" >
 
 
 <nav class="flex justify-between items-  mt-4 ">

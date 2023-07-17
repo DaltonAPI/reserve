@@ -7,7 +7,7 @@
 
             @unless(count($listings) == 0)
                 <div class="mx-auto">
-                    <div class="border-t-4 border-pink-300 rounded-t-lg">
+                    <div class="  rounded-t-lg">
                         <div class="flex">
                             <button class="flex-1 py-2 px-4 <?php echo isset($_GET['active']) && $_GET['active'] === 'upcoming' ? 'bg-pink-300 text-white' : 'bg-gray-100 text-gray-700'; ?> rounded-tr-lg font-semibold focus:outline-none" onclick="location.href='?active=upcoming'">({{$upcomingListings}}) Upcoming  </button>
                             <button class="flex-1 py-2 px-4 <?php echo isset($_GET['active']) && $_GET['active'] === 'past' ? 'bg-pink-300 text-white' : 'bg-gray-100 text-gray-700'; ?> rounded-tl-lg font-semibold focus:outline-none" onclick="location.href='?active=past'">({{$pastListings}}) Past </button>
