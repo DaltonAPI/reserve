@@ -13,10 +13,10 @@ class TimeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $id)
     {
         $user = auth()->user();
-        $times = Time::where('user_id', $user->id)->get();
+        $times = Time::where('user_id', $id)->get();
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
         return view('time.index', compact('user','times','filteredUsers'));
