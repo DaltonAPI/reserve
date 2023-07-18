@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-<button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="fixed top-0 left-0 inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+<button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="fixed top-0 left-0 inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
     <span class="sr-only">Open sidebar</span>
     <i class="fas fa-bars text-teal-500 text-2xl"></i>
 </button>
@@ -61,33 +61,33 @@
             </li>
 
             <li>
-                <a href="/listings/manage" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                <a href="/listings/manage" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-600">
                     <i class="fas fa-tachometer-alt text-teal-500"></i>
                     <span class="ml-3">Dashboard</span>
                 </a>
             </li>
             <li>
                 @auth
-                <a href="/reservations/{{auth()->user()->id}}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                <a href="/reservations/{{auth()->user()->id}}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-600">
                     <i class="fas fa-calendar-check text-teal-500"></i>
                     <span class="ml-3">My Reservations </span>
                 </a>
                 @endauth
             </li>
             <li>
-                <a href="/posts" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                <a href="/posts" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-600">
                     <i class="fas fa-newspaper text-teal-500"></i>
                     <span class="ml-2">Posts</span>
                 </a>
             </li>
             <li>
-                <a href="/calendar" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                <a href="/calendar" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-600">
                     <i class="fas fa-calendar-alt text-teal-500"></i>
                     <span class="ml-3">Calendar</span>
                 </a>
             </li>
             <li>
-                <a href="/landing" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                <a href="/landing" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-600">
                     <i class="fas fa-building text-teal-500"></i>
                     <span class="ml-3">Business List</span>
                 </a>
