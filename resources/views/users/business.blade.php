@@ -26,9 +26,8 @@
             @unless(count($filteredUsers) == 0)
                 @foreach($filteredUsers as $user)
                     @if($user->account_type === 'Business')
-                        <a href="getTime/{{$user->id}}">
+
                         <x-business :user="$user" />
-                        </a>
                     @elseif(count($filteredUsers) == 0)
                         <p>No listings found</p>
                     @endif
