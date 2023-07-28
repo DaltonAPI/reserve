@@ -28,11 +28,11 @@ class ListingController extends Controller
         $currentDate = date('Y-m-d');
 
 
-        $listings = $listings->latest()->filter(request(['tag', 'search']))->paginate(6);
+        $listings = $listings->latest()->filter(request(['tag', 'search']))->paginate(30);
         $upcomingListings = $listings->where('date', '>=', date('Y-m-d', strtotime($currentDate)))->count();
         $pastListings = $listings->where('date', '<', date('Y-m-d', strtotime($currentDate)))->count();
         $searchTerm = $request->input('search');
-        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
 
         return view('listings.index', compact('user', 'listings', 'filteredUsers','upcomingListings','pastListings'));
     }
@@ -45,8 +45,8 @@ class ListingController extends Controller
     public function allLisings(Request $request)
     {
         $searchTerm = $request->input('search');
-        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
-        $listings = Listing::latest()->filter(request(['tag', 'search']))->paginate(6);
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
+        $listings = Listing::latest()->filter(request(['tag', 'search']))->paginate(30);
         return view('listings.allListings', compact( 'listings','filteredUsers'));
     }
 
@@ -72,7 +72,7 @@ class ListingController extends Controller
 
         // Retrieve the filtered users for the sidebar
         $searchTerm = $request->input('search');
-        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
 
         return view('listings.create', compact('user', 'filteredUsers', 'client', 'clientId', 'businessId'));
     }

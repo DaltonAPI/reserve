@@ -19,8 +19,8 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $searchTerm = $request->input('search');
-        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
-        $posts = Post::with('comments','author','likedBy')->latest()->filter(request(['search']))->paginate(6);
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
+        $posts = Post::with('comments','author','likedBy')->latest()->filter(request(['search']))->paginate(30);
         return view('posts.posts', compact('posts','filteredUsers'));
     }
 

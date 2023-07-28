@@ -142,7 +142,7 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $searchTerm = $request->input('search');
-        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
         return view('users.edit', compact('user','filteredUsers'));
     }
 
@@ -166,7 +166,7 @@ class UserController extends Controller
     public function show(Request $request)
     {
         $searchTerm = $request->input('search');
-        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
 //        dd($filteredUsers);
 
         return view('users.business', compact('filteredUsers'));
