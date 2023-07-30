@@ -1,11 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <style>
+        /* Additional styles for Google Calendar-like appearance */
+        .grid {
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+        }
+        .grid > div {
+            padding: 0.625rem 0;
+            border: 1px solid #e4e4e4;
+        }
+        .grid > div:hover {
+            background-color: #f1f3f4;
+        }
+        .grid > div.active {
+            background-color: #4285f4;
+            color: #ffffff;
+        }
+        .grid > div:not(:empty) {
+            cursor: pointer;
+            position: relative;
+        }
+        .grid > div:not(:empty)::after {
+            content: '';
+            position: absolute;
+            right: 0.25rem;
+            top: 0.25rem;
+            height: 0.75rem;
+            width: 0.75rem;
+            border-radius: 50%;
+            background-color: #4285f4;
+        }
+        .grid > div.active::after {
+            background-color: #ffffff;
+        }
+        .event-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 0.25rem;
+            background-color: #fff;
+            border: 1px solid #e4e4e4;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 150ms ease-in-out;
+        }
+        .grid > div:hover .event-container {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .event-item {
+            padding: 0.125rem 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
 <body>
-<div class="container mx-auto ">
+<div class="container mx-auto">
     <div class="bg-white rounded shadow-md p-4">
         <h2 class="text-xl font-bold mb-4">
             <?php
@@ -39,16 +99,21 @@
         </div>
 
         <div class="grid grid-cols-7 gap-2">
-            <div class="text-center">Sun</div>
-            <div class="text-center">Mon</div>
-            <div class="text-center">Tue</div>
-            <div class="text-center">Wed</div>
-            <div class="text-center">Thu</div>
-            <div class="text-center">Fri</div>
-            <div class="text-center">Sat</div>
+            <div class="text-center text-gray-600 font-bold">Sun</div>
+            <div class="text-center text-gray-600 font-bold">Mon</div>
+            <div class="text-center text-gray-600 font-bold">Tue</div>
+            <div class="text-center text-gray-600 font-bold">Wed</div>
+            <div class="text-center text-gray-600 font-bold">Thu</div>
+            <div class="text-center text-gray-600 font-bold">Fri</div>
+            <div class="text-center text-gray-600 font-bold">Sat</div>
 
             <?php
 
+
+            function getRandomColor()
+            {
+                return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
 
             $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
             $firstDayOfMonth = date('N', strtotime($currentYear . '-' . $currentMonth . '-01'));
@@ -65,19 +130,28 @@
             for ($day = 1; $day <= $daysInMonth; $day++) {
                 $date = date('Y-m-d', strtotime($currentYear . '-' . $currentMonth . '-' . $day));
                 $dayOfWeek = date('N', strtotime($date));
-                $highlighted = false;
+                $events = array();
 
                 foreach ($reservationData as $reservation) {
                     $reservationDate = date('Y-m-d', strtotime($reservation['date']));
                     if ($date === $reservationDate) {
-                        $highlighted = true;
-                        break;
+                        $events[] = $reservation;
                     }
                 }
 
-                echo '<div class="text-center';
-                echo $highlighted ? ' bg-pink-500 text-white' : '';
-                echo '">' . $day . '</div>';
+                echo '<div class="text-center relative';
+                echo !empty($events) ? ' active' : '';
+                echo '">';
+                echo '<div class="w-6 h-6 rounded-full mx-auto"';
+                echo !empty($events) ? ' style="background-color: ' . getRandomColor() . ';"' : '';
+                echo '></div>';
+                echo '<div class="text-sm mt-1">' . $day . '</div>';
+                echo '<div class="event-container">';
+                foreach ($events as $event) {
+                    echo '<div class="event-item text-xs bg-white" style="background-color: ' . getRandomColor() . ';">' . $event['customer_name'] . '</div>';
+                }
+                echo '</div>';
+                echo '</div>';
 
                 if (($day + $gridCells) % 7 == 0) {
                     echo '</div><div class="grid grid-cols-7 gap-2">';
