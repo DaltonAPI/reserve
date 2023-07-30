@@ -148,7 +148,13 @@
                 echo '<div class="text-sm mt-1">' . $day . '</div>';
                 echo '<div class="event-container">';
                 foreach ($events as $event) {
-                    echo '<div class="event-item text-xs bg-white" style="background-color: ' . getRandomColor() . ';">' . $event['customer_name'] . '</div>';
+                    // Extract the time from the reservation data and convert it to 12-hour format
+                    $reservationTime = date('h:i A', strtotime($event['time']));
+
+                    // Display the event item with "@" and the time
+                    echo '<div class="event-item text-xs bg-white" style="background-color: ' . getRandomColor() . ';">';
+                    echo  $event['customer_name']. ' ' . '@' . ' ' . $reservationTime ;
+                    echo '</div>';
                 }
                 echo '</div>';
                 echo '</div>';
