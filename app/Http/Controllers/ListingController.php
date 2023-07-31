@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Listing;
 use App\Models\Notifications\ReservationCreatedNotification;
+use App\Models\Time;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -244,14 +245,15 @@ class ListingController extends Controller
     }
 
 
-    public function calendar(Request $request)
+    public function calendar(Request $request, $id)
     {
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
         $user = auth()->user();
-        $reservationData =  Listing::where('user_id', $user->id)->get();
-        $events = [];
-        return view('listings.calendar', compact('user', 'reservationData','filteredUsers','events'));
+        $reservationData =  Listing::where('user_id', $id)->get();
+
+        $times = Time::where('user_id', $id)->get();
+        return view('listings.calendar', compact('user', 'reservationData','filteredUsers','times'));
     }
 
 

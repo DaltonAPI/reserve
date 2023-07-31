@@ -62,9 +62,28 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .grid > div.active-reservation {
+            background-color: red;
+            color: #ffffff;
+        }
+
+        .grid > div.active-blocked {
+            background-color: deeppink;
+            color: #ffffff;
+        }
+
+        /* Override background color for active-blocked day names */
+        .grid > div.active-blocked.text-gray-600 {
+            background-color: #ffffff;
+            color: #000000; /* Set the desired text color for blocked day names */
+        }
+        .grid > div.text-center:empty {
+            background-color: #ffffff;
+        }
     </style>
 </head>
 <body>
+
 <div class="container mx-auto">
     <div class="bg-white rounded shadow-md p-4">
         <h2 class="text-xl font-bold mb-4">
@@ -176,5 +195,59 @@
         </div>
     </div>
 </div>
+<script>
+    // Store the $times data in a JavaScript variable
+    var timesData = <?php echo json_encode($times); ?>;
+
+    // Function to set the background color based on the presence of times data
+    function setDayBackground() {
+        var gridCells = document.querySelectorAll('.grid > div');
+
+        // Iterate over all grid cells (calendar days)
+        gridCells.forEach(function(cell, index) {
+            var dayOfWeek = index % 7; // 0: Sunday, 1: Monday, ..., 6: Saturday
+            var isDayBlocked = false;
+            var isReservationDate = false;
+
+            // Check if the day is included in $times data
+            timesData.forEach(function(timeEntry) {
+                if (timeEntry[getDayKey(dayOfWeek) + '-start'] !== null) {
+                    isDayBlocked = true;
+                }
+            });
+
+            // Check if the day is a reservation date
+            var reservationDate = cell.querySelector('.text-sm')?.textContent;
+            if (reservationDate && reservationDate !== '') {
+                isReservationDate = true;
+            }
+
+            // Apply the appropriate background color based on the checks
+            if (isDayBlocked) {
+                cell.classList.add('active-blocked');
+            } else {
+                cell.classList.remove('active-blocked');
+            }
+
+            if (isReservationDate && !isDayBlocked) {
+                cell.classList.add('active-reservation');
+            } else {
+                cell.classList.remove('active-reservation');
+            }
+        });
+    }
+
+    // Helper function to get the day key (e.g., "monday-start") based on the day index
+    function getDayKey(dayIndex) {
+        var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        return days[dayIndex];
+    }
+
+    // Call the function when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        setDayBackground();
+    });
+</script>
+
 </body>
 </html>
