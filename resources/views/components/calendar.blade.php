@@ -83,7 +83,16 @@
     </style>
 </head>
 <body>
-
+<div class="mt-4 p-4 border border-gray-300 rounded" style="background: white;">
+    <div class="flex items-center mb-2">
+        <div class="w-6 h-6 rounded-full bg-red mr-2" style="background: red"></div>
+        <div>Blocked Dates</div>
+    </div>
+    <div class="flex items-center">
+        <div class="w-6 h-6 rounded-full bg-deeppink mr-2" style="background: deeppink"></div>
+        <div>Available Dates</div>
+    </div>
+</div>
 <div class="container mx-auto">
     <div class="bg-white rounded shadow-md p-4">
         <h2 class="text-xl font-bold mb-4">
@@ -195,6 +204,7 @@
         </div>
     </div>
 </div>
+
 <script>
     // Store the $times data in a JavaScript variable
     var timesData = <?php echo json_encode($times); ?>;
