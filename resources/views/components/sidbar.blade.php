@@ -81,10 +81,12 @@
                 </a>
             </li>
             <li>
+                @auth
                 <a href="/calendar/{{auth()->user()->id}}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-600">
                     <i class="fas fa-calendar-alt text-teal-500"></i>
                     <span class="ml-3">Calendar</span>
-                </a>
+
+                @endauth
             </li>
             <li>
                 <a href="/landing" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-600">
