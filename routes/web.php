@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Listing;
 use App\Http\Controllers\TimeController;
+use Spatie\GoogleCalendar\Event;
 /*
-|--------------------------------------------------------------------------
+|--------------------------------------------------------------------------x
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -36,7 +37,7 @@ Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 Route::post('/createPost', [PostController::class, 'createPost'])->name('posts.create');;
 Route::get('/landing', [UserController::class, 'show']);
-Route::get('/calendar', [ListingController::class, 'calendar'])->middleware('auth');;
+Route::get('/calendar/{id}', [ListingController::class, 'calendar'])->middleware('auth');;
 
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');;
 
@@ -126,3 +127,20 @@ Route::patch('/connections/{user}', [ConnectionsController::class, 'acceptReques
 Route::post('/addtimes', [TimeController::class, 'store']);
 Route::get('/createTimePicker', [TimeController::class, 'create']);
 Route::get('/getTime/{id}', [TimeController::class, 'index']);
+
+
+//Route::get('/test', function () {
+//    $event = new Event;
+//
+//    $event->name = 'A new event';
+//    $event->description = 'Event description';
+//    $event->startDateTime = Carbon\Carbon::now();
+//    $event->endDateTime = Carbon\Carbon::now()->addHour();
+//
+//
+//
+//    $event->save();
+//
+//    $e = Event::get();
+//    dd($e);
+//});
