@@ -68,7 +68,7 @@
         }
 
         .grid > div.active-blocked {
-            background-color: deeppink;
+            background-color: teal;
             color: #ffffff;
         }
 
@@ -89,7 +89,7 @@
         <div>Blocked Dates</div>
     </div>
     <div class="flex items-center">
-        <div class="w-6 h-6 rounded-full bg-deeppink mr-2" style="background: deeppink"></div>
+        <div class="w-6 h-6 rounded-full bg-deeppink mr-2" style="background: teal"></div>
         <div>Available Dates</div>
     </div>
 </div>

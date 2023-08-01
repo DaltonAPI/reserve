@@ -14,7 +14,7 @@
 
     @if ((!isset($_GET['active']) || $_GET['active'] === 'upcoming') && $listingDate >= $currentDate)
         <!-- Display only upcoming listings -->
-    <div class="bg-black text-white rounded-lg shadow-md p-6 mb-8">
+    <div class="bg-black text-white rounded-lg shadow-md p-6 mb-8 border border-white">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
                 <img class="w-16 h-16 rounded-full mr-4"  src="{{ asset('storage/' . $listing->user->photos) }}" alt="Business Logo">
@@ -81,16 +81,18 @@
         </div>
 
         <div class="flex items-center justify-between">
-            <div class="w-2/3">
-                <p class="text-gray-600">Type of Service: <span class="font-semibold"> {{ $listing->title }} </span></p>
+            <div class="w-2/3 py-5">
+
+                <p class="text-gray-600"> <i class="fas fa-tools text-teal-600 mr-2"></i> <span class="font-semibold"> {{ $listing->title }} </span></p>
                 @if ($listing->customer_name)
-                    <p class="text-gray-600">Customer Name: <span class="font-semibold">{{ $listing->customer_name }}</span></p>
+                    <p class="text-gray-600"> <i class="fas fa-user text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->customer_name }}</span></p>
                 @endif
                 @if ($listing->email)
-                    <p class="text-gray-600">Customer Email: <span class="font-semibold">{{ $listing->email }}</span></p>
+                    <p class="text-gray-600"><i class="fas fa-envelope text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->email }}</span></p>
                 @endif
                 @if ($listing->customer_phone)
-                    <p class="text-gray-600">Customer Phone: <span class="font-semibold">{{ $listing->customer_phone }}</span></p>
+
+                    <p class="text-gray-600"> <i class="fas fa-phone-alt text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->customer_phone }}</span></p>
                 @endif
             </div>
             <div class="w-1/2">
@@ -189,17 +191,18 @@
         </div>
 
             <div class="flex items-center justify-between">
-                <div class="w-2/3">
+                <div class="w-2/3 py-5">
 
-                    <p class="text-gray-600">Type of Service: <span class="font-semibold"> {{ $listing->title }} </span></p>
+                    <p class="text-gray-600"> <i class="fas fa-tools text-teal-600 mr-2"></i> <span class="font-semibold"> {{ $listing->title }} </span></p>
                     @if ($listing->customer_name)
-                        <p class="text-gray-600">Customer Name: <span class="font-semibold">{{ $listing->customer_name }}</span></p>
+                        <p class="text-gray-600"> <i class="fas fa-user text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->customer_name }}</span></p>
                     @endif
                     @if ($listing->email)
-                        <p class="text-gray-600">Customer Email: <span class="font-semibold">{{ $listing->email }}</span></p>
+                        <p class="text-gray-600"><i class="fas fa-envelope text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->email }}</span></p>
                     @endif
                     @if ($listing->customer_phone)
-                        <p class="text-gray-600">Customer Phone: <span class="font-semibold">{{ $listing->customer_phone }}</span></p>
+
+                        <p class="text-gray-600"> <i class="fas fa-phone-alt text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->customer_phone }}</span></p>
                     @endif
                 </div>
                 <div class="w-1/2">
