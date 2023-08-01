@@ -8,7 +8,12 @@
                 <div class="space-y-4 mt-3">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $user->photos) }}" alt="User 1 Image">
+                            @if($user->photos)
+                                <img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $user->photos) }}" alt="User 1 Image">
+                            @else
+                                <img class="w-8 h-8 rounded-full" src="/images/avatar.png" alt="User 1 Image">
+                            @endif
+
                             <div class="text-white">
                                 @if($user['client-name'])
                                     <h3 class="ml-3 font-semibold">{{$user['client-name']}}</h3>
