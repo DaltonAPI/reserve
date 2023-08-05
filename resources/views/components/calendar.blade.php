@@ -84,6 +84,7 @@
 </head>
 <body>
 <div class="mt-4 p-4 border border-gray-300 rounded" style="background: white;">
+    <div id="availability-message" class="message"></div>
     <div class="flex items-center mb-2">
         <div class="w-6 h-6 rounded-full bg-red mr-2" style="background: red"></div>
         <div>Blocked Dates</div>
@@ -167,11 +168,18 @@
                     }
                 }
 
+                $isDateReserved = count($events) > 0;
+
                 echo '<div class="text-center relative';
-                echo !empty($events) ? ' active' : '';
-                echo '">';
+                echo $isDateReserved ? ' active' : '';
+                echo ($isDateReserved ? ' active-blocked' : '') . '"';
+
+
+                 echo ' id="date-cell-' . $date . '" onclick="redirectToURL(\'' . $date . '\');"';
+
+                echo '>';
                 echo '<div class="w-6 h-6 rounded-full mx-auto"';
-                echo !empty($events) ? ' style="background-color: ' . getRandomColor() . ';"' : '';
+                echo $isDateReserved ? ' style="background-color: ' . getRandomColor() . ';"' : '';
                 echo '></div>';
                 echo '<div class="text-sm mt-1">' . $day . '</div>';
                 echo '<div class="event-container">';
@@ -190,12 +198,6 @@
                 if (($day + $gridCells) % 7 == 0) {
                     echo '</div><div class="grid grid-cols-7 gap-2">';
                 }
-            }
-
-            // Fill in remaining empty grid cells
-            $remainingCells = 7 - (($daysInMonth + $gridCells) % 7);
-            for ($i = 0; $i < $remainingCells; $i++) {
-                echo '<div class="text-center"></div>';
             }
             ?>
 
@@ -235,8 +237,14 @@
             // Apply the appropriate background color based on the checks
             if (isDayBlocked) {
                 cell.classList.add('active-blocked');
+                cell.style.pointerEvents = ''; // Enable interaction for non-blocked days
+
             } else {
                 cell.classList.remove('active-blocked');
+                // cell.style.pointerEvents = 'none'; // Disable interaction for blocked days
+                cell.onclick = function() {
+                    alert('This selected date is not available.');
+                };
             }
 
             if (isReservationDate && !isDayBlocked) {
@@ -247,7 +255,28 @@
         });
     }
 
-    // Helper function to get the day key (e.g., "monday-start") based on the day index
+
+
+    function redirectToURL(date) {
+        var currentURL = window.location.href;
+
+        // Replace the numeric values in the URL using regular expressions
+        var newURL = currentURL.replace(/\/calendar\/\d+/, '/listings/create/3/2');
+        newURL = newURL.replace(/month=\d+/, 'month=3'); // Replace month parameter
+        newURL = newURL.replace(/year=\d+/, 'year=2');   // Replace year parameter
+
+        // Check if there are existing query parameters
+        if (currentURL.indexOf('?') !== -1) {
+            newURL += '&selectedDate=' + encodeURIComponent(date); // Add selected date
+        } else {
+            newURL += '?selectedDate=' + encodeURIComponent(date); // Add selected date
+        }
+
+        window.location.href = newURL;
+    }
+
+
+
     function getDayKey(dayIndex) {
         var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
         return days[dayIndex];

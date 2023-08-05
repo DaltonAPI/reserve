@@ -165,6 +165,17 @@
     </x-card>
 </x-layout>
 <script>
+    // Retrieve the selected date parameter from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedDate = urlParams.get('selectedDate');
+
+    // Set the value of the date input field if a selected date is available
+    if (selectedDate) {
+        const dateInput = document.querySelector('input[name="date"]');
+        if (dateInput) {
+            dateInput.value = selectedDate;
+        }
+    }
     function previewImage(event) {
         var input = event.target;
         var preview = document.getElementById('thumbnail-preview');

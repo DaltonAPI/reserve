@@ -65,6 +65,9 @@ class ListingController extends Controller
     // Show Create Form
     public function create(Request $request, $clientId = null, $businessId = null)
     {
+        // Get the selected date from the query parameter
+        $selectedDate = $request->query('date');
+
         // Get the currently authenticated user
         $user = $request->user();
 
@@ -75,7 +78,7 @@ class ListingController extends Controller
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
 
-        return view('listings.create', compact('user', 'filteredUsers', 'client', 'clientId', 'businessId'));
+        return view('listings.create', compact('user', 'filteredUsers', 'client', 'clientId', 'businessId', 'selectedDate'));
     }
 
 
