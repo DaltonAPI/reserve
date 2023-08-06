@@ -174,8 +174,10 @@
                 echo $isDateReserved ? ' active' : '';
                 echo ($isDateReserved ? ' active-blocked' : '') . '"';
 
+//                 if (!$isDateReserved){
+//                     echo ' id="date-cell-' . $date . '" onclick="redirectToURL(\'' . $date . '\');"';
+//                 }
 
-                 echo ' id="date-cell-' . $date . '" onclick="redirectToURL(\'' . $date . '\');"';
 
                 echo '>';
                 echo '<div class="w-6 h-6 rounded-full mx-auto"';
