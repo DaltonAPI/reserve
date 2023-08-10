@@ -86,7 +86,7 @@
 <body>
 <div class="mt-4 p-4 border border-gray-300 rounded" style="background: white;">
 
-    {{<?php echo json_encode($times); ?>}}
+
     <div id="availability-message" class="message"></div>
     <div class="flex items-center mb-2">
         <div class="w-6 h-6 rounded-full bg-red mr-2" style="background: red"></div>
@@ -356,36 +356,38 @@
                     while (startMinute + serviceDuration <= endMinute) {
                         let endTime = startMinute + serviceDuration;
                         let overlap = false;
-
+                        let reservedEnd = 0; // Declare it here.
 
                         for (let reservation of reservationData) {
                             const reservationDate = reservation.date.split(' ')[0];
 
                             if (reservationDate === date) {
+
                                 const titleString = reservation.title;
-                                const titleObject = JSON.parse(titleString); // Parse the JSON-encoded string
+                                const titleObject = JSON.parse(titleString);
                                 const reservationServiceDuration = timeToMinutes(titleObject[0].duration);
 
                                 const reservedStart = timeToMinutes(reservation.time);
-                                const reservedEnd = reservedStart + reservationServiceDuration;
+                                reservedEnd = reservedStart + reservationServiceDuration; // Update it here.
 
                                 if (isOverlapping(startMinute, endTime, reservedStart, reservedEnd)) {
                                     overlap = true;
-                                    break;
+                                    break;  // This break will skip the overlapping time slot and move to the next one.
                                 }
                             }
                         }
 
-                        if (!overlap && endTime <= endMinute) {
-                            if (!overlap) {
-                                let startHour = String(Math.floor(startMinute / 60)).padStart(2, '0');
-                                let startMin = String(startMinute % 60).padStart(2, '0');
-                                availableSlots.push(startHour + ":" + startMin);
-                            }
+                        // Adjust the starting minute based on the overlap check results:
+                        if (overlap) {
+                            startMinute = reservedEnd; // Move to the end of the overlapping reservation.
+                        } else {
+                            let startHour = String(Math.floor(startMinute / 60)).padStart(2, '0');
+                            let startMin = String(startMinute % 60).padStart(2, '0');
+                            availableSlots.push(startHour + ":" + startMin);
+                            startMinute += serviceDuration; // Increment by service duration; adjust as needed.
                         }
-
-                        startMinute += serviceDuration ; // Increment by service duration; adjust as needed
                     }
+
 
                     // Found availability, exit the loop
                     break;
