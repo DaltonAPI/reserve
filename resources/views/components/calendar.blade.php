@@ -87,7 +87,7 @@
 <div class="mt-4 p-4 border border-gray-300 rounded" style="background: white;">
 
 
-    <div id="availability-message" class="message"></div>
+
     <div class="flex items-center mb-2">
         <div class="w-6 h-6 rounded-full bg-red mr-2" style="background: red"></div>
         <div>Blocked Dates</div>
@@ -109,6 +109,11 @@
             @endforeach
         </select>
     </div>
+    <div class="mt-4">
+        <label for="service" class="block font-medium text-gray-700">These are empty slots for the date you selected:</label>
+        <div id="availability-message" class="message"></div>
+    </div>
+
 </div>
 <div class="container mx-auto">
     <div class="bg-white rounded shadow-md p-4">
@@ -299,9 +304,10 @@
 
 
     function redirectToURL(date) {
-        // TODO: You can redirect the user to a different page with the selected date
-        // For now, we'll just calculate available slots
-        calculateAvailableSlots(date);
+        const availableSlots = calculateAvailableSlots(date);
+
+        // Update the UI to display available slots
+        updateAvailableSlotsUI(availableSlots);
     }
 
     // Helper function to convert time to minutes
@@ -318,6 +324,35 @@
     // Helper function to check if a time range overlaps with another
     function isOverlapping(start1, end1, start2, end2) {
         return start1 < end2 && start2 < end1;
+    }
+
+    function updateAvailableSlotsUI(availableSlots) {
+        const availableSlotsContainer = document.getElementById('availability-message');
+        availableSlotsContainer.innerHTML = '';
+
+        if (availableSlots.length === 0) {
+            availableSlotsContainer.textContent = 'No available slots for the selected date.';
+        } else {
+            const slotDropdown = document.createElement('select');
+            slotDropdown.classList.add('mt-2', 'block', 'w-full', 'border', 'border-gray-300', 'p-2', 'rounded-md', 'shadow-sm', 'focus:ring', 'focus:ring-indigo-300');
+
+            // Create and append the available slot options to the dropdown
+            availableSlots.forEach(slot => {
+                const option = document.createElement('option');
+                option.textContent = slot;
+                option.value = slot;
+                slotDropdown.appendChild(option);
+            });
+
+            // Attach an event listener to the dropdown to capture the selected slot
+            slotDropdown.addEventListener('change', function(event) {
+                const selectedSlot = event.target.value;
+                // Do something with the selected time slot
+                console.log('Selected time slot:', selectedSlot);
+            });
+
+            availableSlotsContainer.appendChild(slotDropdown);
+        }
     }
 
 
@@ -395,7 +430,7 @@
             }
         });
 
-        console.log(availableSlots);
+        return availableSlots;
     }
 
 
