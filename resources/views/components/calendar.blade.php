@@ -303,7 +303,6 @@
         // For now, we'll just calculate available slots
         calculateAvailableSlots(date);
     }
-    // ... [rest of your existing JS code] ...
 
     // Helper function to convert time to minutes
     function timeToMinutes(time) {
@@ -321,9 +320,6 @@
         return start1 < end2 && start2 < end1;
     }
 
-    // ... [Your existing code]
-
-    // ... [Your existing code]
 
     function calculateAvailableSlots(date) {
         const selectedService = document.getElementById('service').value;
@@ -364,27 +360,24 @@
 
                         for (let reservation of reservationData) {
                             const reservationDate = reservation.date.split(' ')[0];
-                            // console.log(reservationDate,date)
 
                             if (reservationDate === date) {
                                 const titleString = reservation.title;
                                 const titleObject = JSON.parse(titleString); // Parse the JSON-encoded string
-                                const serviceDuration = titleObject[0].duration;
+                                const reservationServiceDuration = timeToMinutes(titleObject[0].duration);
 
                                 const reservedStart = timeToMinutes(reservation.time);
-                                const reservedEnd = reservedStart + timeToMinutes(serviceDuration);
-                                console.log("serviceDuration:", serviceDuration);
-                                console.log("Reservation start:", reservedStart);
-                                console.log("Reservation end:", reservedEnd);
-                                console.log("Checking available slot at start minute:", startMinute);
+                                const reservedEnd = reservedStart + reservationServiceDuration;
+
                                 if (isOverlapping(startMinute, endTime, reservedStart, reservedEnd)) {
                                     overlap = true;
                                     break;
                                 }
                             }
                         }
+
                         if (!overlap && endTime <= endMinute) {
-                            if (endMinute - endTime >= serviceDuration) {
+                            if (!overlap) {
                                 let startHour = String(Math.floor(startMinute / 60)).padStart(2, '0');
                                 let startMin = String(startMinute % 60).padStart(2, '0');
                                 availableSlots.push(startHour + ":" + startMin);
@@ -404,16 +397,6 @@
     }
 
 
-
-
-
-
-
-
-
-
-
-
     function getDayKey(dayIndex) {
         var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
         return days[dayIndex];
@@ -426,21 +409,6 @@
 </script>
 
 
-
-
-
-
-
-
-function getDayKey(dayIndex) {
-        var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-        return days[dayIndex];
-    }
-
-    // Call the function when the page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        setDayBackground();
-    });
 </script>
 
 </body>
