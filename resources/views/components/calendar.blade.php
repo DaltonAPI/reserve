@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,6 +85,8 @@
 </head>
 <body>
 <div class="mt-4 p-4 border border-gray-300 rounded" style="background: white;">
+
+    {{<?php echo json_encode($times); ?>}}
     <div id="availability-message" class="message"></div>
     <div class="flex items-center mb-2">
         <div class="w-6 h-6 rounded-full bg-red mr-2" style="background: red"></div>
@@ -93,10 +96,24 @@
         <div class="w-6 h-6 rounded-full bg-deeppink mr-2" style="background: teal"></div>
         <div>Available Dates</div>
     </div>
+    <div class="mt-4">
+        <label for="service" class="block font-medium text-gray-700">Select a service:</label>
+        <select id="service" name="service" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-300">
+            @php
+                $serviceList = json_decode($business['serviceList'], true);
+
+            @endphp
+
+            @foreach($serviceList as $service)
+                <option value="{{ $service['name'] }}">{{ $service['name'] }} ({{ $service['duration'] }})</option>
+            @endforeach
+        </select>
+    </div>
 </div>
 <div class="container mx-auto">
     <div class="bg-white rounded shadow-md p-4">
         <h2 class="text-xl font-bold mb-4">
+
             <?php
             // Get current month and year
             $currentMonth = date('m');
@@ -175,7 +192,7 @@
                 echo ($isDateReserved ? ' active-blocked' : '') . '"';
 
 //                 if (!$isDateReserved){
-//                     echo ' id="date-cell-' . $date . '" onclick="redirectToURL(\'' . $date . '\');"';
+                     echo ' id="date-cell-' . $date . '" onclick="redirectToURL(\'' . $date . '\');"';
 //                 }
 
 
@@ -209,8 +226,11 @@
     </div>
 </div>
 
+
 <script>
     // Store the $times data in a JavaScript variable
+    var serviceList = <?php echo json_encode($serviceList); ?>;
+    var reservationData = <?php echo json_encode($reservationData); ?>;
     var timesData = <?php echo json_encode($times); ?>;
 
     // Function to set the background color based on the presence of times data
@@ -259,27 +279,160 @@
 
 
 
+    // function redirectToURL(date) {
+    //     var currentURL = window.location.href;
+    //
+    //     // Replace the numeric values in the URL using regular expressions
+    //     var newURL = currentURL.replace(/\/calendar\/\d+/, '/listings/create/3/2');
+    //     newURL = newURL.replace(/month=\d+/, 'month=3'); // Replace month parameter
+    //     newURL = newURL.replace(/year=\d+/, 'year=2');   // Replace year parameter
+    //
+    //     // Check if there are existing query parameters
+    //     if (currentURL.indexOf('?') !== -1) {
+    //         newURL += '&selectedDate=' + encodeURIComponent(date); // Add selected date
+    //     } else {
+    //         newURL += '?selectedDate=' + encodeURIComponent(date); // Add selected date
+    //     }
+    //
+    //     window.location.href = newURL;
+    // }
+
+
     function redirectToURL(date) {
-        var currentURL = window.location.href;
+        // TODO: You can redirect the user to a different page with the selected date
+        // For now, we'll just calculate available slots
+        calculateAvailableSlots(date);
+    }
+    // ... [rest of your existing JS code] ...
 
-        // Replace the numeric values in the URL using regular expressions
-        var newURL = currentURL.replace(/\/calendar\/\d+/, '/listings/create/3/2');
-        newURL = newURL.replace(/month=\d+/, 'month=3'); // Replace month parameter
-        newURL = newURL.replace(/year=\d+/, 'year=2');   // Replace year parameter
-
-        // Check if there are existing query parameters
-        if (currentURL.indexOf('?') !== -1) {
-            newURL += '&selectedDate=' + encodeURIComponent(date); // Add selected date
-        } else {
-            newURL += '?selectedDate=' + encodeURIComponent(date); // Add selected date
+    // Helper function to convert time to minutes
+    function timeToMinutes(time) {
+        if (!time) {
+            console.error("timeToMinutes received an invalid time:", time);
+            return 0;
         }
+        const [hours, minutes] = time.split(":").map(Number);
+        return (hours * 60) + minutes;
+    }
 
-        window.location.href = newURL;
+
+    // Helper function to check if a time range overlaps with another
+    function isOverlapping(start1, end1, start2, end2) {
+        return start1 < end2 && start2 < end1;
+    }
+
+    // ... [Your existing code]
+
+    // ... [Your existing code]
+
+    function calculateAvailableSlots(date) {
+        const selectedService = document.getElementById('service').value;
+
+        // Get the duration of the selected service
+        let serviceDuration = null;
+        serviceList.forEach(function (service) {
+            if (service.name === selectedService) {
+                serviceDuration = timeToMinutes(service.duration);
+            }
+        });
+
+        // Get the day's name (lowercase) for the selected date
+        const dayOfWeek = new Date(date).getDay();
+        let startDay = dayOfWeek; // Start checking from the current day
+        const dayCount = 7; // Total number of days in a week
+
+        let availableSlots = [];
+
+        // Iterate through each user's availability in timesData
+        timesData.forEach(function (userAvailability) {
+            for (let i = 1; i <= dayCount; i++) {
+                const dayIndex = (startDay + i) % dayCount; // Calculate the index of the current day
+                const dayName = getDayKey(dayIndex);
+
+                // Check if the user has availability data for the current day
+                if (userAvailability[dayName + '-start'] !== null && userAvailability[dayName + '-end'] !== null) {
+                    const businessStartTime = userAvailability[dayName + '-start'];
+                    const businessEndTime = userAvailability[dayName + '-end'];
+
+                    let startMinute = timeToMinutes(businessStartTime);
+                    const endMinute = timeToMinutes(businessEndTime);
+
+                    while (startMinute + serviceDuration <= endMinute) {
+                        let endTime = startMinute + serviceDuration;
+                        let overlap = false;
+
+
+                        for (let reservation of reservationData) {
+                            const reservationDate = reservation.date.split(' ')[0];
+                            // console.log(reservationDate,date)
+
+                            if (reservationDate === date) {
+                                const titleString = reservation.title;
+                                const titleObject = JSON.parse(titleString); // Parse the JSON-encoded string
+                                const serviceDuration = titleObject[0].duration;
+
+                                const reservedStart = timeToMinutes(reservation.time);
+                                const reservedEnd = reservedStart + timeToMinutes(serviceDuration);
+                                console.log("serviceDuration:", serviceDuration);
+                                console.log("Reservation start:", reservedStart);
+                                console.log("Reservation end:", reservedEnd);
+                                console.log("Checking available slot at start minute:", startMinute);
+                                if (isOverlapping(startMinute, endTime, reservedStart, reservedEnd)) {
+                                    overlap = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!overlap && endTime <= endMinute) {
+                            if (endMinute - endTime >= serviceDuration) {
+                                let startHour = String(Math.floor(startMinute / 60)).padStart(2, '0');
+                                let startMin = String(startMinute % 60).padStart(2, '0');
+                                availableSlots.push(startHour + ":" + startMin);
+                            }
+                        }
+
+                        startMinute += serviceDuration ; // Increment by service duration; adjust as needed
+                    }
+
+                    // Found availability, exit the loop
+                    break;
+                }
+            }
+        });
+
+        console.log(availableSlots);
     }
 
 
 
+
+
+
+
+
+
+
+
+
     function getDayKey(dayIndex) {
+        var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        return days[dayIndex];
+    }
+
+    // Call the function when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        setDayBackground();
+    });
+</script>
+
+
+
+
+
+
+
+
+function getDayKey(dayIndex) {
         var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
         return days[dayIndex];
     }
