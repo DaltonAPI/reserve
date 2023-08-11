@@ -16,7 +16,7 @@
             background-color: #f1f3f4;
         }
         .grid > div.active {
-            background-color: #4285f4;
+            /*background-color: #4285f4;*/
             color: #ffffff;
         }
         .grid > div:not(:empty) {
@@ -31,7 +31,7 @@
             height: 0.75rem;
             width: 0.75rem;
             border-radius: 50%;
-            background-color: #4285f4;
+            /*background-color: #4285f4;*/
         }
         .grid > div.active::after {
             background-color: #ffffff;
@@ -86,7 +86,10 @@
             color: #ffffff;
             border: 2px solid deeppink; /* Add a border to the selected cell */
         }
-
+        .grid > div.disabled {
+            color: #b0b0b0; /* Set the desired text color for disabled days */
+            background-color: #f5f5f5; /* Set a background color to differentiate disabled days */
+        }
     </style>
 </head>
 <body>
@@ -202,7 +205,20 @@
                     }
                 }
 
+
                 $isDateReserved = count($events) > 0;
+
+                $cellClasses = 'text-center relative';
+                if ($isDateReserved) {
+                    $cellClasses .= ' active-blocked';
+                }
+
+                // Add class to mark past dates as disabled
+                if (strtotime($date) < strtotime(date('Y-m-d'))) {
+                    $cellClasses .= ' disabled';
+                }
+
+                echo '<div class="' . $cellClasses . '"';
 
                 echo '<div class="text-center relative';
                 echo $isDateReserved ? ' active-blocked' : '';
@@ -249,7 +265,7 @@
     var serviceList = <?php echo json_encode($serviceList); ?>;
     var reservationData = <?php echo json_encode($reservationData); ?>;
     var timesData = <?php echo json_encode($times); ?>;
-
+    var currentDate = new Date();
     // Function to set the background color based on the presence of times data
     function setDayBackground() {
         var gridCells = document.querySelectorAll('.grid > div');
@@ -337,6 +353,10 @@
 
         // Add the "active" class to the selected cell
         const selectedCell = document.getElementById('date-cell-' + date);
+        if (selectedCell.classList.contains('disabled')) {
+            // Don't perform any action for disabled cells
+            return;
+        }
         selectedCell.classList.add('active');
         // Update the UI to display selected date
         const selectedDateElement = document.getElementById('selected-date');
