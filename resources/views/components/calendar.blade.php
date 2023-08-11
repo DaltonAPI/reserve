@@ -97,17 +97,20 @@
 
 
 
-    <div class="flex items-center mb-2">
+    <div class="flex  mb-4 justify-between">
         <div class="w-6 h-6 rounded-full bg-red mr-2" style="background: red"></div>
         <div>Blocked Dates</div>
-    </div>
-    <div class="flex items-center mb-2">
-        <div class="w-6 h-6 rounded-full bg-deeppink mr-2" style="background: teal"></div>
+        <div class="w-6 h-6 rounded-full bg-deeppink ml-4 mr-2" style="background: teal"></div>
         <div>Available Dates</div>
-    </div>
-    <div class="flex items-center">
-        <div class="w-6 h-6 rounded-full bg-deeppink mr-2" style="background: deeppink"></div>
+        <div class="w-6 h-6 rounded-full bg-deeppink ml-4 mr-2" style="background: deeppink"></div>
         <div>Selected Date</div>
+        <div class="w-6 h-6 rounded-full bg-deeppink ml-4 mr-2" style="background: #f5f5f5"></div>
+        <div>Disabled Date</div>
+    </div>
+
+    <h1 class="text-xl font-semibold mb-2 text-center">Service Reservation Calendar</h1>
+    <div class="text-center mb-4 text-gray-600">
+        Select a date by clicking on it to view available slots and make a reservation.
     </div>
     <div class="mt-4">
         <label for="service" class="block font-medium text-gray-700">Select a service:</label>
@@ -123,7 +126,7 @@
         </select>
     </div>
     <div class="mt-4">
-        <label for="service" class="block font-medium text-gray-700">Choose a time from the available slots</label>
+{{--        <label for="service" class="block font-medium text-gray-700">Choose a time from the available slots</label>--}}
         <div id="availability-message" class="message"></div>
     </div>
     <div id="selected-date" class="mt-4 font-medium text-gray-700"></div>
@@ -235,15 +238,19 @@
                 echo '></div>';
                 echo '<div class="text-sm mt-1">' . $day . '</div>';
                 echo '<div class="event-container">';
-                foreach ($events as $event) {
-                    // Extract the time from the reservation data and convert it to 12-hour format
-                    $reservationTime = date('h:i A', strtotime($event['time']));
+                if(  auth()->user()->account_type === 'Business'){
+                    foreach ($events as $event) {
+                        // Extract the time from the reservation data and convert it to 12-hour format
+                        $reservationTime = date('h:i A', strtotime($event['time']));
 
-                    // Display the event item with "@" and the time
-                    echo '<div class="event-item text-xs bg-white" style="background-color: ' . getRandomColor() . ';">';
-                    echo  $event['customer_name']. ' ' . '@' . ' ' . $reservationTime ;
-                    echo '</div>';
+                        // Display the event item with "@" and the time
+                        echo '<div class="event-item text-xs bg-white" style="background-color: ' . getRandomColor() . ';">';
+                        echo  $event['customer_name']. ' ' . '@' . ' ' . $reservationTime ;
+                        echo '</div>';
+                    }
                 }
+
+
                 echo '</div>';
                 echo '</div>';
 
@@ -385,7 +392,7 @@
 
     function updateAvailableSlotsUI(availableSlots) {
         const availableSlotsContainer = document.getElementById('availability-message');
-        availableSlotsContainer.innerHTML = '';
+        availableSlotsContainer.innerHTML = 'Choose a time from the available slots for the date you selected';
 
         if (availableSlots.length === 0) {
             availableSlotsContainer.textContent = 'No available slots for the selected date.';
