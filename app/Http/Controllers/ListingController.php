@@ -260,7 +260,7 @@ class ListingController extends Controller
         $business = User::find($businessId);
 
 
-        return view('listings.calendar', compact('user', 'reservationData','filteredUsers','times','business','clientId','$businessId'));
+        return view('listings.calendar', compact('user', 'reservationData','filteredUsers','times','business','clientId','businessId'));
     }
 
 
