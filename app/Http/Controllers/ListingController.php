@@ -77,8 +77,10 @@ class ListingController extends Controller
         // Retrieve the filtered users for the sidebar
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
-
-        return view('listings.create', compact('user', 'filteredUsers', 'client', 'clientId', 'businessId', 'selectedDate'));
+        $reservationData =  Listing::where('user_id', $businessId)->get();
+        $times = Time::where('user_id', $businessId)->get();
+        $business = User::find($businessId);
+        return view('listings.create', compact('user','reservationData' ,'times','business','filteredUsers', 'client', 'clientId', 'businessId', 'selectedDate'));
     }
 
 
@@ -88,7 +90,7 @@ class ListingController extends Controller
     {
 
         $formFields = $request->validate([
-            'title' => 'required|string',
+            'title' => 'string',
             'tags' => 'nullable',
             'email' => ['nullable', 'email'],
             'time' => 'required',
@@ -108,34 +110,34 @@ class ListingController extends Controller
 
 
 
-          if($formFields['customer_phone']){
-              $twilioSid = env('TWILIO_SID');
-              $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
-              $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
-              $customerPhoneNumber = $formFields['customer_phone'];
-
-              $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
-              $messageBody = 'Hello ' . $formFields['customer_name'] . ',  looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time']. ' '
-                  . 'Sincerely ' . auth()->user()->name;
-              try {
-
-                  $client->messages->create(
-                      $customerPhoneNumber,
-                      [
-                          'from' => $twilioPhoneNumber,
-                          'body' => $messageBody
-                      ]
-                  );
-
-                  // Message sent successfully
-                  // ... your remaining code ...
-              } catch (TwilioException $e) {
-                  // Exception occurred while sending SMS
-                  // Handle the exception as per your requirements
-                  $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
-                  return redirect()->back()->with('error', $errorMessage);
-              }
-          }
+//          if($formFields['customer_phone']){
+//              $twilioSid = env('TWILIO_SID');
+//              $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
+//              $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
+//              $customerPhoneNumber = $formFields['customer_phone'];
+//
+//              $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
+//              $messageBody = 'Hello ' . $formFields['customer_name'] . ',  looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time']. ' '
+//                  . 'Sincerely ' . auth()->user()->name;
+//              try {
+//
+//                  $client->messages->create(
+//                      $customerPhoneNumber,
+//                      [
+//                          'from' => $twilioPhoneNumber,
+//                          'body' => $messageBody
+//                      ]
+//                  );
+//
+//                  // Message sent successfully
+//                  // ... your remaining code ...
+//              } catch (TwilioException $e) {
+//                  // Exception occurred while sending SMS
+//                  // Handle the exception as per your requirements
+//                  $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
+//                  return redirect()->back()->with('error', $errorMessage);
+//              }
+//          }
 
 
         $formFields['user_id'] = auth()->id();
@@ -151,7 +153,7 @@ class ListingController extends Controller
         if ($client && $client->email) {
             $client->notify(new ReservationCreatedNotification());
         }
-
+//        dd($formFields);
         Listing::create($formFields);
         return redirect('/reservations/'. \auth()->user()->id)->with('message', 'Listing created successfully!');
     }
@@ -248,15 +250,17 @@ class ListingController extends Controller
     }
 
 
-    public function calendar(Request $request, $id)
+    public function calendar(Request $request, $clientId = null, $businessId = null)
     {
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
         $user = auth()->user();
-        $reservationData =  Listing::where('user_id', $id)->get();
+        $reservationData =  Listing::where('user_id', $businessId)->get();
+        $times = Time::where('user_id', $businessId)->get();
+        $business = User::find($businessId);
 
-        $times = Time::where('user_id', $id)->get();
-        return view('listings.calendar', compact('user', 'reservationData','filteredUsers','times'));
+
+        return view('listings.calendar', compact('user', 'reservationData','filteredUsers','times','business','clientId','$businessId'));
     }
 
 

@@ -8,32 +8,19 @@
 
         <form method="POST" action="/listings" enctype="multipart/form-data">
             @csrf
-            @if($user->serviceList)
-            <div class="mb-6">
-                <label for="title" class="inline-block text-lg mb-2">The Type of Service <span class="text-red-500">*</span></label>
-                <select name="title" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
 
-                    @foreach(json_decode($user->serviceList) as $title)
-                        <option value="{{ $title }}">{{ $title }}</option>
+            <div class="mt-4">
+                <label for="service" class="block font-medium text-gray-700">Select a service:</label>
+                <select id="service" name="service" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-300">
+                    @php
+                        $serviceList = json_decode($business['serviceList'], true);
+                    @endphp
+
+                    @foreach($serviceList as $service)
+                        <option value="{{ $service['name'] }}">{{ $service['name'] }} ({{ $service['duration'] }})</option>
                     @endforeach
-
                 </select>
-
-                @error('title')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                @enderror
             </div>
-            @else
-            <div class="mb-6">
-                <label for="title" class="inline-block text-lg mb-2">Type of service</label>
-                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="title"
-                       placeholder="Example: Senior Laravel Developer" value="{{ old('title') }}" />
-
-                @error('title')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                @enderror
-            </div>
-            @endif
             <div class="mb-6">
                 <input type="hidden" name="client_id" value="{{ $clientId }}">
                 <input type="hidden" name="business_id" value="{{ $businessId }}">
@@ -165,17 +152,61 @@
     </x-card>
 </x-layout>
 <script>
-    // Retrieve the selected date parameter from the URL
+    // Retrieve the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const selectedDate = urlParams.get('selectedDate');
+    const selectedTime = urlParams.get('selectedTime');
+    const selectedService = urlParams.get('selectedService');
 
-    // Set the value of the date input field if a selected date is available
+    // Set the values of the input fields
+    const dateInput = document.querySelector('input[name="date"]');
+    const timeInput = document.querySelector('input[name="time"]');
+    const serviceDropdown = document.getElementById('service');
+
     if (selectedDate) {
-        const dateInput = document.querySelector('input[name="date"]');
-        if (dateInput) {
-            dateInput.value = selectedDate;
-        }
+        dateInput.value = selectedDate;
+        dateInput.disabled = true; // Disable the input field
     }
+
+    if (selectedTime) {
+        // Convert selectedTime to 24-hour format
+        const timeParts = selectedTime.split(' ');
+        const timeWithoutAmPm = timeParts[0];
+        const amPm = timeParts[1];
+
+        const [hours, minutes] = timeWithoutAmPm.split(':');
+        let formattedHours = parseInt(hours);
+
+        if (amPm.toLowerCase() === 'pm' && formattedHours !== 12) {
+            formattedHours += 12;
+        } else if (amPm.toLowerCase() === 'am' && formattedHours === 12) {
+            formattedHours = 0;
+        }
+
+        const formattedTime = `${formattedHours.toString().padStart(2, '0')}:${minutes}`;
+        timeInput.value = formattedTime;
+        timeInput.disabled = true; // Disable the input field
+    } else {
+        // Hide the time field
+        const timeFieldContainer = timeInput.closest('.mb-6');
+        timeFieldContainer.style.display = 'none';
+    }
+
+    if (selectedService) {
+        // Loop through the options and set the selected service
+        for (let i = 0; i < serviceDropdown.options.length; i++) {
+            if (serviceDropdown.options[i].value === selectedService) {
+                serviceDropdown.selectedIndex = i;
+                break;
+            }
+        }
+        serviceDropdown.disabled = true; // Disable the dropdown
+    } else {
+        // Hide the service field
+        const serviceFieldContainer = serviceDropdown.closest('.mt-4');
+        serviceFieldContainer.style.display = 'none';
+    }
+
     function previewImage(event) {
         var input = event.target;
         var preview = document.getElementById('thumbnail-preview');
@@ -194,4 +225,5 @@
             preview.style.display = 'none'; // Hide the preview image
         }
     }
+
 </script>

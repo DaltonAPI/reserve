@@ -81,6 +81,12 @@
         .grid > div.text-center:empty {
             background-color: #ffffff;
         }
+        .grid > div.active {
+            background-color: deeppink;
+            color: #ffffff;
+            border: 2px solid deeppink; /* Add a border to the selected cell */
+        }
+
     </style>
 </head>
 <body>
@@ -92,9 +98,13 @@
         <div class="w-6 h-6 rounded-full bg-red mr-2" style="background: red"></div>
         <div>Blocked Dates</div>
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center mb-2">
         <div class="w-6 h-6 rounded-full bg-deeppink mr-2" style="background: teal"></div>
         <div>Available Dates</div>
+    </div>
+    <div class="flex items-center">
+        <div class="w-6 h-6 rounded-full bg-deeppink mr-2" style="background: deeppink"></div>
+        <div>Selected Date</div>
     </div>
     <div class="mt-4">
         <label for="service" class="block font-medium text-gray-700">Select a service:</label>
@@ -110,9 +120,11 @@
         </select>
     </div>
     <div class="mt-4">
-        <label for="service" class="block font-medium text-gray-700">These are empty slots for the date you selected:</label>
+        <label for="service" class="block font-medium text-gray-700">Choose a time from the available slots</label>
         <div id="availability-message" class="message"></div>
     </div>
+    <div id="selected-date" class="mt-4 font-medium text-gray-700"></div>
+    <div id="next-button-container" class="mt-4"></div>
 
 </div>
 <div class="container mx-auto">
@@ -193,7 +205,7 @@
                 $isDateReserved = count($events) > 0;
 
                 echo '<div class="text-center relative';
-                echo $isDateReserved ? ' active' : '';
+                echo $isDateReserved ? ' active-blocked' : '';
                 echo ($isDateReserved ? ' active-blocked' : '') . '"';
 
 //                 if (!$isDateReserved){
@@ -284,23 +296,7 @@
 
 
 
-    // function redirectToURL(date) {
-    //     var currentURL = window.location.href;
-    //
-    //     // Replace the numeric values in the URL using regular expressions
-    //     var newURL = currentURL.replace(/\/calendar\/\d+/, '/listings/create/3/2');
-    //     newURL = newURL.replace(/month=\d+/, 'month=3'); // Replace month parameter
-    //     newURL = newURL.replace(/year=\d+/, 'year=2');   // Replace year parameter
-    //
-    //     // Check if there are existing query parameters
-    //     if (currentURL.indexOf('?') !== -1) {
-    //         newURL += '&selectedDate=' + encodeURIComponent(date); // Add selected date
-    //     } else {
-    //         newURL += '?selectedDate=' + encodeURIComponent(date); // Add selected date
-    //     }
-    //
-    //     window.location.href = newURL;
-    // }
+
     function getServiceDuration(selectedService) {
         for (const service of serviceList) {
             if (service.name === selectedService) {
@@ -333,6 +329,18 @@
 
         selectedDate = date;
 
+        // Remove the "active" class from all cells
+        const gridCells = document.querySelectorAll('.grid > div');
+        gridCells.forEach(cell => {
+            cell.classList.remove('active');
+        });
+
+        // Add the "active" class to the selected cell
+        const selectedCell = document.getElementById('date-cell-' + date);
+        selectedCell.classList.add('active');
+        // Update the UI to display selected date
+        const selectedDateElement = document.getElementById('selected-date');
+        selectedDateElement.textContent = "Selected Date: " + date;
         const availableSlots = calculateAvailableSlots(date);
 
         // Update the UI to display available slots
@@ -375,13 +383,38 @@
 
             // Attach an event listener to the dropdown to capture the selected slot
             slotDropdown.addEventListener('change', function(event) {
-                const selectedSlot = event.target.value;
+                const selectedSlot = formatTime12Hour(...event.target.value.split(':'));
+
                 // Do something with the selected time slot
                 console.log('Selected time slot:', selectedSlot);
+
+                // Create and display the "Next" button
+                const nextButtonContainer = document.getElementById('next-button-container');
+                const selectedService = document.getElementById('service').value;
+                const selectedDate = document.getElementById('selected-date').textContent.split(':')[1].trim();
+                const availabilityMessage = document.getElementById('availability-message');
+
+
+                const selectedTimeOption = availabilityMessage.querySelector('select').value;
+                const nextButton = document.createElement('button');
+                nextButton.textContent = 'Next';
+                nextButton.classList.add('px-4', 'py-2', 'bg-pink-500', 'text-white', 'rounded', 'hover:bg-pink-600');
+                nextButton.addEventListener('click', function() {
+                    const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedTimeOption}&selectedService=${selectedService}`;
+                    window.location.href = redirectURL;
+                });
+                nextButtonContainer.innerHTML = ''; // Clear previous content
+                nextButtonContainer.appendChild(nextButton);
             });
 
             availableSlotsContainer.appendChild(slotDropdown);
         }
+    }
+    function formatTime12Hour(hours, minutes) {
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const formattedHours = hours % 12 || 12;
+        const formattedMinutes = String(minutes).padStart(2, '0');
+        return `${formattedHours}:${formattedMinutes} ${ampm}`;
     }
 
 
@@ -446,7 +479,7 @@
                         } else {
                             let startHour = String(Math.floor(startMinute / 60)).padStart(2, '0');
                             let startMin = String(startMinute % 60).padStart(2, '0');
-                            availableSlots.push(startHour + ":" + startMin);
+                            availableSlots.push(formatTime12Hour(startHour, startMin));
                             startMinute += serviceDuration; // Increment by service duration; adjust as needed.
                         }
                     }

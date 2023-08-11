@@ -24,11 +24,11 @@
                         </div>
                         <div class="flex items-center">
                             @if(auth()->user()->account_type === 'Business')
-                                <a href="/listings/create/{{$user->id}}/{{auth()->id()}}" class="ml-4 inline-block">
+                                <a href="/calendar/{{$user->id}}/{{auth()->id()}}" class="ml-4 inline-block">
                                     <i class="fas fa-calendar-plus text-teal-500"></i>
                                 </a>
                             @elseif(auth()->user()->account_type === 'Client')
-                                <a href="/listings/create/{{auth()->id()}}/{{$user->id}}" class="ml-4 inline-block">
+                                <a href="/calendar/{{auth()->id()}}/{{$user->id}}" class="ml-4 inline-block">
                                     <i class="fas fa-calendar-plus text-teal-500"></i>
                                 </a>
                             @endif

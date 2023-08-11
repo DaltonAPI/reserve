@@ -181,8 +181,7 @@
 
 
                             <div class="mb-4">
-
-                                   <div class="mb-2">
+                                <div class="mb-2">
                                        <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
                                        <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "X" to remove service.</p>
                                    </div>
@@ -196,24 +195,11 @@
                                     <button onclick="addService(event)" type="button" class=" bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
                                        <icon class="fa fa-plus"></icon>
                                     </button>
-{{--                                    <button onclick="removeService(event)" type="button" class="mt-3 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">--}}
-{{--                                        Remove Last Service--}}
-{{--                                    </button>--}}
-
-                                </div>
+                            </div>
 
 
-{{--                                                        <div class="mb-4">--}}
-{{--                                <label for="industry_category" class="block mb-2 text-sm font-medium text-gray-900">Industry/Category</label>--}}
-{{--                                <select name="industry_category" id="industry_category" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">--}}
-{{--                                    <option value="" disabled selected>Select industry/category</option>--}}
-{{--                                    <option value="Salon">Salon</option>--}}
-{{--                                    <option value="Repair">Repair</option>--}}
-{{--                                </select>--}}
-{{--                                @error('industry_category')--}}
-{{--                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>--}}
-{{--                                @enderror--}}
-{{--                            </div>--}}
+
+
                             <div class="mb-4">
                                 <label for="location" class="block mb-2 text-sm font-medium text-gray-900">Location <span class="text-red-500">*</span></label>
                                 <input type="text" id="location-input" name="location"  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{ old('location') }}">
@@ -267,12 +253,32 @@
 
         // Add the service to the array if it's not empty
         if (service !== "") {
-            services.push(service);
-            input.value = ""; // Clear the input field
-            renderServiceList(); // Update the displayed service list
-            saveServicesToLocalStorage();
+            // Enhanced: Use dropdown to select service duration
+            var duration = parseInt(prompt("Enter service duration in minutes:"));
+
+            if (!isNaN(duration) && duration > 0) {
+                // Convert minutes to hours and minutes
+                var hours = Math.floor(duration / 60);
+                var minutes = duration % 60;
+
+                // Format the duration as HH:MM if over 60 minutes
+                var formattedDuration = hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+
+                services.push({
+                    name: service,
+                    duration: formattedDuration
+                });
+
+                input.value = ""; // Clear the input field
+                renderServiceList(); // Update the displayed service list
+                saveServicesToLocalStorage();
+            } else {
+                alert("Invalid duration. Please enter a valid number.");
+            }
         }
     }
+
+
 
     // Function to remove the last service from the array
     function removeService(event) {
@@ -294,10 +300,14 @@
         // Add each service as a list item
         services.forEach(function (service, index) {
             var listItem = document.createElement("li");
-            listItem.textContent = service;
-
+            listItem.textContent = service.name;
 
             listItem.className = "inline-flex items-center bg-gray-100 text-gray-800 rounded-full px-3 py-1 mr-2 mb-2";
+
+            // Display service duration and breaks
+            var infoSpan = document.createElement("span");
+            infoSpan.textContent = `(${service.duration})`;
+            infoSpan.className = "ml-2 text-xs text-gray-500";
 
             // Create a span element for the "x" and add a click event to remove the item
             var removeButton = document.createElement("span");
@@ -306,13 +316,15 @@
             removeButton.setAttribute("data-index", index);
             removeButton.onclick = removeItem;
 
-            // Append the removeButton to the listItem
+            // Append the elements to the listItem
+            listItem.appendChild(infoSpan);
             listItem.appendChild(removeButton);
 
             // Append the listItem to the serviceList
             serviceList.appendChild(listItem);
         });
     }
+
 
     // Function to remove a specific item from the services array
     function removeItem(event) {

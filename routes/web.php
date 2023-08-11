@@ -37,7 +37,7 @@ Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 Route::post('/createPost', [PostController::class, 'createPost'])->name('posts.create');;
 Route::get('/landing', [UserController::class, 'show']);
-Route::get('/calendar/{id}', [ListingController::class, 'calendar'])->middleware('auth');;
+Route::get('/calendar/{clientId?}/{businessId?}', [ListingController::class, 'calendar'])->middleware('auth');;
 
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');;
 
