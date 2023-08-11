@@ -197,7 +197,7 @@
                 echo ($isDateReserved ? ' active-blocked' : '') . '"';
 
 //                 if (!$isDateReserved){
-                     echo ' id="date-cell-' . $date . '" onclick="redirectToURL(\'' . $date . '\');"';
+                echo ' id="date-cell-' . $date . '" onclick="redirectToURL(\'' . $date . '\');"';
 //                 }
 
 
@@ -301,9 +301,38 @@
     //
     //     window.location.href = newURL;
     // }
+    function getServiceDuration(selectedService) {
+        for (const service of serviceList) {
+            if (service.name === selectedService) {
+                return timeToMinutes(service.duration);
+            }
+        }
+        return 0; // Default duration if service is not found
+    }
+    let selectedDate = null;
+    // Get a reference to the service selection dropdown
+    const serviceDropdown = document.getElementById('service');
+
+    // Attach an event listener to the dropdown
+    serviceDropdown.addEventListener('change', function(event) {
+        const selectedService = event.target.value;
+        const selectedServiceDuration = getServiceDuration(selectedService); // You need to define this function
+
+        // Calculate available slots based on the selected service's duration and the stored selected date
+        const availableSlots = calculateAvailableSlots(selectedDate, selectedServiceDuration);
+        console.log(selectedDate)
+        // Only update the UI with available slots if they are available for the selected date
+        if (availableSlots.length > 0 && selectedDate !== null) {
+            updateAvailableSlotsUI(availableSlots);
+        }
+    });
+
 
 
     function redirectToURL(date) {
+
+        selectedDate = date;
+
         const availableSlots = calculateAvailableSlots(date);
 
         // Update the UI to display available slots
@@ -401,7 +430,6 @@
                                 const titleString = reservation.title;
                                 const titleObject = JSON.parse(titleString);
                                 const reservationServiceDuration = timeToMinutes(titleObject[0].duration);
-
                                 const reservedStart = timeToMinutes(reservation.time);
                                 reservedEnd = reservedStart + reservationServiceDuration; // Update it here.
 
@@ -450,3 +478,4 @@
 
 </body>
 </html>
+
