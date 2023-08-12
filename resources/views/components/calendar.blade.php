@@ -433,7 +433,7 @@
                 nextButton.textContent = 'Next';
                 nextButton.classList.add('px-4', 'py-2', 'bg-pink-500', 'text-white', 'rounded', 'hover:bg-pink-600');
                 nextButton.addEventListener('click', function() {
-                    const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedTimeOption}&selectedService=${selectedService}`;
+                    const redirectURL = `https://reservify.in/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedTimeOption}&selectedService=${selectedService}`;
                     window.location.href = redirectURL;
                 });
                 nextButtonContainer.innerHTML = ''; // Clear previous content
