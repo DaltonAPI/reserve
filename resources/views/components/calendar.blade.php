@@ -95,19 +95,6 @@
 <body>
 <div class="mt-4 p-4 border border-gray-300 rounded" style="background: white;">
 
-
-
-    <div class="flex  mb-4 justify-between">
-        <div class="w-6 h-6 rounded-full bg-red mr-2" style="background: red"></div>
-        <div>Blocked Dates</div>
-        <div class="w-6 h-6 rounded-full bg-deeppink ml-4 mr-2" style="background: teal"></div>
-        <div>Available Dates</div>
-        <div class="w-6 h-6 rounded-full bg-deeppink ml-4 mr-2" style="background: deeppink"></div>
-        <div>Selected Date</div>
-        <div class="w-6 h-6 rounded-full bg-deeppink ml-4 mr-2" style="background: #f5f5f5"></div>
-        <div>Disabled Date</div>
-    </div>
-
     <h1 class="text-xl font-semibold mb-2 text-center">Service Reservation Calendar</h1>
     <div class="text-center mb-4 text-gray-600">
         Select a date by clicking on it to view available slots and make a reservation.
@@ -135,6 +122,25 @@
 </div>
 <div class="container mx-auto">
     <div class="bg-white rounded shadow-md p-4">
+        <div class="flex flex-wrap justify-center mb-4">
+            <div class="w-1/2 md:w-auto flex items-center mb-2 md:mb-0">
+                <div class="w-6 h-6 rounded-full bg-red mr-2" style="background: red"></div>
+                <div>Blocked Dates</div>
+            </div>
+            <div class="w-1/2 md:w-auto flex items-center mb-2 md:mb-0">
+                <div class="w-6 h-6 rounded-full bg-deeppink ml-4 mr-2" style="background: teal"></div>
+                <div>Available Dates</div>
+            </div>
+            <div class="w-1/2 md:w-auto flex items-center mb-2 md:mb-0">
+                <div class="w-6 h-6 rounded-full bg-deeppink md:ml-4 mr-2" style="background: deeppink"></div>
+                <div class="md:ml-0">Selected Date</div>
+            </div>
+            <div class="w-1/2 md:w-auto flex items-center">
+                <div class="w-6 h-6 rounded-full bg-deeppink ml-4 mr-2" style="background: #f5f5f5"></div>
+                <div>Disabled Date</div>
+            </div>
+        </div>
+
         <h2 class="text-xl font-bold mb-4">
 
             <?php

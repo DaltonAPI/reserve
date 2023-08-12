@@ -177,22 +177,51 @@
 
 
                         @if($user->serviceList)
+
                                 <div class="mb-4">
-                                    <label for="serviceInput" class="block text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
-                                    <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "Remove Service" to remove a service.</p>
-                                    <input type="text" name="serviceList" id="serviceInput" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="eg. repair, house cleaning, lawn cutting" >
+
+                                    <div class="mb-2">
+                                        <label for="durationSelect" class="block text-sm font-medium text-gray-900">Choose Service Duration </label>
+                                        <select name="durationSelect" id="durationSelect" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                            <option value="30">30 minutes</option>
+                                            <option value="60">1 hour</option>
+                                            <option value="90">1 hour 30 minutes</option>
+                                            <option value="120">2 hours</option>
+                                            <option value="150">2 hours 30 minutes</option>
+                                            <option value="180">3 hours</option>
+                                            <option value="210">3 hours 30 minutes</option>
+                                            <option value="240">4 hours</option>
+                                            <option value="270">4 hours 30 minutes</option>
+                                            <option value="300">5 hours</option>
+                                            <option value="330">5 hours 30 minutes</option>
+                                            <option value="360">6 hours</option>
+                                            <option value="390">6 hours 30 minutes</option>
+                                            <option value="420">7 hours</option>
+                                            <option value="450">7 hours 30 minutes</option>
+                                            <option value="480">8 hours</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
+                                        <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "X" to remove service.</p>
+                                    </div>
+                                    <input type="text" name="serviceList" id="serviceInput" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="eg. repair, house cleaning, lawn cutting">
                                     @error('serviceList')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
                                     <ul id="serviceList" class="mt-2">
                                     </ul>
                                     <input type="hidden" name="serviceList" id="hiddenServiceInput" value="{{ $user->serviceList}}">
-
-                                    <button onclick="addService(event)" type="button" class="mt-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
-                                       <icon class="fa fa-plus"></icon>
+                                    <button onclick="addService(event)" type="button" class=" bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded">
+                                        <icon class="fa fa-plus"></icon>
                                     </button>
-
                                 </div>
+
+
+
+
+
+
 
 
 
@@ -240,16 +269,29 @@
     function addService(event) {
         event.preventDefault();
 
-        // Get the input field value
         var input = document.getElementById("serviceInput");
         var service = input.value.trim();
 
-        // Add the service to the array if it's not empty
         if (service !== "") {
-            services.push(service);
-            input.value = ""; // Clear the input field
-            renderServiceList(); // Update the displayed service list
-            saveServicesToLocalStorage();
+            var durationSelect = document.getElementById("durationSelect");
+            var selectedDuration = parseInt(durationSelect.value);
+
+            if (!isNaN(selectedDuration) && selectedDuration > 0) {
+                var hours = Math.floor(selectedDuration / 60);
+                var minutes = selectedDuration % 60;
+                var formattedDuration = hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+
+                services.push({
+                    name: service,
+                    duration: formattedDuration
+                });
+
+                input.value = "";
+                renderServiceList();
+                saveServicesToLocalStorage();
+            } else {
+                alert("Invalid duration. Please select a valid duration.");
+            }
         }
     }
 
@@ -273,10 +315,14 @@
         // Add each service as a list item
         services.forEach(function (service, index) {
             var listItem = document.createElement("li");
-            listItem.textContent = service;
-
+            listItem.textContent = service.name;
 
             listItem.className = "inline-flex items-center bg-gray-100 text-gray-800 rounded-full px-3 py-1 mr-2 mb-2";
+
+            // Display service duration and breaks
+            var infoSpan = document.createElement("span");
+            infoSpan.textContent = `(${service.duration})`;
+            infoSpan.className = "ml-2 text-xs text-gray-500";
 
             // Create a span element for the "x" and add a click event to remove the item
             var removeButton = document.createElement("span");
@@ -285,7 +331,8 @@
             removeButton.setAttribute("data-index", index);
             removeButton.onclick = removeItem;
 
-            // Append the removeButton to the listItem
+            // Append the elements to the listItem
+            listItem.appendChild(infoSpan);
             listItem.appendChild(removeButton);
 
             // Append the listItem to the serviceList

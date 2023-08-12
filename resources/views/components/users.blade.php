@@ -47,7 +47,7 @@
                                         @elseif ($user->connectedUsers->contains(auth()->user()) || auth()->user()->connectedUsers->contains($user))
 
                                             <!-- Connected -->
-                                            <a href="/listings/create/{{$user->id}}/{{auth()->id()}}" class="ml-4 inline-block">
+                                            <a href="/calendar/{{$user->id}}/{{auth()->id()}}" class="ml-4 inline-block">
                                                 <i class="fas fa-calendar-plus text-teal-500 text-2xl"></i>
                                             </a>
                                         @else

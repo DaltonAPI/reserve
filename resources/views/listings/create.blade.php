@@ -1,6 +1,6 @@
 <x-sidbar :filteredUsers="$filteredUsers"></x-sidbar>
 <x-layout :filteredUsers="$filteredUsers">
-    <x-card class="p-10 max-w-lg mx-auto mt-24">
+    <x-card class="p-10 max-w-lg mx-auto mt-5">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">Create a Reservation</h2>
             <p class="mb-4">Reserve a seat for your clients</p>
@@ -11,13 +11,13 @@
 
             <div class="mt-4">
                 <label for="service" class="block font-medium text-gray-700">Select a service:</label>
-                <select id="service" name="service" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-300">
+                <select id="service" name="title" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-300">
                     @php
                         $serviceList = json_decode($business['serviceList'], true);
                     @endphp
 
                     @foreach($serviceList as $service)
-                        <option value="{{ $service['name'] }}">{{ $service['name'] }} ({{ $service['duration'] }})</option>
+                        <option value='{{ json_encode($service) }}'>{{ $service['name'] }} ({{ $service['duration'] }})</option>
                     @endforeach
                 </select>
             </div>
@@ -165,7 +165,7 @@
 
     if (selectedDate) {
         dateInput.value = selectedDate;
-        dateInput.disabled = true; // Disable the input field
+        dateInput.readOnly = true; // Disable the input field
     }
 
     if (selectedTime) {
@@ -185,7 +185,7 @@
 
         const formattedTime = `${formattedHours.toString().padStart(2, '0')}:${minutes}`;
         timeInput.value = formattedTime;
-        timeInput.disabled = true; // Disable the input field
+        timeInput.readOnly = true; // Disable the input field
     } else {
         // Hide the time field
         const timeFieldContainer = timeInput.closest('.mb-6');
@@ -195,17 +195,34 @@
     if (selectedService) {
         // Loop through the options and set the selected service
         for (let i = 0; i < serviceDropdown.options.length; i++) {
-            if (serviceDropdown.options[i].value === selectedService) {
+            const serviceData = JSON.parse(serviceDropdown.options[i].value);
+            if (serviceData.name === selectedService) {
                 serviceDropdown.selectedIndex = i;
                 break;
             }
         }
-        serviceDropdown.disabled = true; // Disable the dropdown
-    } else {
-        // Hide the service field
-        const serviceFieldContainer = serviceDropdown.closest('.mt-4');
-        serviceFieldContainer.style.display = 'none';
+        addHiddenInputForDisabled(serviceDropdown);
+        serviceDropdown.setAttribute("disabled", "disabled"); // Disable the dropdown
     }
+
+
+    function addHiddenInputForDisabled(el) {
+        if (!document.getElementById(el.name + '_hidden')) {
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = el.name;
+            hiddenInput.value = el.value;
+            hiddenInput.id = el.name + '_hidden';
+            el.parentNode.appendChild(hiddenInput);
+        } else {
+            document.getElementById(el.name + '_hidden').value = el.value;
+        }
+
+        el.addEventListener('change', function() {
+            document.getElementById(el.name + '_hidden').value = el.value;
+        });
+    }
+
 
     function previewImage(event) {
         var input = event.target;

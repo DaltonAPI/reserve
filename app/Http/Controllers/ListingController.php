@@ -90,7 +90,7 @@ class ListingController extends Controller
     {
 
         $formFields = $request->validate([
-            'title' => 'string',
+            'title' => 'nullable|required',
             'tags' => 'nullable',
             'email' => ['nullable', 'email'],
             'time' => 'required',
@@ -110,34 +110,34 @@ class ListingController extends Controller
 
 
 
-//          if($formFields['customer_phone']){
-//              $twilioSid = env('TWILIO_SID');
-//              $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
-//              $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
-//              $customerPhoneNumber = $formFields['customer_phone'];
-//
-//              $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
-//              $messageBody = 'Hello ' . $formFields['customer_name'] . ',  looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time']. ' '
-//                  . 'Sincerely ' . auth()->user()->name;
-//              try {
-//
-//                  $client->messages->create(
-//                      $customerPhoneNumber,
-//                      [
-//                          'from' => $twilioPhoneNumber,
-//                          'body' => $messageBody
-//                      ]
-//                  );
-//
-//                  // Message sent successfully
-//                  // ... your remaining code ...
-//              } catch (TwilioException $e) {
-//                  // Exception occurred while sending SMS
-//                  // Handle the exception as per your requirements
-//                  $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
-//                  return redirect()->back()->with('error', $errorMessage);
-//              }
-//          }
+          if($formFields['customer_phone']){
+              $twilioSid = env('TWILIO_SID');
+              $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
+              $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
+              $customerPhoneNumber = $formFields['customer_phone'];
+
+              $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
+              $messageBody = 'Hello ' . $formFields['customer_name'] . ',  looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time']. ' '
+                  . 'Sincerely ' . auth()->user()->name;
+              try {
+
+                  $client->messages->create(
+                      $customerPhoneNumber,
+                      [
+                          'from' => $twilioPhoneNumber,
+                          'body' => $messageBody
+                      ]
+                  );
+
+                  // Message sent successfully
+                  // ... your remaining code ...
+              } catch (TwilioException $e) {
+                  // Exception occurred while sending SMS
+                  // Handle the exception as per your requirements
+                  $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
+                  return redirect()->back()->with('error', $errorMessage);
+              }
+          }
 
 
         $formFields['user_id'] = auth()->id();
@@ -153,7 +153,7 @@ class ListingController extends Controller
         if ($client && $client->email) {
             $client->notify(new ReservationCreatedNotification());
         }
-//        dd($formFields);
+//        dd(\request()->all());
         Listing::create($formFields);
         return redirect('/reservations/'. \auth()->user()->id)->with('message', 'Listing created successfully!');
     }

@@ -83,8 +83,23 @@
         <div class="flex items-center justify-between">
             <div class="w-2/3 py-5">
 
-                <p class="text-gray-600"> <i class="fas fa-tools text-teal-600 mr-2"></i> <span class="font-semibold"> {{ $listing->title }} </span></p>
-                @if ($listing->customer_name)
+                @php
+                    // Decode the title string from the primary JSON object
+                    $titleData = json_decode($listing->title, true);
+
+                    // Now you can directly access name and duration
+                    $serviceName = $titleData['name'];
+                    $serviceDuration = $titleData['duration'];
+                @endphp
+
+                <p class="text-gray-600">
+                    <i class="fas fa-tools text-teal-600 mr-2"></i>
+                    <span class="font-semibold">
+                    {{ $serviceName }} | {{ $serviceDuration }}
+                     </span>
+                </p>
+
+            @if ($listing->customer_name)
                     <p class="text-gray-600"> <i class="fas fa-user text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->customer_name }}</span></p>
                 @endif
                 @if ($listing->email)
@@ -193,7 +208,21 @@
             <div class="flex items-center justify-between">
                 <div class="w-2/3 py-5">
 
-                    <p class="text-gray-600"> <i class="fas fa-tools text-teal-600 mr-2"></i> <span class="font-semibold"> {{ $listing->title }} </span></p>
+                    @php
+                        // Decode the title string from the primary JSON object
+                        $titleData = json_decode($listing->title, true);
+
+                        // Now you can directly access name and duration
+                        $serviceName = $titleData['name'];
+                        $serviceDuration = $titleData['duration'];
+                    @endphp
+
+                    <p class="text-gray-600">
+                        <i class="fas fa-tools text-teal-600 mr-2"></i>
+                        <span class="font-semibold">
+                    {{ $serviceName }} | duration: {{ $serviceDuration }}
+                     </span>
+                    </p>
                     @if ($listing->customer_name)
                         <p class="text-gray-600"> <i class="fas fa-user text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->customer_name }}</span></p>
                     @endif

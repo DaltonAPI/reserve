@@ -181,10 +181,32 @@
 
 
                             <div class="mb-4">
+
                                 <div class="mb-2">
-                                       <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
-                                       <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "X" to remove service.</p>
-                                   </div>
+                                    <label for="durationSelect" class="block text-sm font-medium text-gray-900">Choose Service Duration </label>
+                                    <select name="durationSelect" id="durationSelect" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                        <option value="30">30 minutes</option>
+                                        <option value="60">1 hour</option>
+                                        <option value="90">1 hour 30 minutes</option>
+                                        <option value="120">2 hours</option>
+                                        <option value="150">2 hours 30 minutes</option>
+                                        <option value="180">3 hours</option>
+                                        <option value="210">3 hours 30 minutes</option>
+                                        <option value="240">4 hours</option>
+                                        <option value="270">4 hours 30 minutes</option>
+                                        <option value="300">5 hours</option>
+                                        <option value="330">5 hours 30 minutes</option>
+                                        <option value="360">6 hours</option>
+                                        <option value="390">6 hours 30 minutes</option>
+                                        <option value="420">7 hours</option>
+                                        <option value="450">7 hours 30 minutes</option>
+                                        <option value="480">8 hours</option>
+                                    </select>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="serviceInput" class="block  text-sm font-medium text-gray-900">Services Offered<span class="text-red-500">*</span></label>
+                                    <p style="font-size: x-small;">Type your service in the input field and click "Add Service" to add, and click "X" to remove service.</p>
+                                </div>
                                     <input type="text" name="serviceList" id="serviceInput" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="eg. repair, house cleaning, lawn cutting">
                                     @error('serviceList')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -196,6 +218,8 @@
                                        <icon class="fa fa-plus"></icon>
                                     </button>
                             </div>
+
+
 
 
 
@@ -247,21 +271,16 @@
     function addService(event) {
         event.preventDefault();
 
-        // Get the input field value
         var input = document.getElementById("serviceInput");
         var service = input.value.trim();
 
-        // Add the service to the array if it's not empty
         if (service !== "") {
-            // Enhanced: Use dropdown to select service duration
-            var duration = parseInt(prompt("Enter service duration in minutes:"));
+            var durationSelect = document.getElementById("durationSelect");
+            var selectedDuration = parseInt(durationSelect.value);
 
-            if (!isNaN(duration) && duration > 0) {
-                // Convert minutes to hours and minutes
-                var hours = Math.floor(duration / 60);
-                var minutes = duration % 60;
-
-                // Format the duration as HH:MM if over 60 minutes
+            if (!isNaN(selectedDuration) && selectedDuration > 0) {
+                var hours = Math.floor(selectedDuration / 60);
+                var minutes = selectedDuration % 60;
                 var formattedDuration = hours + ":" + (minutes < 10 ? "0" : "") + minutes;
 
                 services.push({
@@ -269,14 +288,15 @@
                     duration: formattedDuration
                 });
 
-                input.value = ""; // Clear the input field
-                renderServiceList(); // Update the displayed service list
+                input.value = "";
+                renderServiceList();
                 saveServicesToLocalStorage();
             } else {
-                alert("Invalid duration. Please enter a valid number.");
+                alert("Invalid duration. Please select a valid duration.");
             }
         }
     }
+
 
 
 

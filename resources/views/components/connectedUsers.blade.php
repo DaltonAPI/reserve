@@ -14,13 +14,18 @@
                                 <img class="w-8 h-8 rounded-full" src="/images/avatar.png" alt="User 1 Image">
                             @endif
 
-                            <div class="text-white">
-                                @if($user['client-name'])
-                                    <h3 class="ml-3 font-semibold">{{$user['client-name']}}</h3>
-                                @elseif($user->name)
-                                    <h3 class="ml-3 font-semibold">{{$user->name}}</h3>
-                                @endif
-                            </div>
+                                <div class="text-white flex flex-wrap justify-center items-center">
+                                    <h3 class="ml-3 font-semibold w-full text-center md:text-left text-xs leading-tight md:leading-normal">
+                                        @if($user['client-name'])
+                                            {{$user['client-name']}}
+                                        @elseif($user->name)
+                                            {{$user->name}}
+                                        @endif
+                                    </h3>
+                                </div>
+
+
+
                         </div>
                         <div class="flex items-center">
                             @if(auth()->user()->account_type === 'Business')

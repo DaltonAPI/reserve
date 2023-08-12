@@ -77,12 +77,7 @@
                             <span class="contact-label">{{ $user->contact_info }}</span>
 
                         </div>
-                        {{--                        <div class="flex items-center">--}}
-                        {{--                            <i class="fas fa-globe text-pink-600 mr-2"></i>--}}
-                        {{--                            <span class="industry-label">{{ $user->industry_category }}</span>--}}
-                        {{--                            <input type="text" class="hidden input-field bg-gray-100 rounded px-4 py-2 ml-2 w-2/3"--}}
-                        {{--                                   name="industry_category" value="{{ $user->industry_category }}">--}}
-                        {{--                        </div>--}}
+
                     </div>
 
                     <!-- Add Location Field -->
@@ -99,15 +94,23 @@
                             <div class="flex flex-wrap">
                                 @php
                                     $colors = ['bg-pink-200', 'bg-blue-200', 'bg-green-200', 'bg-yellow-200'];
+                                    $decodedServices = json_decode($user->serviceList);
+
+
                                 @endphp
-                                @foreach(json_decode($user->serviceList) as $key => $service)
-                                    <span class="inline-block {{ $colors[$key % count($colors)] }} text-black text-xs font-medium py-1 px-2 rounded-full mb-1 mr-1" style="color: black">{{ $service }}</span>
+                                @foreach($decodedServices as $key => $service)
+                                    @if(is_object($service))
+                                        <span class="inline-block {{ $colors[$key % count($colors)] }} text-black text-xs font-medium py-1 px-2 rounded-full mb-1 mr-1">{{ $service->name }} ({{ $service->duration }})</span>
+
+                                    @endif
                                 @endforeach
                             </div>
-
                         </div>
                     @endif
-                    @auth
+
+
+
+                @auth
                         @if($user->id === auth()->user()->id)
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-qrcode text-teal-600 mr-2"></i>
@@ -181,13 +184,9 @@
                             </button>
 
                         @elseif ($user->connectedUsers->contains(auth()->user())  || auth()->user()->connectedUsers->contains($user) )
-                            <!-- Connected -->
-                            {{--                        @php--}}
-                            {{--                            $clientId = auth()->id(); // Retrieve the client ID--}}
-                            {{--                            $connectedUser = $user->connectedUsers->firstWhere('id', $clientId);--}}
-                            {{--                        @endphp--}}
 
-                            <a href="/listings/create/{{auth()->id()}}/{{$user->id}}" class="ml-4 inline-block">
+
+                            <a href="/calendar/{{auth()->id()}}/{{$user->id}}" class="ml-4 inline-block">
                                 <i class="fas fa-calendar-plus text-green-500 text-2xl"></i>
                             </a>
                         @else
