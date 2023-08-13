@@ -17,9 +17,9 @@
                         @if($user->account_type === 'Client')
                             <li class="flex  items-center space-x-2 border border-gray-200 p-2 bg-black rounded-lg shadow-md">
                                 @if($user->photos)
-                                <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-teal-400">
-                                    <img src="{{ asset('storage/' . $user->photos) }}" alt="User Avatar" class="w-full h-full object-cover rounded-full">
-                                </div>
+                                    <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-teal-400">
+                                        <img src="{{ asset('storage/' . $user->photos) }}" alt="User Avatar" class="w-full h-full object-cover rounded-full">
+                                    </div>
                                 @else
                                     <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-teal-400">
                                         <img src="/images/avatar.png" alt="User Avatar" class="w-full h-full object-cover rounded-full">
@@ -81,12 +81,12 @@
 <style>
     #userList {
         overflow-x: auto;
-        scrollbar-width: none; /* Hide the scrollbar for modern browsers */
-        -ms-overflow-style: none; /* Hide the scrollbar for IE and Edge */
+        scrollbar-width: none; /* Hide scrollbar for Firefox */
+        -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
     }
 
     #userList::-webkit-scrollbar {
-        display: none; /* Hide the scrollbar for Chrome, Safari, and Opera */
+        display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
     }
 
     @media (max-width: 640px) {
@@ -95,10 +95,21 @@
         }
         #userList li {
             margin-right: 12px;
+            font-size: 0.8rem; /* Adjust font size for mobile */
         }
         #rightButton, #leftButton {
             padding: 8px;
+            opacity: 1 !important; /* Force visibility for mobile if list is scrollable */
         }
+    }
+
+    /* Touch Feedback */
+    #leftButton:active, #rightButton:active {
+        background: rgba(255, 0, 0, 0.1);
+    }
+
+    img {
+        max-width: 100%;
     }
 </style>
 
@@ -106,6 +117,14 @@
     const leftButton = document.getElementById('leftButton');
     const rightButton = document.getElementById('rightButton');
     const userList = document.getElementById('userList');
+
+    // Function to check if the list is scrollable and show the scroll buttons accordingly
+    function checkScrollable() {
+        if(userList.scrollWidth > userList.clientWidth) {
+            leftButton.style.opacity = "1";
+            rightButton.style.opacity = "1";
+        }
+    }
 
     leftButton.addEventListener('click', () => {
         userList.scrollBy({
@@ -120,5 +139,8 @@
             behavior: 'smooth'
         });
     });
+
+    window.addEventListener('resize', checkScrollable);
+    window.addEventListener('load', checkScrollable);
 </script>
 
