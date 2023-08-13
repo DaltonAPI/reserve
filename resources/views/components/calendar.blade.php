@@ -495,7 +495,7 @@
 
                                 const titleString = reservation.title;
                                 const titleObject = JSON.parse(titleString);
-                                const reservationServiceDuration = timeToMinutes(titleObject[0].duration);
+                                const reservationServiceDuration = timeToMinutes(titleObject.duration);
                                 const reservedStart = timeToMinutes(reservation.time);
                                 reservedEnd = reservedStart + reservationServiceDuration; // Update it here.
 

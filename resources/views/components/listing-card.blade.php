@@ -84,20 +84,37 @@
             <div class="w-2/3 py-5">
 
                 @php
-                    // Decode the title string from the primary JSON object
                     $titleData = json_decode($listing->title, true);
+                    if (is_array($titleData)) {
+                          // Safely access array elements using null coalescing
+                          $serviceName = $titleData['name'] ?? null;
+                          $serviceDuration = $titleData['duration'] ?? null;
+                      } elseif (is_string($listing->title)) {
+                          // If it's a simple string
+                          $serviceName = $listing->title;
+                          $serviceDuration = null;
+                      } else {
+                          // Handle other unexpected cases
+                          $serviceName = null;
+                          $serviceDuration = null;
+                      }
+                    @endphp
+                @if ($serviceName && $serviceDuration)
+                    <p class="text-gray-600">
+                        <i class="fas fa-tools text-teal-600 mr-2"></i>
+                        <span class="font-semibold">
+                        {{ $serviceName }} | duration: {{ $serviceDuration }}
+                         </span>
+                    </p>
+                @elseif ($serviceName)
+                    <p class="text-gray-600">
+                        <i class="fas fa-tools text-teal-600 mr-2"></i>
+                        <span class="font-semibold">
+                        {{ $serviceName }}
+                         </span>
+                    </p>
+                @endif
 
-                    // Now you can directly access name and duration
-                    $serviceName = $titleData['name'];
-                    $serviceDuration = $titleData['duration'];
-                @endphp
-
-                <p class="text-gray-600">
-                    <i class="fas fa-tools text-teal-600 mr-2"></i>
-                    <span class="font-semibold">
-                    {{ $serviceName }} | {{ $serviceDuration }}
-                     </span>
-                </p>
 
             @if ($listing->customer_name)
                     <p class="text-gray-600"> <i class="fas fa-user text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->customer_name }}</span></p>
@@ -209,21 +226,38 @@
                 <div class="w-2/3 py-5">
 
                     @php
-                        // Decode the title string from the primary JSON object
                         $titleData = json_decode($listing->title, true);
-
-                        // Now you can directly access name and duration
-                        $serviceName = $titleData['name'];
-                        $serviceDuration = $titleData['duration'];
+                        if (is_array($titleData)) {
+                              // Safely access array elements using null coalescing
+                              $serviceName = $titleData['name'] ?? null;
+                              $serviceDuration = $titleData['duration'] ?? null;
+                          } elseif (is_string($listing->title)) {
+                              // If it's a simple string
+                              $serviceName = $listing->title;
+                              $serviceDuration = null;
+                          } else {
+                              // Handle other unexpected cases
+                              $serviceName = null;
+                              $serviceDuration = null;
+                          }
                     @endphp
+                    @if ($serviceName && $serviceDuration)
+                        <p class="text-gray-600">
+                            <i class="fas fa-tools text-teal-600 mr-2"></i>
+                            <span class="font-semibold">
+                        {{ $serviceName }} | duration: {{ $serviceDuration }}
+                         </span>
+                        </p>
+                    @elseif ($serviceName)
+                        <p class="text-gray-600">
+                            <i class="fas fa-tools text-teal-600 mr-2"></i>
+                            <span class="font-semibold">
+                        {{ $serviceName }}
+                         </span>
+                        </p>
+                    @endif
 
-                    <p class="text-gray-600">
-                        <i class="fas fa-tools text-teal-600 mr-2"></i>
-                        <span class="font-semibold">
-                    {{ $serviceName }} | duration: {{ $serviceDuration }}
-                     </span>
-                    </p>
-                    @if ($listing->customer_name)
+                @if ($listing->customer_name)
                         <p class="text-gray-600"> <i class="fas fa-user text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->customer_name }}</span></p>
                     @endif
                     @if ($listing->email)
