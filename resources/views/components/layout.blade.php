@@ -52,11 +52,13 @@
     </div>
     <ul class="flex space-x-6 mr-6 text-lg">
         @auth
+            @if(auth()->user()->account_type === 'Business')
             <li>
                 <a href="/listings/random/{{auth()->user()->id}}" class="ml-4 inline-block">
                     <i class="fas fa-calendar-plus text-teal-500 text-2xl"></i>
                 </a>
             </li>
+            @endif
             <li>
                 <button id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" class="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button">
                     <i class="fas fa-bell text-2xl text-teal-500"></i>
