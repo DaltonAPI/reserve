@@ -53,7 +53,7 @@
     <ul class="flex space-x-6 mr-6 text-lg">
         @auth
             <li>
-                <a href="/listings/create" class="ml-4 inline-block">
+                <a href="/listings/random/{{auth()->user()->id}}" class="ml-4 inline-block">
                     <i class="fas fa-calendar-plus text-teal-500 text-2xl"></i>
                 </a>
             </li>
