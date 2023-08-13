@@ -83,6 +83,16 @@ class ListingController extends Controller
         return view('listings.create', compact('user','reservationData' ,'times','business','filteredUsers', 'client', 'clientId', 'businessId', 'selectedDate'));
     }
 
+    public function createRandom(Request $request)
+    {
+        $user = $request->user();
+        $searchTerm = $request->input('search');
+        $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
+
+
+        return view('listings.random', compact('user' ,'filteredUsers'));
+    }
+
 
 
     // Store Listing Data
