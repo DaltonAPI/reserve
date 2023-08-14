@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Exceptions;
+use Illuminate\Session\TokenMismatchException;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
@@ -47,4 +48,13 @@ class Handler extends ExceptionHandler
             //
         });
     }
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof TokenMismatchException) {
+            return redirect('/landing')->with('message', 'Your session expired. You have been redirected.');
+        }
+
+        return parent::render($request, $exception);
+    }
+
 }
