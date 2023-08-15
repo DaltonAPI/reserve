@@ -103,7 +103,7 @@
         <label for="service" class="block font-medium text-gray-700">Select a service:</label>
         <select id="service" name="service" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-300">
             @php
-                $serviceList = json_decode($business['serviceList'], true);
+                $serviceList = $services;
 
             @endphp
 
@@ -127,6 +127,10 @@
                 <div class="w-6 h-6 rounded-full bg-red mr-2" style="background: red"></div>
                 <div>Blocked Dates</div>
             </div>
+            <div>
+
+            </div>
+
             <div class="w-1/2 md:w-auto flex items-center mb-2 md:mb-0">
                 <div class="w-6 h-6 rounded-full bg-deeppink ml-4 mr-2" style="background: teal"></div>
                 <div>Available Dates</div>
@@ -419,7 +423,7 @@
                 const selectedSlot = formatTime12Hour(...event.target.value.split(':'));
 
                 // Do something with the selected time slot
-                console.log('Selected time slot:', selectedSlot);
+
 
                 // Create and display the "Next" button
                 const nextButtonContainer = document.getElementById('next-button-container');

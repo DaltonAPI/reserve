@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Listing;
 use App\Http\Controllers\TimeController;
+use App\Http\Controllers\ServiceController;
 use Spatie\GoogleCalendar\Event;
 /*
 |--------------------------------------------------------------------------x
@@ -67,6 +68,11 @@ Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->mid
 
 //Cancel Listing
 Route::post('/reservations/{id}', [ListingController::class, 'cancelReservation'])->middleware('auth');
+
+
+
+Route::post('/storeServices', [ServiceController::class, 'store'])->name('services.store');
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 
 
 

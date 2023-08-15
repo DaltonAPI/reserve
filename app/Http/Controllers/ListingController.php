@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Listing;
 use App\Models\Notifications\ReservationCreatedNotification;
+use App\Models\Service;
 use App\Models\Time;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -267,10 +268,17 @@ class ListingController extends Controller
         $user = auth()->user();
         $reservationData =  Listing::where('user_id', $businessId)->get();
         $times = Time::where('user_id', $businessId)->get();
+
         $business = User::find($businessId);
+        $transformedServices = Service::where('user_id', $businessId)->get();
+        $services = $transformedServices->map(function ($service) {
+            return [
+                'name' => $service->name,
+                'duration' => $service->duration
+            ];
+        });
 
-
-        return view('listings.calendar', compact('user', 'reservationData','filteredUsers','times','business','clientId','businessId'));
+        return view('listings.calendar', compact('user', 'reservationData','filteredUsers','times','business','clientId','businessId','services'));
     }
 
 

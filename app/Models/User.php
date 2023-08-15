@@ -124,6 +124,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Time::class);
     }
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
 
 
 }
