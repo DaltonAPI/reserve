@@ -172,7 +172,7 @@ class UserController extends Controller
     {
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
-//        dd($filteredUsers);
+
 
         return view('users.business', compact('filteredUsers'));
     }

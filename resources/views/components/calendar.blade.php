@@ -419,7 +419,7 @@
             availableSlots.forEach(slot => {
                 const slotButton = document.createElement('button');
                 slotButton.textContent = slot;
-                slotButton.classList.add('time-slot-pill', 'px-3', 'py-1', 'mr-2', 'mb-2', 'border', 'border-gray-300', 'rounded-md', 'hover:bg-indigo-300', 'cursor-pointer');
+                slotButton.classList.add('time-slot-pill', 'px-3', 'py-1', 'mr-2', 'mb-2', 'border', 'border-gray-300', 'rounded-md', 'hover:bg-pink-300', 'cursor-pointer');
                 slotButton.setAttribute('data-slot', slot);
 
                 slotButton.addEventListener('click', function(event) {
@@ -427,10 +427,10 @@
 
                     // Make sure to reset any previously selected pill's style
                     const allSlotButtons = document.querySelectorAll('.time-slot-pill');
-                    allSlotButtons.forEach(btn => btn.classList.remove('bg-indigo-300'));
+                    allSlotButtons.forEach(btn => btn.classList.remove('bg-pink-300'));
 
                     // Highlight the selected pill
-                    event.target.classList.add('bg-indigo-300');
+                    event.target.classList.add('bg-pink-300');
 
                     // Proceed with the next steps, similar to what you had for dropdown selection
                     const nextButtonContainer = document.getElementById('next-button-container');

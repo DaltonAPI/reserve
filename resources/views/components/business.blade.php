@@ -12,8 +12,8 @@
                 @if (auth()->user()->id === $user->id)
                     <div class="flex ">
                         @if (!isset($id))
-                            <a href="/createTimePicker" class="edit-icon absolute top-0 right-12 m-2 text-teal-600 hover:text-pink-700">
-                                <i class="fas fa-clock"></i>
+                            <a href="/services" class="edit-icon absolute top-0 right-12 m-2 text-teal-600 hover:text-pink-700">
+                                <i class="fas fa-tools"></i>
                             </a>
                         @endif
                         <a href="/edit/user" class="edit-icon absolute top-0 right-6 m-2 text-teal-600 hover:text-pink-300">
