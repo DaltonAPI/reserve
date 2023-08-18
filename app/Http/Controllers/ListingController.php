@@ -89,9 +89,11 @@ class ListingController extends Controller
         $user = $request->user();
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(30);
+        if (\auth()->user()->account_type = 'Business'){
+            $services = Service::where('user_id', \auth()->user()->id)->get();
+        }
 
-
-        return view('listings.random', compact('user' ,'filteredUsers'));
+        return view('listings.random', compact('user' ,'filteredUsers','services'));
     }
 
 
@@ -165,6 +167,7 @@ class ListingController extends Controller
             $client->notify(new ReservationCreatedNotification());
         }
 //        dd(\request()->all());
+
         Listing::create($formFields);
         return redirect('/reservations/'. \auth()->user()->id)->with('message', 'Listing created successfully!');
     }
@@ -266,7 +269,16 @@ class ListingController extends Controller
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
         $user = auth()->user();
-        $reservationData =  Listing::where('user_id', $businessId)->get();
+        $listings = Listing::query();
+        $reservationData = $listings->where(function ($query) use ($user, $clientId, $businessId) {
+            $query->where('user_id', $businessId)
+                ->orWhere('client_id', $clientId)
+                ->orWhere('business_id', $businessId);
+        });
+        $reservationData = $listings->latest()->get();
+
+
+
         $times = Time::where('user_id', $businessId)->get();
 
         $business = User::find($businessId);
@@ -274,7 +286,8 @@ class ListingController extends Controller
         $services = $transformedServices->map(function ($service) {
             return [
                 'name' => $service->name,
-                'duration' => $service->duration
+                'duration' => $service->duration,
+                'price' => $service->price
             ];
         });
 

@@ -87,25 +87,26 @@
                             <span class="location-label">{{ $user->location }}</span>
                         </div>
                     @endif
+
                     <!-- Add Services Offered -->
-                    @if($user->serviceList)
+                    @if($user->services)
                         <div class="flex items-center mb-2">
-                            <i class="fas fa-tools text-teal-600 mr-2"></i>
+
                             <div class="flex flex-wrap">
                                 @php
-                                    $colors = ['bg-pink-200', 'bg-blue-200', 'bg-green-200', 'bg-yellow-200'];
-                                    $decodedServices = json_decode($user->serviceList);
-
-
+                                    $decodedServices = json_decode($user->services);
                                 @endphp
+                                @if($decodedServices)
+                                    <i class="fas fa-tools text-teal-600 mr-2"></i>
+                                @endif
                                 @foreach($decodedServices as $key => $service)
                                     @if(is_object($service))
-                                        <span class="inline-block {{ $colors[$key % count($colors)] }} text-black text-xs font-medium py-1 px-2 rounded-full mb-1 mr-1">{{ $service->name }} ({{ $service->duration }})</span>
-
+                                        <span class="inline-block bg-black border-white border text-white text-xs font-medium py-1 px-2 rounded-full mb-1 mr-1">{{ $service->name }} ( {{ $service->duration }}) - ${{ $service->price }}</span>
                                     @endif
                                 @endforeach
                             </div>
                         </div>
+
                     @endif
 
 

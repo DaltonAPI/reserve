@@ -90,6 +90,9 @@
             color: #b0b0b0; /* Set the desired text color for disabled days */
             background-color: #f5f5f5; /* Set a background color to differentiate disabled days */
         }
+        #service-container {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -99,19 +102,21 @@
     <div class="text-center mb-4 text-gray-600">
         Select a date by clicking on it to view available slots and make a reservation.
     </div>
-    <div class="mt-4">
+    <div  id="service-container" class="mt-4">
+
         <label for="service" class="block font-medium text-gray-700">Select a service:</label>
         <select id="service" name="service" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-300">
             @php
                 $serviceList = $services;
-
             @endphp
 
             @foreach($serviceList as $service)
-                <option value="{{ $service['name'] }}">{{ $service['name'] }} ({{ $service['duration'] }})</option>
+                <option value="{{ $service['name'] }}" data-duration="{{ $service['duration'] }}" data-price="{{ $service['price'] }}">{{ $service['name'] }} ({{ $service['duration'] }}) - ${{ $service['price'] }} </option>
             @endforeach
         </select>
+
     </div>
+
     <div class="mt-4">
 {{--        <label for="service" class="block font-medium text-gray-700">Choose a time from the available slots</label>--}}
         <div id="availability-message" class="message"></div>
@@ -367,7 +372,7 @@
         gridCells.forEach(cell => {
             cell.classList.remove('active');
         });
-
+        document.getElementById('service-container').style.display = 'block';
         // Add the "active" class to the selected cell
         const selectedCell = document.getElementById('date-cell-' + date);
         if (selectedCell.classList.contains('disabled')) {
@@ -407,46 +412,53 @@
         if (availableSlots.length === 0) {
             availableSlotsContainer.textContent = 'No available slots for the selected date.';
         } else {
-            const slotDropdown = document.createElement('select');
-            slotDropdown.classList.add('mt-2', 'block', 'w-full', 'border', 'border-gray-300', 'p-2', 'rounded-md', 'shadow-sm', 'focus:ring', 'focus:ring-indigo-300');
+            const slotsWrapper = document.createElement('div');
+            slotsWrapper.classList.add('slot-buttons-wrapper', 'mt-2');
 
-            // Create and append the available slot options to the dropdown
+            // Create and append the available slot options as clickable pills/buttons
             availableSlots.forEach(slot => {
-                const option = document.createElement('option');
-                option.textContent = slot;
-                option.value = slot;
-                slotDropdown.appendChild(option);
-            });
+                const slotButton = document.createElement('button');
+                slotButton.textContent = slot;
+                slotButton.classList.add('time-slot-pill', 'px-3', 'py-1', 'mr-2', 'mb-2', 'border', 'border-gray-300', 'rounded-md', 'hover:bg-indigo-300', 'cursor-pointer');
+                slotButton.setAttribute('data-slot', slot);
 
-            // Attach an event listener to the dropdown to capture the selected slot
-            slotDropdown.addEventListener('change', function(event) {
-                const selectedSlot = formatTime12Hour(...event.target.value.split(':'));
+                slotButton.addEventListener('click', function(event) {
+                    const selectedSlot = formatTime12Hour(...event.target.getAttribute('data-slot').split(':'));
 
-                // Do something with the selected time slot
+                    // Make sure to reset any previously selected pill's style
+                    const allSlotButtons = document.querySelectorAll('.time-slot-pill');
+                    allSlotButtons.forEach(btn => btn.classList.remove('bg-indigo-300'));
 
+                    // Highlight the selected pill
+                    event.target.classList.add('bg-indigo-300');
 
-                // Create and display the "Next" button
-                const nextButtonContainer = document.getElementById('next-button-container');
-                const selectedService = document.getElementById('service').value;
-                const selectedDate = document.getElementById('selected-date').textContent.split(':')[1].trim();
-                const availabilityMessage = document.getElementById('availability-message');
+                    // Proceed with the next steps, similar to what you had for dropdown selection
+                    const nextButtonContainer = document.getElementById('next-button-container');
+                    let serviceDropdown = document.getElementById('service');
+                    let selectedService = serviceDropdown.options[serviceDropdown.selectedIndex];
+                    let serviceName = selectedService.value;
+                    let serviceDuration = selectedService.getAttribute('data-duration');
+                    let servicePrice = selectedService.getAttribute('data-price');
+                    const selectedDate = document.getElementById('selected-date').textContent.split(':')[1].trim();
 
-
-                const selectedTimeOption = availabilityMessage.querySelector('select').value;
-                const nextButton = document.createElement('button');
-                nextButton.textContent = 'Next';
-                nextButton.classList.add('px-4', 'py-2', 'bg-pink-500', 'text-white', 'rounded', 'hover:bg-pink-600');
-                nextButton.addEventListener('click', function() {
-                    const redirectURL = `https://reservify.in/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedTimeOption}&selectedService=${selectedService}`;
-                    window.location.href = redirectURL;
+                    const nextButton = document.createElement('button');
+                    nextButton.textContent = 'Next';
+                    nextButton.classList.add('px-4', 'py-2', 'bg-pink-500', 'text-white', 'rounded', 'hover:bg-pink-600', 'mt-3');
+                    nextButton.addEventListener('click', function() {
+                        const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
+                        window.location.href = redirectURL;
+                    });
+                    nextButtonContainer.innerHTML = ''; // Clear previous content
+                    nextButtonContainer.appendChild(nextButton);
                 });
-                nextButtonContainer.innerHTML = ''; // Clear previous content
-                nextButtonContainer.appendChild(nextButton);
+
+                slotsWrapper.appendChild(slotButton);
             });
 
-            availableSlotsContainer.appendChild(slotDropdown);
+            availableSlotsContainer.appendChild(slotsWrapper);
         }
     }
+
     function formatTime12Hour(hours, minutes) {
         const ampm = hours >= 12 ? 'PM' : 'AM';
         const formattedHours = hours % 12 || 12;

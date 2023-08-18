@@ -10,17 +10,39 @@
             @csrf
 
             <div class="mt-4">
-                <label for="service" class="block font-medium text-gray-700">Select a service:</label>
-                <select id="service" name="title" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-300">
-                    @php
-                        $serviceList = json_decode($business['serviceList'], true);
-                    @endphp
 
-                    @foreach($serviceList as $service)
-                        <option value='{{ json_encode($service) }}'>{{ $service['name'] }} ({{ $service['duration'] }})</option>
-                    @endforeach
-                </select>
+                <div class="bg-white p-4 rounded-xl shadow-md inline-flex items-center space-x-4 justify-between w-full">
+
+                    <!-- Service Title with Icon -->
+                    <div class="text-lg font-semibold flex-shrink-0 flex items-center space-x-2">
+                        <i class="fas fa-cut text-gray-600"></i>
+                        <span id="displayServiceName">Flat iron service (natural hair)</span>
+                    </div>
+
+                    <!-- Separator -->
+                    <div class="border-r h-6 border-gray-300"></div>
+
+                    <!-- Service Price with Icon -->
+                    <div class="text-lg text-gray-700 flex-shrink-0 flex items-center ">
+                        <i class="fas fa-dollar-sign text-gray-600"></i>
+                        <span class="font-bold text-green-500" id="displayServicePrice"></span><span class="ml-2"> and up</span>
+                    </div>
+
+                    <!-- Separator -->
+                    <div class="border-r h-6 border-gray-300"></div>
+
+                    <!-- Service Duration with Icon -->
+                    <div class="text-lg text-gray-500 flex-shrink-0 flex items-center space-x-2">
+                        <i class="fas fa-clock text-gray-600"></i>
+                         <span class="font-medium" id="displayServiceDuration"></span>
+                    </div>
+                </div>
+
+
+
+
             </div>
+            <input type="hidden" id="title" name="title" value="">
             <div class="mb-6">
                 <input type="hidden" name="client_id" value="{{ $clientId }}">
                 <input type="hidden" name="business_id" value="{{ $businessId }}">
@@ -93,7 +115,7 @@
                 @enderror
             </div>
             <div class="mb-6">
-                <label for="logo" class="inline-block text-lg mb-2">Thumbnail</label>
+
                 <div class="relative">
                     <label for="thumbnail-input" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 cursor-pointer">
                         <input type="file" class="hidden" name="logo" accept="image/*" id="thumbnail-input" onchange="previewImage(event)" />
@@ -103,7 +125,7 @@
                                 <path d="M10 9a2 2 0 100-4 2 2 0 000 4z" />
                             </svg>
                         </div>
-                        <span class="ml-3">Upload Thumbnail</span>
+                        <span class="ml-3">Are reference to service expectation</span>
                     </label>
                 </div>
                 <div class="mt-2">
@@ -156,7 +178,9 @@
     const urlParams = new URLSearchParams(window.location.search);
     const selectedDate = urlParams.get('selectedDate');
     const selectedTime = urlParams.get('selectedTime');
-    const selectedService = urlParams.get('selectedService');
+    const serviceName = urlParams.get('serviceName');
+    const serviceDuration = urlParams.get('serviceDuration');
+    const servicePrice = urlParams.get('servicePrice');
 
     // Set the values of the input fields
     const dateInput = document.querySelector('input[name="date"]');
@@ -192,18 +216,25 @@
         timeFieldContainer.style.display = 'none';
     }
 
-    if (selectedService) {
-        // Loop through the options and set the selected service
-        for (let i = 0; i < serviceDropdown.options.length; i++) {
-            const serviceData = JSON.parse(serviceDropdown.options[i].value);
-            if (serviceData.name === selectedService) {
-                serviceDropdown.selectedIndex = i;
-                break;
-            }
-        }
-        addHiddenInputForDisabled(serviceDropdown);
-        serviceDropdown.setAttribute("disabled", "disabled"); // Disable the dropdown
+
+    // Display serviceName
+    const displayServiceNameElem = document.getElementById('displayServiceName');
+    if (displayServiceNameElem && serviceName) {
+        displayServiceNameElem.innerText = serviceName;
     }
+
+    // Display serviceDuration
+    const displayServiceDurationElem = document.getElementById('displayServiceDuration');
+    if (displayServiceDurationElem && serviceDuration) {
+        displayServiceDurationElem.innerText = serviceDuration;
+    }
+
+    // Display servicePrice
+    const displayServicePriceElem = document.getElementById('displayServicePrice');
+    if (displayServicePriceElem && servicePrice) {
+        displayServicePriceElem.innerText = servicePrice;
+    }
+
 
 
     function addHiddenInputForDisabled(el) {
@@ -224,6 +255,13 @@
     }
 
 
+    const serviceData = {
+        name: serviceName,
+        duration: serviceDuration,
+        price: servicePrice
+    };
+
+    document.getElementById('title').value = JSON.stringify(serviceData);
     function previewImage(event) {
         var input = event.target;
         var preview = document.getElementById('thumbnail-preview');

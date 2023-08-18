@@ -40,7 +40,7 @@ class UserController extends Controller
             'Twitter_links' => 'nullable|url',
             'TikTok_links' => 'nullable|url',
             'YouTube_links' => 'nullable|url',
-            'serviceList' => ['required', 'min:3'],
+            'serviceList' => 'nullable',
             'location' => 'required|string',
             'photos' => 'nullable|mimes:jpeg,png,gif'
         ];
@@ -105,7 +105,12 @@ class UserController extends Controller
             }
 
             auth()->login($user);
-            return redirect('/landing')->with('message', 'User created and logged in');
+            if(auth()->user()->account_type = 'Business'){
+                return redirect('/services')->with('message', 'User created and logged in');
+            }else{
+                return redirect('/landing')->with('message', 'User information updated successfully');
+            }
+
         } catch (\Illuminate\Database\QueryException $e) {
             $errorCode = $e->errorInfo[1];
 

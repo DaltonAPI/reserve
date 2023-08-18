@@ -13,7 +13,7 @@
                 <label for="service" class="block font-medium text-gray-700">Select a service:</label>
                 <select id="service" name="title" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-300">
                     @php
-                        $serviceList = json_decode($user['serviceList'], true);
+                        $serviceList = $services;
                     @endphp
 
                     @foreach($serviceList as $service)

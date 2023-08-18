@@ -71,8 +71,11 @@ Route::post('/reservations/{id}', [ListingController::class, 'cancelReservation'
 
 
 
-Route::post('/storeServices', [ServiceController::class, 'store'])->name('services.store');
-Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+Route::post('/storeServices', [ServiceController::class, 'store'])->name('services.store')->middleware('auth');
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index')->middleware('auth');
+
+Route::patch('/service/update/{service}', [ServiceController::class, 'update'])->name('service.update');
+Route::delete('/service/delete/{service}', [ServiceController::class, 'destroy'])->name('service.destroy');
 
 
 
