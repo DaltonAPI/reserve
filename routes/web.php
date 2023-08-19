@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Listing;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\ServiceController;
-use Spatie\GoogleCalendar\Event;
+
 /*
 |--------------------------------------------------------------------------x
 | Web Routes
@@ -121,8 +121,7 @@ Route::get('/privacy', function (){
     return view('questions');
 });
 
-//// routes/web.php
-//Route::get('/api/locations', [UserController::class, 'search']);
+
 
 Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('posts.like')->middleware('auth');
 Route::post('/posts/{post}/unlike', [LikeController::class, 'destroy'])->name('posts.unlike')->name('posts.like')->middleware('auth');
@@ -139,18 +138,4 @@ Route::get('/createTimePicker', [TimeController::class, 'create']);
 Route::get('/getTime/{id}', [TimeController::class, 'index']);
 
 
-//Route::get('/test', function () {
-//    $event = new Event;
-//
-//    $event->name = 'A new event';
-//    $event->description = 'Event description';
-//    $event->startDateTime = Carbon\Carbon::now();
-//    $event->endDateTime = Carbon\Carbon::now()->addHour();
-//
-//
-//
-//    $event->save();
-//
-//    $e = Event::get();
-//    dd($e);
-//});
+

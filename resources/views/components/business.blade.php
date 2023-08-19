@@ -91,7 +91,6 @@
                     <!-- Add Services Offered -->
                     @if($user->services)
                         <div class="flex items-center mb-2">
-
                             <div class="flex flex-wrap">
                                 @php
                                     $decodedServices = json_decode($user->services);
@@ -99,15 +98,26 @@
                                 @if($decodedServices)
                                     <i class="fas fa-tools text-teal-600 mr-2"></i>
                                 @endif
+                                @php
+                                    $counter = 0;
+                                @endphp
                                 @foreach($decodedServices as $key => $service)
-                                    @if(is_object($service))
-                                        <span class="inline-block bg-black border-white border text-white text-xs font-medium py-1 px-2 rounded-full mb-1 mr-1">{{ $service->name }} ( {{ $service->duration }}) - ${{ $service->price }}</span>
+                                    @if($counter < 4 && is_object($service))
+                                        <a href="/" class="inline-block bg-black border-white border text-white text-xs font-medium py-1 px-2 rounded-full mb-1 mr-1">{{ $service->name }} ( {{ $service->duration }}) - ${{ $service->price }}</a>
+                                        @php
+                                            $counter++;
+                                        @endphp
                                     @endif
                                 @endforeach
+                                @if(count($decodedServices) > 4)
+                                    <a href="" class="inline-block bg-white border-black border text-black text-xs font-medium py-1 px-2 rounded-full mb-1 mr-1 hover:bg-gray-200">All Services</a>
+                                @endif
                             </div>
                         </div>
-
                     @endif
+
+
+
 
 
 
