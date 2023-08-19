@@ -11,32 +11,29 @@
 
             <div class="mt-4">
 
-                <div class="bg-white p-4 rounded-xl shadow-md inline-flex items-center space-x-4 justify-between w-full">
+                <div class="bg-white p-2 md:p-4 rounded-xl shadow-md flex flex-wrap  justify-between w-full">
 
                     <!-- Service Title with Icon -->
-                    <div class="text-lg font-semibold flex-shrink-0 flex items-center space-x-2">
-                        <i class="fas fa-cut text-gray-600"></i>
-                        <span id="displayServiceName">Flat iron service (natural hair)</span>
+                    <div class="text-sm md:text-lg font-medium flex items-center space-x-1 md:space-x-2 ">
+                        <i class="fas fa-cut text-gray-500 md:text-gray-600"></i>
+                        <span class="truncate" id="displayServiceName">Flat iron service (natural hair)</span>
                     </div>
-
-                    <!-- Separator -->
-                    <div class="border-r h-6 border-gray-300"></div>
 
                     <!-- Service Price with Icon -->
-                    <div class="text-lg text-gray-700 flex-shrink-0 flex items-center ">
-                        <i class="fas fa-dollar-sign text-gray-600"></i>
-                        <span class="font-bold text-green-500" id="displayServicePrice"></span><span class="ml-2"> and up</span>
+                    <div class="text-sm md:text-lg text-gray-600 flex items-center mt-2 md:mt-0 ">
+                        <i class="fas fa-dollar-sign text-gray-500 md:text-gray-600"></i>
+                        <span class="font-semibold text-green-400 md:text-green-500" id="displayServicePrice"></span>
+                        <span class="ml-1">and up</span>
                     </div>
-
-                    <!-- Separator -->
-                    <div class="border-r h-6 border-gray-300"></div>
 
                     <!-- Service Duration with Icon -->
-                    <div class="text-lg text-gray-500 flex-shrink-0 flex items-center space-x-2">
-                        <i class="fas fa-clock text-gray-600"></i>
-                         <span class="font-medium" id="displayServiceDuration"></span>
+                    <div class="text-sm md:text-lg text-gray-500 flex items-center mt-2 md:mt-0 ">
+                        <i class="fas fa-clock text-gray-500 md:text-gray-600"></i>
+                        <span class="font-medium ml-1" id="displayServiceDuration"></span>
                     </div>
                 </div>
+
+
 
 
 
