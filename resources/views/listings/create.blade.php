@@ -185,8 +185,17 @@
     const serviceDropdown = document.getElementById('service');
 
     if (selectedDate) {
-        dateInput.value = selectedDate;
-        dateInput.readOnly = true; // Disable the input field
+
+        const dateObj = new Date(selectedDate);
+        const year = dateObj.getFullYear();
+        let month = dateObj.getMonth() + 1; // Months start from 0
+        let day = dateObj.getDate();
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+        const formattedDate = `${year}-${month}-${day}`;
+
+        const dateInput = document.querySelector('input[name="date"]');
+        dateInput.value = formattedDate;
     }
 
     if (selectedTime) {
