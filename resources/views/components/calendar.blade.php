@@ -118,22 +118,22 @@
                 >
                     <!-- Service Name -->
                     <div class="flex items-center truncate w-[150px]">
-                        <i class="fas fa-tag text-pink-500 "></i>
-                        <span class="font-semibold">
+                        <i class="fas fa-tag text-teal-500 "></i>
+                        <span class="font-semibold ml-1">
             {{ strlen($service['name']) > 8 ? substr($service['name'], 0, 8).'...' : $service['name'] }}
         </span>
                     </div>
 
                     <!-- Service Duration -->
                     <div class="flex items-center mt-2">
-                        <i class="fas fa-clock text-gray-600 "></i>
-                        <span>{{ $service['duration'] }} </span>
+                        <i class="fas fa-clock text-teal-500 "></i>
+                        <span class="ml-1">{{ $service['duration'] }} </span>
                     </div>
 
                     <!-- Service Price -->
                     <div class="flex items-center mt-2">
-                        <i class="fas fa-dollar-sign text-gray-600 "></i>
-                        <span>${{ $service['price'] }}</span>
+                        <i class="fas fa-dollar-sign text-teal-500 "></i>
+                        <span class="ml-1">${{ $service['price'] }}</span>
                     </div>
                 </button>
 
@@ -146,7 +146,6 @@
     </div>
 
     <div class="mt-4">
-{{--        <label for="service" class="block font-medium text-gray-700">Choose a time from the available slots</label>--}}
         <div id="availability-message" class="message"></div>
     </div>
     <div id="selected-date" class="mt-4 font-medium text-gray-700"></div>
@@ -379,6 +378,9 @@
     document.querySelectorAll('.service-pill').forEach(pill => {
         pill.addEventListener('click', function(event) {
             // Reset styles for all pills
+            document.getElementById('availability-message').scrollIntoView({
+                behavior: 'smooth' // This ensures smooth scrolling. Remove if you want instant jump.
+            });
             document.querySelectorAll('.service-pill').forEach(p => p.classList.remove('bg-pink-500', 'text-white'));
             clearNextButton();
 
