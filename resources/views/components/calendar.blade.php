@@ -507,19 +507,33 @@
             // Show the available slots container
             availableSlotsContainer.style.display = 'block';
 
-            if (availableSlots.length !== 0) {
-                availableSlotsContainer.innerHTML = 'Choose a time from the available slots for the date you selected';
-            } else {
-                availableSlotsContainer.textContent = 'No available slots for the selected date.';
+            if (selectedServiceData && selectedDate) {
+                if (availableSlots.length !== 0) {
+                    availableSlotsContainer.innerHTML = 'Choose a time from the available slots for the date you selected';
+                } else {
+                    availableSlotsContainer.textContent = 'No available slots for the selected date.';
+                }
+            } else if (!selectedServiceData) {
+                availableSlotsContainer.textContent = 'Please select a service first.';
             }
-
             const slotsWrapper = document.createElement('div');
             slotsWrapper.classList.add('slot-buttons-wrapper', 'mt-2');
 
             // Create and append the available slot options as clickable pills/buttons
             availableSlots.forEach(slot => {
+
+                const [hour, minute] = slot.split(':').map(Number);
+
+                let icon;
+                if (hour >= 5 && hour <= 11) {
+                    icon = '☀️'; // Morning
+                } else if (hour >= 12 && hour <= 16) {
+                    icon = '🕛'; // Noon
+                } else {
+                    icon = '🌙'; // Evening
+                }
                 const slotButton = document.createElement('button');
-                slotButton.textContent = slot;
+                slotButton.innerHTML = `${icon} ${slot}`;
                 slotButton.classList.add('time-slot-pill', 'px-3', 'py-1', 'mr-2', 'mb-2', 'border', 'border-gray-300', 'rounded-md', 'hover:bg-pink-300', 'cursor-pointer');
                 slotButton.setAttribute('data-slot', slot);
 
@@ -578,8 +592,7 @@
     let selectedServiceData = null;
 
     function calculateAvailableSlots(date) {
-        if (!selectedServiceData) {
-            console.warn("No service selected");
+        if (!selectedServiceData || !date) {
             return [];
         }
 
