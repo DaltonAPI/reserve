@@ -110,12 +110,32 @@
                 $serviceList = $services;
             @endphp
             @foreach($serviceList as $service)
-                <button class="service-pill px-4 py-2 m-1 bg-gray-200 rounded-full focus:ring focus:ring-pink-300 hover:bg-pink-200 active:bg-pink-300"
-                        data-name="{{ $service['name'] }}"
-                        data-duration="{{ $service['duration'] }}"
-                        data-price="{{ $service['price'] }}">
-                    {{ $service['name'] }} ({{ $service['duration'] }}) - ${{ $service['price'] }}
+                <button
+                    class="service-pill flex flex-col justify-center items-start w-ful h-32 px-4 py-2 m-1 border-2 border-gray-300 bg-white hover:bg-gray-100 focus:ring-2 focus:ring-pink-300 active:bg-pink-200 rounded-lg shadow-sm transition-transform transform hover:-translate-y-1"
+                    data-name="{{ $service['name'] }}"
+                    data-duration="{{ $service['duration'] }}"
+                    data-price="{{ $service['price'] }}"
+                >
+                    <!-- Service Name -->
+                    <div class="flex items-center">
+                        <i class="fas fa-tag text-pink-500 mr-2"></i>
+                        <span class="font-semibold">{{ $service['name'] }}</span>
+                    </div>
+
+                    <!-- Service Duration -->
+                    <div class="flex items-center mt-2">
+                        <i class="fas fa-clock text-gray-600 mr-2"></i>
+                        <span>{{ $service['duration'] }} </span>
+                    </div>
+
+                    <!-- Service Price -->
+                    <div class="flex items-center mt-2">
+                        <i class="fas fa-dollar-sign text-gray-600 mr-2"></i>
+                        <span>${{ $service['price'] }}</span>
+                    </div>
                 </button>
+
+
             @endforeach
         </div>
 
@@ -358,24 +378,27 @@
             // Reset styles for all pills
             document.querySelectorAll('.service-pill').forEach(p => p.classList.remove('bg-pink-500', 'text-white'));
             clearNextButton();
+
+            // Use event.currentTarget instead of event.target
+            const selectedPill = event.currentTarget;
+
             // Apply active style for the selected pill
-            event.target.classList.add('bg-pink-500', 'text-white');
+            selectedPill.classList.add('bg-pink-500', 'text-white');
 
             selectedServiceData = {
-                name: event.target.getAttribute('data-name'),
-                duration: timeToMinutes(event.target.getAttribute('data-duration')),
-                price: parseFloat(event.target.getAttribute('data-price'))
+                name: selectedPill.getAttribute('data-name'),
+                duration: timeToMinutes(selectedPill.getAttribute('data-duration')),
+                price: parseFloat(selectedPill.getAttribute('data-price'))
             };
 
             // Calculate available slots based on the selected service's duration and the stored selected date
             const availableSlots = calculateAvailableSlots(selectedDate, selectedServiceData.duration);
 
             // Only update the UI with available slots if they are available for the selected date
-
-                updateAvailableSlotsUI(availableSlots);
-
+            updateAvailableSlotsUI(availableSlots);
         });
     });
+
 
 
     function clearNextButton() {
@@ -388,7 +411,7 @@
         clearNextButton();
         selectedDate = date;
 
-        // Remove the "active" class from all cells
+
         const gridCells = document.querySelectorAll('.grid > div');
         gridCells.forEach(cell => {
             cell.classList.remove('active');
