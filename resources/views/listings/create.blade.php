@@ -32,19 +32,29 @@
                         <span class="font-medium ml-1" id="displayServiceDuration"></span>
                     </div>
                 </div>
-
-
-
-
-
-
             </div>
             <input type="hidden" id="title" name="title" value="">
             <div class="mb-6">
                 <input type="hidden" name="client_id" value="{{ $clientId }}">
                 <input type="hidden" name="business_id" value="{{ $businessId }}">
             </div>
+            <div class="flex space-x-8 p-4 bg-white shadow-md rounded-md justify-between mb-4">
+                <!-- Time Display -->
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-clock text-blue-500 text-xl"></i>
+                    <span id="displayTime" class="text-gray-800 text-lg"></span>
+                    <input type="hidden" name="time" id="timeInput">
+                </div>
+                <!-- Date Display -->
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-calendar-alt text-blue-500 text-xl"></i>
+                    <span id="displayDate" class="text-gray-800 text-lg"></span>
+                    <input type="hidden" name="date" id="dateInput">
+                </div>
 
+
+
+            </div>
             <div class="mb-6">
                 <label for="customer_name" class="inline-block text-lg mb-2">
                     Customer Name <span class="text-red-500">*</span>
@@ -78,26 +88,12 @@
             </div>
 
 
-            <div class="mb-6">
-                <label for="time" class="inline-block text-lg mb-2">Time <span class="text-red-500">*</span></label>
-                <input type="time" class="border border-gray-200 rounded p-2 w-full" name="time" value="{{ old('time') }}" />
-
-                @error('time')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                @enderror
-            </div>
 
 
-            <div class="mb-6">
-                <label for="date" class="inline-block text-lg mb-2">
-                    Date <span class="text-red-500">*</span>
-                </label>
-                <input type="date" class="border border-gray-200 rounded p-2 w-full" name="date" value="{{old('date')}}" />
 
-                @error('date')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                @enderror
-            </div>
+
+
+
 
 
             <div class="mb-6">
@@ -171,56 +167,55 @@
     </x-card>
 </x-layout>
 <script>
-    // Retrieve the URL parameters
+    document.addEventListener("DOMContentLoaded", function() {
     const urlParams = new URLSearchParams(window.location.search);
     const selectedDate = urlParams.get('selectedDate');
     const selectedTime = urlParams.get('selectedTime');
     const serviceName = urlParams.get('serviceName');
     const serviceDuration = urlParams.get('serviceDuration');
     const servicePrice = urlParams.get('servicePrice');
-
-    // Set the values of the input fields
-    const dateInput = document.querySelector('input[name="date"]');
-    const timeInput = document.querySelector('input[name="time"]');
-    const serviceDropdown = document.getElementById('service');
+    const displayDateSpan = document.getElementById('displayDate');
+    const displayTimeSpan = document.getElementById('displayTime');
+    const dateInput = document.getElementById('dateInput');
+    const timeInput = document.getElementById('timeInput');
 
     if (selectedDate) {
-
         const dateObj = new Date(selectedDate);
         const year = dateObj.getFullYear();
-        let month = dateObj.getMonth() + 1; // Months start from 0
-        let day = dateObj.getDate();
-        month = month < 10 ? '0' + month : month;
-        day = day < 10 ? '0' + day : day;
-        const formattedDate = `${year}-${month}-${day}`;
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const month = monthNames[dateObj.getMonth()];
+        const day = dateObj.getDate();
+        const formattedDateDisplay = `${month} ${day}, ${year}`;
+        const formattedDateInput = `${year}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
-        const dateInput = document.querySelector('input[name="date"]');
-        dateInput.value = formattedDate;
+        if (displayDateSpan) {
+            displayDateSpan.innerText = formattedDateDisplay;
+        }
+
+        if (dateInput) {
+            dateInput.value = formattedDateInput; // Use the format suitable for input[type="date"]
+        }
     }
 
     if (selectedTime) {
-        // Convert selectedTime to 24-hour format
         const timeParts = selectedTime.split(' ');
         const timeWithoutAmPm = timeParts[0];
         const amPm = timeParts[1];
+        let formattedTime = timeWithoutAmPm;
 
-        const [hours, minutes] = timeWithoutAmPm.split(':');
-        let formattedHours = parseInt(hours);
-
-        if (amPm.toLowerCase() === 'pm' && formattedHours !== 12) {
-            formattedHours += 12;
-        } else if (amPm.toLowerCase() === 'am' && formattedHours === 12) {
-            formattedHours = 0;
+        if (amPm) {
+            formattedTime += ` ${amPm}`;
         }
 
-        const formattedTime = `${formattedHours.toString().padStart(2, '0')}:${minutes}`;
-        timeInput.value = formattedTime;
-        timeInput.readOnly = true; // Disable the input field
-    } else {
-        // Hide the time field
-        const timeFieldContainer = timeInput.closest('.mb-6');
-        timeFieldContainer.style.display = 'none';
+        if (displayTimeSpan) {
+            displayTimeSpan.innerText = formattedTime;
+        }
+
+        if (timeInput) {
+            timeInput.value = timeWithoutAmPm;  // Use the 24-hour format for input[type="time"]
+        }
     }
+
 
 
     // Display serviceName
@@ -241,8 +236,6 @@
         displayServicePriceElem.innerText = servicePrice;
     }
 
-
-
     function addHiddenInputForDisabled(el) {
         if (!document.getElementById(el.name + '_hidden')) {
             const hiddenInput = document.createElement('input');
@@ -259,7 +252,6 @@
             document.getElementById(el.name + '_hidden').value = el.value;
         });
     }
-
 
     const serviceData = {
         name: serviceName,
@@ -286,5 +278,6 @@
             preview.style.display = 'none'; // Hide the preview image
         }
     }
-
+    });
 </script>
+
