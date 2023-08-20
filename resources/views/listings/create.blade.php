@@ -41,13 +41,13 @@
             <div class="flex space-x-8 p-4 bg-white shadow-md rounded-md justify-between mb-4">
                 <!-- Time Display -->
                 <div class="flex items-center space-x-2">
-                    <i class="fas fa-clock text-blue-500 text-xl"></i>
+                    <i class="fas fa-clock text-teal-500 "></i>
                     <span id="displayTime" class="text-gray-800 text-lg"></span>
                     <input type="hidden" name="time" id="timeInput">
                 </div>
                 <!-- Date Display -->
                 <div class="flex items-center space-x-2">
-                    <i class="fas fa-calendar-alt text-blue-500 text-xl"></i>
+                    <i class="fas fa-calendar-alt text-teal-500"></i>
                     <span id="displayDate" class="text-gray-800 text-lg"></span>
                     <input type="hidden" name="date" id="dateInput">
                 </div>
