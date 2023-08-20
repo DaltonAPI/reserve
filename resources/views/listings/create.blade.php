@@ -15,20 +15,21 @@
 
                     <!-- Service Title with Icon -->
                     <div class="text-sm md:text-lg font-medium flex items-center space-x-1 md:space-x-2 ">
-                        <i class="fas fa-cut text-gray-500 md:text-gray-600"></i>
+                        <i class="fas fa-cut text-gray-500 md:text-teal-600"></i>
                         <span class="truncate" id="displayServiceName">Flat iron service (natural hair)</span>
                     </div>
 
                     <!-- Service Price with Icon -->
                     <div class="text-sm md:text-lg text-gray-600 flex items-center mt-2 md:mt-0 ">
-                        <i class="fas fa-dollar-sign text-gray-500 md:text-gray-600"></i>
-                        <span class="font-semibold text-green-400 md:text-green-500" id="displayServicePrice"></span>
+                        <i class="fas fa-dollar-sign text-gray-500 md:text-teal-600"></i>
+                        <span class="font-semibold text-teal-400 md:text-teal-500" id="displayServicePrice"></span>
                         <span class="ml-1">and up</span>
                     </div>
 
                     <!-- Service Duration with Icon -->
                     <div class="text-sm md:text-lg text-gray-500 flex items-center mt-2 md:mt-0 ">
-                        <i class="fas fa-clock text-gray-500 md:text-gray-600"></i>
+                        <i class="fas fa-hourglass-half text-gray-500 md:text-teal-600"></i>
+
                         <span class="font-medium ml-1" id="displayServiceDuration"></span>
                     </div>
                 </div>
