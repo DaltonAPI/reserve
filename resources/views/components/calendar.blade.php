@@ -525,13 +525,14 @@
                 const [hour, minute] = slot.split(':').map(Number);
 
                 let icon;
-                if (hour >= 5 && hour <= 11) {
+                if (hour >= 6 && hour <= 11) {
                     icon = '☀️'; // Morning
-                } else if (hour >= 12 && hour <= 16) {
+                } else if (hour === 12) {
                     icon = '🕛'; // Noon
                 } else {
                     icon = '🌙'; // Evening
                 }
+
                 const slotButton = document.createElement('button');
                 slotButton.innerHTML = `${icon} ${slot}`;
                 slotButton.classList.add('time-slot-pill', 'px-3', 'py-1', 'mr-2', 'mb-2', 'border', 'border-gray-300', 'rounded-md', 'hover:bg-pink-300', 'cursor-pointer');
