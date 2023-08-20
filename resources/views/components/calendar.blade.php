@@ -93,6 +93,24 @@
         #service-container {
             display: none;
         }
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            display: none; /* initially hide the loader */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #availability-message {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -144,6 +162,7 @@
 
 
     </div>
+    <div id="loader" class="loader"></div>
 
     <div class="mt-4">
         <div id="availability-message" class="message"></div>
@@ -466,69 +485,79 @@
     }
 
     function updateAvailableSlotsUI(availableSlots) {
+        const loader = document.getElementById('loader');
         const availableSlotsContainer = document.getElementById('availability-message');
-        if (availableSlots.length !== 0 ) {
-            availableSlotsContainer.innerHTML = 'Choose a time from the available slots for the date you selected';
 
-        }
+        // Initially hide the available slots and display the loader
+        availableSlotsContainer.style.display = 'none';
+        loader.style.display = 'block';
 
-        if (availableSlots.length === 0 ) {
-            availableSlotsContainer.textContent = 'No available slots for the selected date.';
+        setTimeout(() => {
+            // Hide the loader
+            loader.style.display = 'none';
 
-        }
+            // Show the available slots container
+            availableSlotsContainer.style.display = 'block';
 
+            if (availableSlots.length !== 0) {
+                availableSlotsContainer.innerHTML = 'Choose a time from the available slots for the date you selected';
+            } else {
+                availableSlotsContainer.textContent = 'No available slots for the selected date.';
+            }
 
-        const slotsWrapper = document.createElement('div');
-        slotsWrapper.classList.add('slot-buttons-wrapper', 'mt-2');
+            const slotsWrapper = document.createElement('div');
+            slotsWrapper.classList.add('slot-buttons-wrapper', 'mt-2');
 
-        // Create and append the available slot options as clickable pills/buttons
-        availableSlots.forEach(slot => {
-            const slotButton = document.createElement('button');
-            slotButton.textContent = slot;
-            slotButton.classList.add('time-slot-pill', 'px-3', 'py-1', 'mr-2', 'mb-2', 'border', 'border-gray-300', 'rounded-md', 'hover:bg-pink-300', 'cursor-pointer');
-            slotButton.setAttribute('data-slot', slot);
+            // Create and append the available slot options as clickable pills/buttons
+            availableSlots.forEach(slot => {
+                const slotButton = document.createElement('button');
+                slotButton.textContent = slot;
+                slotButton.classList.add('time-slot-pill', 'px-3', 'py-1', 'mr-2', 'mb-2', 'border', 'border-gray-300', 'rounded-md', 'hover:bg-pink-300', 'cursor-pointer');
+                slotButton.setAttribute('data-slot', slot);
 
-            slotButton.addEventListener('click', function(event) {
-                const selectedSlot = formatTime12Hour(...event.target.getAttribute('data-slot').split(':'));
+                slotButton.addEventListener('click', function(event) {
+                    const selectedSlot = formatTime12Hour(...event.target.getAttribute('data-slot').split(':'));
 
-                // Make sure to reset any previously selected pill's style
-                const allSlotButtons = document.querySelectorAll('.time-slot-pill');
-                allSlotButtons.forEach(btn => btn.classList.remove('bg-pink-300'));
+                    // Make sure to reset any previously selected pill's style
+                    const allSlotButtons = document.querySelectorAll('.time-slot-pill');
+                    allSlotButtons.forEach(btn => btn.classList.remove('bg-pink-300'));
 
-                // Highlight the selected pill
-                event.target.classList.add('bg-pink-300');
+                    // Highlight the selected pill
+                    event.target.classList.add('bg-pink-300');
 
-                const nextButtonContainer = document.getElementById('next-button-container');
-                let selectedService = selectedServiceData;
+                    const nextButtonContainer = document.getElementById('next-button-container');
+                    let selectedService = selectedServiceData;
 
-                let serviceName = selectedService.name;
+                    let serviceName = selectedService.name;
 
-                let serviceDurationRaw = parseInt(selectedService.duration, 10);
-                let serviceHours = Math.floor(serviceDurationRaw / 60).toString().padStart(2, '0');
-                let serviceMinutes = (serviceDurationRaw % 60).toString().padStart(2, '0');
-                let serviceDuration = `${serviceHours}:${serviceMinutes}`;
+                    let serviceDurationRaw = parseInt(selectedService.duration, 10);
+                    let serviceHours = Math.floor(serviceDurationRaw / 60).toString().padStart(2, '0');
+                    let serviceMinutes = (serviceDurationRaw % 60).toString().padStart(2, '0');
+                    let serviceDuration = `${serviceHours}:${serviceMinutes}`;
 
-                let servicePrice = selectedService.price;
+                    let servicePrice = selectedService.price;
 
-                const selectedDate = document.getElementById('selected-date').textContent.split(':')[1].trim();
+                    const selectedDate = document.getElementById('selected-date').textContent.split(':')[1].trim();
 
-                const nextButton = document.createElement('button');
-                nextButton.textContent = 'Next';
-                nextButton.classList.add('px-4', 'py-2', 'bg-pink-500', 'text-white', 'rounded', 'hover:bg-pink-600', 'mt-3');
-                nextButton.addEventListener('click', function() {
-                    {{--const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;--}}
-                    const redirectURL = `https://reservify.in/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
-                    window.location.href = redirectURL;
+                    const nextButton = document.createElement('button');
+                    nextButton.textContent = 'Next';
+                    nextButton.classList.add('px-4', 'py-2', 'bg-pink-500', 'text-white', 'rounded', 'hover:bg-pink-600', 'mt-3');
+                    nextButton.addEventListener('click', function() {
+                        {{--const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;--}}
+                        const redirectURL = `https://reservify.in/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
+                        window.location.href = redirectURL;
+                    });
+                    nextButtonContainer.innerHTML = ''; // Clear previous content
+                    nextButtonContainer.appendChild(nextButton);
                 });
-                nextButtonContainer.innerHTML = ''; // Clear previous content
-                nextButtonContainer.appendChild(nextButton);
+
+                slotsWrapper.appendChild(slotButton);
             });
 
-            slotsWrapper.appendChild(slotButton);
-        });
-
-        availableSlotsContainer.appendChild(slotsWrapper);
+            availableSlotsContainer.appendChild(slotsWrapper);
+        }, 5000);
     }
+
 
 
     function formatTime12Hour(hours, minutes) {
