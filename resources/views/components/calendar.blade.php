@@ -371,9 +371,9 @@
             const availableSlots = calculateAvailableSlots(selectedDate, selectedServiceData.duration);
 
             // Only update the UI with available slots if they are available for the selected date
-            if (availableSlots.length > 0 && selectedDate !== null) {
+
                 updateAvailableSlotsUI(availableSlots);
-            }
+
         });
     });
 
@@ -425,7 +425,6 @@
     // Helper function to convert time to minutes
     function timeToMinutes(time) {
         if (!time) {
-            console.error("timeToMinutes received an invalid time:", time);
             return 0;
         }
         const [hours, minutes] = time.split(":").map(Number);
