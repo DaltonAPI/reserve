@@ -136,6 +136,8 @@ Route::patch('/connections/{user}', [ConnectionsController::class, 'acceptReques
 Route::post('/addtimes', [TimeController::class, 'store']);
 Route::get('/createTimePicker', [TimeController::class, 'create']);
 Route::get('/getTime/{id}', [TimeController::class, 'index']);
-
+Route::fallback(function() {
+    return response()->view('404', [], 404);
+});
 
 
