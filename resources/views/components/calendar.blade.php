@@ -111,7 +111,7 @@
             @endphp
             @foreach($serviceList as $service)
                 <button
-                    class="service-pill flex flex-col justify-center items-start w-ful h-32 px-4 py-2 m-1 border-2 border-gray-300 bg-white hover:bg-gray-100 focus:ring-2 focus:ring-pink-300 active:bg-pink-200 rounded-lg shadow-sm transition-transform transform hover:-translate-y-1"
+                    class="service-pill flex flex-col justify-center items-start w-ful h-32 px-4 py-2 m-1 border-2 border-gray-300 bg-white hover:bg-black focus:ring-2 focus:ring-pink-300 active:bg-pink-200 rounded-lg shadow-sm transition-transform transform hover:-translate-y-1"
                     data-name="{{ $service['name'] }}"
                     data-duration="{{ $service['duration'] }}"
                     data-price="{{ $service['price'] }}"
