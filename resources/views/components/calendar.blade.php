@@ -94,12 +94,13 @@
             display: none;
         }
         .loader {
-            border: 16px solid #f3f3f3;
-            border-top: 16px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
+            border: 4px solid rgba(255, 255, 255, 0.3); /* Lighter border */
+            border-top: 4px solid transparent;
+            border-image: linear-gradient(to right, teal, deeppink, pink);
+            border-image-slice: 1;
+            width: 30px;
+            height: 30px;
+            animation: spin 1.5s linear infinite;
             display: none; /* initially hide the loader */
         }
 
@@ -107,6 +108,8 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+
         #availability-message {
             display: none;
         }
@@ -162,7 +165,12 @@
 
 
     </div>
-    <div id="loader" class="loader"></div>
+    <div class="flex items-center justify-center h-full mt-4">
+        <div id="loader" class="loader"></div>
+    </div>
+
+
+
 
     <div class="mt-4">
         <div id="availability-message" class="message"></div>
