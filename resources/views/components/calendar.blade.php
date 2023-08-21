@@ -132,31 +132,30 @@
             @endphp
             @foreach($serviceList as $service)
                 <button
-                    class="service-pill flex flex-col justify-center items-start w-[150px] h-[150px] px-10 py-2 m-1 border-2 border-gray-300 bg-white hover:bg-gray-300 focus:ring-2 focus:ring-pink-300 active:bg-pink-200 rounded-lg shadow-sm transition-transform transform hover:-translate-y-1"
+                    class="service-pill flex flex-col justify-center items-center w-[150px] h-[150px] px-6 py-2 m-2 border-2 border-gray-300 bg-white hover:bg-gray-300 focus:ring-2 focus:ring-pink-300 active:bg-pink-200 rounded-lg shadow-sm transition-transform transform hover:-translate-y-1"
                     data-name="{{ $service['name'] }}"
                     data-duration="{{ $service['duration'] }}"
                     data-price="{{ $service['price'] }}"
                 >
                     <!-- Service Name -->
-                    <div class="flex items-center truncate w-[150px]">
-                        <i class="fas fa-tag text-teal-500 "></i>
-                        <span class="font-semibold ml-1">
-            {{ strlen($service['name']) > 8 ? substr($service['name'], 0, 8).'...' : $service['name'] }}
-        </span>
+                    <div class="flex items-center w-full">
+                        <i class="fas fa-tag text-teal-500"></i>
+                        <span class="font-semibold text-xs ml-1">{{ $service['name'] }}</span>
                     </div>
 
                     <!-- Service Duration -->
-                    <div class="flex items-center mt-2">
-                        <i class="fas fa-clock text-teal-500 "></i>
-                        <span class="ml-1">{{ $service['duration'] }} </span>
+                    <div class="flex items-center mt-1">
+                        <i class="fas fa-clock text-teal-500"></i>
+                        <span class="text-xs ml-1">{{ $service['duration'] }} </span>
                     </div>
 
                     <!-- Service Price -->
-                    <div class="flex items-center mt-2">
-                        <i class="fas fa-dollar-sign text-teal-500 "></i>
-                        <span class="ml-1">${{ $service['price'] }}</span>
+                    <div class="flex items-center mt-1">
+                        <i class="fas fa-dollar-sign text-teal-500"></i>
+                        <span class="text-xs ml-1">${{ $service['price'] }}</span>
                     </div>
                 </button>
+
 
 
 
