@@ -578,7 +578,7 @@
             });
 
             availableSlotsContainer.appendChild(slotsWrapper);
-        }, 5000);
+        }, 2000);
     }
 
 
