@@ -529,7 +529,7 @@
                     icon = '☀️'; // Morning
                 } else if (hour === 12) {
                     icon = '🕛'; // Noon
-                } else {
+                } else if (hour >= 13) {
                     icon = '🌙'; // Evening
                 }
 
