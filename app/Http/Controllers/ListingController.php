@@ -128,6 +128,10 @@ class ListingController extends Controller
             $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
             $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
 
+            $reservationDateTime = new \DateTime($formFields['date'] . ' ' . $formFields['time']);
+
+            $formattedDate = $reservationDateTime->format('F j, Y');
+            $formattedTime = $reservationDateTime->format('g:i a');
             $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
 
             // Check the account_type of the logged-in user
@@ -137,24 +141,23 @@ class ListingController extends Controller
                 // If a client made the reservation, send the message to the Business
 
                 // Retrieve the business details using the provided business_id from the request
-                $business = User::find($request->input('business_id')); // Assuming you have a Business model
+                $business = Business::find($request->input('business_id'));
 
                 if (!$business) {
                     // Handle error - Business not found
                     return redirect()->back()->with('error', 'Business not found');
                 }
 
-                $messageBody = 'Dear ' . $business->name . ', ' . $formFields['customer_name'] . ' has made a reservation for ' . $formFields['date'] . ' at ' . $formFields['time'];
+                $messageBody = 'Dear ' . $business->name . ', ' . $formFields['customer_name'] . ' has made a reservation for ' . $formattedDate . ' at ' . $formattedTime;
 
-                $recipientPhoneNumber = $business->contact_info; // Assuming the phone number is stored in the contact_info attribute
+                $recipientPhoneNumber = $business->contact_info;
             } elseif ($accountType == 'Business') {
-                // If a business made the reservation, send the message to the Client
-                $messageBody = 'Hello ' . $formFields['customer_name'] . ', looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time'] . '. Sincerely, ' . auth()->user()->name;
+                $messageBody = 'Hello ' . $formFields['customer_name'] . ', looking forward to seeing you on ' . $formattedDate . ', at ' . $formattedTime . '. Sincerely, ' . auth()->user()->name;
 
                 $recipientPhoneNumber = $formFields['customer_phone'];
             } else {
-                $messageBody = 'Default message...'; // Fallback/default message if the user type isn't recognized
-                $recipientPhoneNumber = $formFields['customer_phone']; // Fallback recipient
+                $messageBody = 'Default message...';
+                $recipientPhoneNumber = $formFields['customer_phone'];
             }
 
             try {
