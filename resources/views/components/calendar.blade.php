@@ -145,7 +145,7 @@
 
                     <!-- Service Duration -->
                     <div class="flex items-center mt-0.5">
-                        <i class="fas fa-clock text-teal-500"></i>
+                        <i class="fas fas fa-hourglass-half text-teal-500"></i>
                         <span class="text-xs ml-1">{{ $service['duration'] }} </span>
                     </div>
 
