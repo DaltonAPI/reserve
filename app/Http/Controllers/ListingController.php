@@ -123,34 +123,57 @@ class ListingController extends Controller
 
 
 
-          if($formFields['customer_phone']){
-              $twilioSid = env('TWILIO_SID');
-              $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
-              $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
-              $customerPhoneNumber = $formFields['customer_phone'];
+        if ($formFields['customer_phone']) {
+            $twilioSid = env('TWILIO_SID');
+            $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
+            $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
 
-              $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
-              $messageBody = 'Hello ' . $formFields['customer_name'] . ',  looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time']. ' '
-                  . 'Sincerely ' . auth()->user()->name;
-              try {
+            $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
 
-                  $client->messages->create(
-                      $customerPhoneNumber,
-                      [
-                          'from' => $twilioPhoneNumber,
-                          'body' => $messageBody
-                      ]
-                  );
+            // Check the account_type of the logged-in user
+            $accountType = auth()->user()->account_type;
 
-                  // Message sent successfully
-                  // ... your remaining code ...
-              } catch (TwilioException $e) {
-                  // Exception occurred while sending SMS
-                  // Handle the exception as per your requirements
-                  $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
-                  return redirect()->back()->with('error', $errorMessage);
-              }
-          }
+            if ($accountType == 'Client') {
+                // If a client made the reservation, send the message to the Business
+
+                // Retrieve the business details using the provided business_id from the request
+                $business = User::find($request->input('business_id')); // Assuming you have a Business model
+
+                if (!$business) {
+                    // Handle error - Business not found
+                    return redirect()->back()->with('error', 'Business not found');
+                }
+
+                $messageBody = 'Dear ' . $business->name . ', ' . $formFields['customer_name'] . ' has made a reservation for ' . $formFields['date'] . ' at ' . $formFields['time'];
+
+                $recipientPhoneNumber = $business->contact_info; // Assuming the phone number is stored in the contact_info attribute
+            } elseif ($accountType == 'Business') {
+                // If a business made the reservation, send the message to the Client
+                $messageBody = 'Hello ' . $formFields['customer_name'] . ', looking forward to seeing you on ' . $formFields['date'] . ', at ' . $formFields['time'] . '. Sincerely, ' . auth()->user()->name;
+
+                $recipientPhoneNumber = $formFields['customer_phone'];
+            } else {
+                $messageBody = 'Default message...'; // Fallback/default message if the user type isn't recognized
+                $recipientPhoneNumber = $formFields['customer_phone']; // Fallback recipient
+            }
+
+            try {
+
+                $client->messages->create(
+                    $recipientPhoneNumber,
+                    [
+                        'from' => $twilioPhoneNumber,
+                        'body' => $messageBody
+                    ]
+                );
+
+            } catch (TwilioException $e) {
+                // Exception occurred while sending SMS
+                $errorMessage = 'Failed to send SMS: ' . $e->getMessage();
+                return redirect()->back()->with('error', $errorMessage);
+            }
+        }
+
 
 
         $formFields['user_id'] = auth()->id();
