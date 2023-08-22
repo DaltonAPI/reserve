@@ -141,7 +141,7 @@ class ListingController extends Controller
                 // If a client made the reservation, send the message to the Business
 
                 // Retrieve the business details using the provided business_id from the request
-                $business = Business::find($request->input('business_id'));
+                $business = User::find($request->input('business_id'));
 
                 if (!$business) {
                     // Handle error - Business not found
