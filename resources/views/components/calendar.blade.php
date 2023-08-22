@@ -237,7 +237,7 @@
         </div>
 
         <div class="grid grid-cols-7 gap-2">
-            <div class="text-center text-gray-600 font-bold">Sun</div>
+            <div class="text-center text-gray-600 font-bold"></div>
             <div class="text-center text-gray-600 font-bold">Mon</div>
             <div class="text-center text-gray-600 font-bold">Tue</div>
             <div class="text-center text-gray-600 font-bold">Wed</div>
@@ -568,8 +568,8 @@
                     nextButton.textContent = 'Next';
                     nextButton.classList.add('px-4', 'py-2', 'bg-pink-500', 'text-white', 'rounded', 'hover:bg-pink-600', 'mt-3');
                     nextButton.addEventListener('click', function() {
-                        const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
-                        {{--const redirectURL = `https://reservify.in/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;--}}
+                        {{--const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;--}}
+                        const redirectURL = `https://reservify.in/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
                         window.location.href = redirectURL;
                     });
                     nextButtonContainer.innerHTML = ''; // Clear previous content
