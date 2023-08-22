@@ -523,15 +523,17 @@
             availableSlots.forEach(slot => {
 
                 const [hour, minute] = slot.split(':').map(Number);
+                const meridiem = slot.includes('PM') ? 'PM' : 'AM';
 
                 let icon;
-                if (hour >= 6 && hour <= 11) {
+                if (meridiem === 'AM') {
                     icon = '☀️'; // Morning
                 } else if (hour === 12) {
                     icon = '🕛'; // Noon
                 } else {
-                    icon = '🌙'; // Evening
+                    icon = '🌙'; // Afternoon & Evening
                 }
+
 
                 const slotButton = document.createElement('button');
                 slotButton.innerHTML = `${icon} ${slot}`;
@@ -566,8 +568,8 @@
                     nextButton.textContent = 'Next';
                     nextButton.classList.add('px-4', 'py-2', 'bg-pink-500', 'text-white', 'rounded', 'hover:bg-pink-600', 'mt-3');
                     nextButton.addEventListener('click', function() {
-                        {{--const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;--}}
-                        const redirectURL = `https://reservify.in/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
+                        const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
+                        {{--const redirectURL = `https://reservify.in/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;--}}
                         window.location.href = redirectURL;
                     });
                     nextButtonContainer.innerHTML = ''; // Clear previous content
