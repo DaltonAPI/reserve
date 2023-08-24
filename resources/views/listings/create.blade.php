@@ -143,9 +143,8 @@
             <div class="mb-6">
                 <label for="status" class="inline-block text-lg mb-2">Status</label>
                 <select name="status" class="border border-gray-200 rounded p-2 w-full">
-                    <option value="pending" @if(old('status') === 'rescheduled') selected @endif>rescheduled</option>
-                    <option value="confirmed" @if(old('status') === 'confirmed') selected @endif>Confirmed</option>
-                    <option value="cancelled" @if(old('status') === 'cancelled') selected @endif>Cancelled</option>
+                    <option value="pending" @if(old('status') === 'rescheduled') selected @endif>Pending</option>
+
                 </select>
 
                 @error('status')

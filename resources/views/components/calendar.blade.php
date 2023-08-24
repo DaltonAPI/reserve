@@ -440,16 +440,23 @@
 
 
     function redirectToURL(date) {
+        const currentDate = new Date();
+        const selectedDateObject = new Date(date);
+
+        // Check if the selected date is in the past
+        if (selectedDateObject < currentDate) {
+            alert('You cannot select a past date.');
+            return; // Early return to prevent further execution
+        }
+
         clearNextButton();
         selectedDate = date;
-
 
         const gridCells = document.querySelectorAll('.grid > div');
         gridCells.forEach(cell => {
             cell.classList.remove('active');
         });
         document.getElementById('service-container').style.display = 'block';
-        // Add the "active" class to the selected cell
         const selectedCell = document.getElementById('date-cell-' + date);
         if (selectedCell.classList.contains('disabled')) {
             // Don't perform any action for disabled cells

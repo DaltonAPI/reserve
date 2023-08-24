@@ -294,7 +294,8 @@ class ListingController extends Controller
     {
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
-        $user = auth()->user();
+        $user = User::where('id', $businessId)->first();
+
         $listings = Listing::query();
         $reservationData = $listings->where(function ($query) use ($user, $clientId, $businessId) {
             if ($user->account_type == 'Client') {
