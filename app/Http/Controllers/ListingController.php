@@ -297,14 +297,7 @@ class ListingController extends Controller
         $user = User::where('id', $businessId)->first();
 
         $listings = Listing::query();
-        $reservationData = $listings->where(function ($query) use ($user, $clientId, $businessId) {
-            if ($user->account_type == 'Client') {
-                $query->where('user_id', $user->id)
-                    ->where('business_id', $businessId);
-            } elseif ($user->account_type == 'Business') {
-                $query->where('business_id', $businessId);
-            }
-        });
+        $reservationData = $listings->where('user_id', $businessId);
 
 
         $reservationData = $listings->latest()->get();
