@@ -582,7 +582,7 @@
 
                         {{--const redirectURL = `http://localhost:8000/listings/create/{{$clientIdSegment}}{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;--}}
 
-                        const redirectURL = `https://reservify.in/listings/create/{{$clientIdSegment}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
+                        const redirectURL = `https://reservify.in/listings/create/{{$clientIdSegment}}{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
                         window.location.href = redirectURL;
                     });
                     nextButtonContainer.innerHTML = ''; // Clear previous content
