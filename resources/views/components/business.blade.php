@@ -121,15 +121,15 @@
 
 
 
-                @auth
-                        @if($user->id === auth()->user()->id)
+
+
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-qrcode text-teal-600 mr-2"></i>
-                                <p style="font-size: x-small">Add this link on your business card so that clients can connect with you <a
-                                        href="https://reservify.in/reservations/{{$user->id}}" class="text-pink-500">https://reservify.in/reservations/{{$user->id}}</a> </p>
+                                <p style="font-size: x-small">Booking link  <a
+                                        href="https://reservify.in/calendar/{{$user->id}}" class="text-pink-500">https://reservify.in/calendar/{{$user->id}}</a> </p>
                             </div>
-                        @endif
-                    @endauth
+
+
                     <div id="social_media_links" class="flex items-center justify-end">
                         @if($user->social_media)
                             @php

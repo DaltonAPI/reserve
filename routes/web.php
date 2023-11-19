@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Listing;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\ServiceController;
-
+use App\Http\Controllers\ReviewController;
 /*
 |--------------------------------------------------------------------------x
 | Web Routes
@@ -38,14 +38,15 @@ Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 Route::post('/createPost', [PostController::class, 'createPost'])->name('posts.create');;
 Route::get('/landing', [UserController::class, 'show']);
-Route::get('/calendar/{clientId?}/{businessId?}', [ListingController::class, 'calendar'])->middleware('auth');;
+Route::get('/calendar/{clientId}/{businessId?}', [ListingController::class, 'calendar']);
+
 
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');;
 
 
 
 // Show Create Form
-Route::get('/listings/create/{clientId?}/{businessId?}', [ListingController::class, 'create'])->middleware('auth');
+Route::get('/listings/create/{clientId?}/{businessId?}', [ListingController::class, 'create']);
 Route::get('/listings/random/{businessId?}', [ListingController::class, 'createRandom'])->middleware('auth');
 Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
 Route::get('/create', [PostController::class, 'create'])->middleware('auth');
@@ -54,7 +55,7 @@ Route::get('/create', [PostController::class, 'create'])->middleware('auth');
 Route::put('/updatePost/{id}', [PostController::class, 'update'])->middleware('auth');
 Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
 // Store Listing Data
-Route::post('/listings', [ListingController::class, 'store'])->middleware('auth');
+Route::post('/listings', [ListingController::class, 'store']);
 
 // Show Edit Form
 Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->middleware('auth');
@@ -140,4 +141,7 @@ Route::fallback(function() {
     return response()->view('404', [], 404);
 });
 
+
+
+Route::post('/listings/{listing}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 

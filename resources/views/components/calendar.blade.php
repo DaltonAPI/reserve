@@ -307,7 +307,8 @@
                 echo '></div>';
                 echo '<div class="text-sm mt-1">' . $day . '</div>';
                 echo '<div class="event-container">';
-                if(  auth()->user()->account_type === 'Business'){
+
+                if (auth()->check() && auth()->user()->account_type === 'Business') {
                     foreach ($events as $event) {
                         // Extract the time from the reservation data and convert it to 12-hour format
                         $reservationTime = date('h:i A', strtotime($event['time']));
@@ -575,8 +576,8 @@
                     nextButton.textContent = 'Next';
                     nextButton.classList.add('px-4', 'py-2', 'bg-pink-500', 'text-white', 'rounded', 'hover:bg-pink-600', 'mt-3');
                     nextButton.addEventListener('click', function() {
-                        {{--const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;--}}
-                        const redirectURL = `https://reservify.in/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
+                        const redirectURL = `http://localhost:8000/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;
+                        {{--const redirectURL = `https://reservify.in/listings/create/{{$clientId}}/{{$businessId}}?selectedDate=${selectedDate}&selectedTime=${selectedSlot}&serviceName=${serviceName}&serviceDuration=${serviceDuration}&servicePrice=${servicePrice}`;--}}
                         window.location.href = redirectURL;
                     });
                     nextButtonContainer.innerHTML = ''; // Clear previous content

@@ -66,6 +66,12 @@ class ListingController extends Controller
     // Show Create Form
     public function create(Request $request, $clientId = null, $businessId = null)
     {
+        // If only one parameter is provided in the URL, assume it's the businessId
+        if ($businessId === null && $clientId !== null) {
+            $businessId = $clientId;
+            $clientId = null; // Set $clientId to null after $businessId gets its value
+        }
+
         // Get the selected date from the query parameter
         $selectedDate = $request->query('date');
 
@@ -81,7 +87,8 @@ class ListingController extends Controller
         $reservationData =  Listing::where('user_id', $businessId)->get();
         $times = Time::where('user_id', $businessId)->get();
         $business = User::find($businessId);
-        return view('listings.create', compact('user','reservationData' ,'times','business','filteredUsers', 'client', 'clientId', 'businessId', 'selectedDate'));
+
+        return view('listings.create', compact('user', 'reservationData', 'times', 'business', 'filteredUsers', 'client', 'clientId', 'businessId', 'selectedDate'));
     }
 
     public function createRandom(Request $request)
@@ -193,9 +200,9 @@ class ListingController extends Controller
             $client->notify(new ReservationCreatedNotification());
         }
 //        dd(\request()->all());
-
-        Listing::create($formFields);
-        return redirect('/reservations/'. \auth()->user()->id)->with('message', 'Listing created successfully!');
+         dd($formFields);
+//        Listing::create($formFields);
+        return redirect('/landing')->with('message', 'Listing created successfully!');
     }
 
 
@@ -292,6 +299,10 @@ class ListingController extends Controller
 
     public function calendar(Request $request, $clientId = null, $businessId = null)
     {
+        if ($businessId === null) {
+            $businessId = $clientId;
+        }
+//        dd($businessId);
         $searchTerm = $request->input('search');
         $filteredUsers = User::filter(['search' => $searchTerm])->paginate(10);
         $user = User::where('id', $businessId)->first();
