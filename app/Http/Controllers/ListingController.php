@@ -142,9 +142,12 @@ class ListingController extends Controller
             $client = new \Twilio\Rest\Client($twilioSid, $twilioAuthToken);
 
             // Check the account_type of the logged-in user
-            $accountType = auth()->user()->account_type;
 
-            if ($accountType == 'Client') {
+            $accountType = auth()->user()->account_type ?? null;
+
+
+
+            if ($accountType == 'Client' || $accountType == null) {
                 // If a client made the reservation, send the message to the Business
 
                 // Retrieve the business details using the provided business_id from the request
@@ -186,7 +189,13 @@ class ListingController extends Controller
 
 
 
-        $formFields['user_id'] = auth()->id();
+        if (auth()->check()) {
+            $formFields['user_id'] = auth()->id();
+        } else {
+            // Set a default user ID or null depending on your logic
+            $formFields['user_id'] = null;
+            // or $formFields['user_id'] = DEFAULT_USER_ID;
+        }
         if( $request->input('client_id'))
         {
             $formFields['client_id'] = $request->input('client_id');
@@ -195,10 +204,10 @@ class ListingController extends Controller
         {
             $formFields['business_id'] = $request->input('business_id');
         }
-        $client = Listing::find($formFields['user_id']);
-        if ($client && $client->email) {
-            $client->notify(new ReservationCreatedNotification());
-        }
+//        $client = Listing::find($formFields['user_id']);
+//        if ($client && $client->email) {
+//            $client->notify(new ReservationCreatedNotification());
+//        }
 //        dd(\request()->all());
 
         Listing::create($formFields);
