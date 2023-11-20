@@ -210,7 +210,7 @@
                 @endif
 
 
-                    <a href="https://reservify.in//calendar/{{$post->author->id}}"><i class="fas fa-calendar-plus text-green-500 text-xl"></i></a>
+                    <a href="https://reservify.in/calendar/{{$post->author->id}}"><i class="fas fa-calendar-plus text-green-500 text-xl"></i></a>
                 <button class="flex items-center text-pink-500">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4C6 4 2 7.58 2 12c0 2.97 2.19 5.64 5 6.47V20c0 .55.45 1 1 1h8c.55 0 1-.45 1-1v-1.53c2.81-.83 5-3.5 5-6.47 0-4.42-4-8-8-8z" />
