@@ -24,13 +24,14 @@
                 @endif
 
                 <div>
-                    @if($listing->user->name)
-                    <h2 class=" font-bold">{{ $listing->user->name }}</h2>
-                    @elseif($listing->user['client-name'])
-                        <h2 class=" font-bold">{{ $listing->user['client-name'] }}</h2>
+                    @if(isset($listing->user) && $listing->user->name)
+                        <h2 class="font-bold">{{ $listing->user->name }}</h2>
+                    @elseif(isset($listing->user['client-name']))
+                        <h2 class="font-bold">{{ $listing->user['client-name'] }}</h2>
                     @else
-                        <h2 class=" font-bold">{{ $listing->customer_name }}</h2>
+                        <h2 class="font-bold">{{ $listing->customer_name }}</h2>
                     @endif
+
                     <p class="text-gray-500 font-bold" style="font-size: small">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
                 </div>
             </div>
@@ -176,13 +177,14 @@
                     <img class="w-16 h-16 rounded-full mr-4" src="{{ asset('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png') }}" alt="Default Logo">
                 @endif
                 <div>
-                    @if($listing->user->name)
-                        <h2 class=" font-bold">{{ $listing->user->name }}</h2>
-                    @elseif($listing->user['client-name'])
-                        <h2 class=" font-bold">{{ $listing->user['client-name'] }}</h2>
+                    @if(isset($listing->user) && $listing->user->name)
+                        <h2 class="font-bold">{{ $listing->user->name }}</h2>
+                    @elseif(isset($listing->user['client-name']))
+                        <h2 class="font-bold">{{ $listing->user['client-name'] }}</h2>
                     @else
-                        <h2 class=" font-bold">{{ $listing->customer_name }}</h2>
+                        <h2 class="font-bold">{{ $listing->customer_name }}</h2>
                     @endif
+
                     <p class="text-gray-500" style="font-size: x-small">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
                 </div>
             </div>
