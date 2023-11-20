@@ -26,8 +26,10 @@
                 <div>
                     @if($listing->user->name)
                     <h2 class=" font-bold">{{ $listing->user->name }}</h2>
-                    @else
+                    @elseif($listing->user['client-name'])
                         <h2 class=" font-bold">{{ $listing->user['client-name'] }}</h2>
+                    @else
+                        <h2 class=" font-bold">{{ $listing->customer_name }}</h2>
                     @endif
                     <p class="text-gray-500 font-bold" style="font-size: small">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
                 </div>
@@ -168,9 +170,19 @@
         <div class="bg-black text-white rounded-lg shadow-md p-6 mb-8">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
-                <img class="w-16 h-16 rounded-full mr-4"  src="{{ asset('storage/' . $listing->user->photos) }}" alt="Business Logo">
+                @if ($listing->user && $listing->user->photos)
+                    <img class="w-16 h-16 rounded-full mr-4" src="{{ asset('storage/' . $listing->user->photos) }}" alt="Business Logo">
+                @else
+                    <img class="w-16 h-16 rounded-full mr-4" src="{{ asset('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png') }}" alt="Default Logo">
+                @endif
                 <div>
-                    <h2 class=" font-bold">{{ $listing->user->name }}</h2>
+                    @if($listing->user->name)
+                        <h2 class=" font-bold">{{ $listing->user->name }}</h2>
+                    @elseif($listing->user['client-name'])
+                        <h2 class=" font-bold">{{ $listing->user['client-name'] }}</h2>
+                    @else
+                        <h2 class=" font-bold">{{ $listing->customer_name }}</h2>
+                    @endif
                     <p class="text-gray-500" style="font-size: x-small">{{ date('j F, Y', strtotime($listing->date)) }} @ {{ date('h:i A', strtotime($listing->time)) }}</p>
                 </div>
             </div>
