@@ -89,7 +89,7 @@
         </div>
 
         <div class="flex items-center justify-between">
-            <div class="w-2/3 py-5">
+            <div class="w-full py-5">
 
                 @php
                     $titleData = json_decode($listing->title, true);
@@ -110,16 +110,11 @@
                 @if ($serviceName && $serviceDuration)
                     <p class="text-gray-600">
                         <i class="fas fa-tools text-teal-600 mr-2"></i>
-                        <span class="font-semibold">
-                        {{ $serviceName }} | duration: {{ $serviceDuration }}
-                         </span>
+                        <span class="font-semibold">{{ $serviceName }}</span>
                     </p>
-                @elseif ($serviceName)
                     <p class="text-gray-600">
-                        <i class="fas fa-tools text-teal-600 mr-2"></i>
-                        <span class="font-semibold">
-                        {{ $serviceName }}
-                         </span>
+                        <i class="fas fa-clock text-teal-600 mr-2"></i>
+                        <span class="font-semibold">Duration: {{ $serviceDuration }}</span>
                     </p>
                 @endif
 
@@ -263,18 +258,14 @@
                     @if ($serviceName && $serviceDuration)
                         <p class="text-gray-600">
                             <i class="fas fa-tools text-teal-600 mr-2"></i>
-                            <span class="font-semibold">
-                        {{ $serviceName }} | duration: {{ $serviceDuration }}
-                         </span>
+                            <span class="font-semibold">{{ $serviceName }}</span>
                         </p>
-                    @elseif ($serviceName)
                         <p class="text-gray-600">
-                            <i class="fas fa-tools text-teal-600 mr-2"></i>
-                            <span class="font-semibold">
-                        {{ $serviceName }}
-                         </span>
+                            <i class="fas fa-clock text-teal-600 mr-2"></i>
+                            <span class="font-semibold">Duration: {{ $serviceDuration }}</span>
                         </p>
                     @endif
+
 
                 @if ($listing->customer_name)
                         <p class="text-gray-600"> <i class="fas fa-user text-teal-600 mr-2"></i> <span class="font-semibold">{{ $listing->customer_name }}</span></p>
