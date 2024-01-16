@@ -115,53 +115,95 @@
                             </div>
                         </div>
                     @endif<!-- Container for QR Code and Download Icon -->
-                    <!-- Container for QR Code and Download Icon -->
-                    <div id="qrCodeContainer">
-                        <!-- QR Code for a specific user -->
-                        <div class="qr-container" style="display: flex; align-items: center;">
-                            <!-- QR Code image with Google Charts API (chs parameter adjusted to half size) -->
-                            <img class="qrCodeImage" src="https://chart.googleapis.com/chart?chs=50x50&cht=qr&chl=https://reservify.in/calendar/{{ $user->id }}" alt="QR Code">
+                    <!-- Assuming x-business.blade.php -->
+                    <div>
+                        <!-- Other business-related content -->
+                        <!-- Add download icon next to the QR code -->
+                        <a href="#" class="download-link" style="background: white" onclick="downloadQRCode('{{ $user->id }}')">
+                            <i class="fas fa-download"></i> Download QR Code
+                        </a>
+                        <!-- Generate unique ID for the current user's QR code container -->
+                        <div class="qrcode-container" data-user-id="{{ $user->id }}"></div>
 
-                            <!-- Download Icon (Font Awesome) -->
-                            <a class="downloadLink ml-2" href="#" data-user-id="{{ $user->id }}" onclick="downloadQRCode(event)">
-                                <i class="fas fa-download" style="font-size: 20px; color: white; cursor: pointer; margin-left: 5px;"></i>
-                            </a>
-                        </div>
+
+
+                        <script>
+                            // Function to generate QR code for a user
+                            function generateQRCode(userId) {
+                                var qrcodeContainer = document.querySelector('.qrcode-container[data-user-id="' + userId + '"]');
+                                var qrcode = new QRCode(qrcodeContainer, {
+                                    text: "https://reservify.in/calendar=" + userId,
+                                    width: 70,
+                                    height: 70
+                                });
+                            }
+
+                            // Call the function for the current user
+                            generateQRCode('{{ $user->id }}');
+
+                            // Function to download QR code image
+                            function downloadQRCode(userId) {
+                                var qrcodeContainer = document.querySelector('.qrcode-container[data-user-id="' + userId + '"]');
+                                var canvas = qrcodeContainer.querySelector('canvas');
+
+                                // Create an anchor element for download
+                                var downloadLink = document.createElement('a');
+                                downloadLink.href = canvas.toDataURL("image/png");
+                                downloadLink.download = 'qrcode.png';
+
+                                // Trigger click on the anchor to start download
+                                downloadLink.click();
+                            }
+                        </script>
                     </div>
 
-                    <!-- Include JavaScript to handle download -->
-                    <script>
-                        function downloadQRCode(event) {
-                            event.preventDefault();
-
-                            // Get the user ID from the data attribute
-                            var userId = event.currentTarget.getAttribute('data-user-id');
-
-                            // Construct the QR Code image source based on the user ID
-                            var qrCodeSrc = 'https://chart.googleapis.com/chart?chs=50x50&cht=qr&chl=https://reservify.in/calendar/' + userId;
-
-                            // Fetch the image data
-                            fetch(qrCodeSrc)
-                                .then(response => response.blob())
-                                .then(blob => {
-                                    // Create a temporary anchor element
-                                    var tempLink = document.createElement('a');
-                                    tempLink.href = URL.createObjectURL(blob);
-                                    tempLink.download = 'qrcode.png';
-
-                                    // Trigger a click event on the temporary link
-                                    document.body.appendChild(tempLink);
-                                    tempLink.click();
-                                    document.body.removeChild(tempLink);
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching QR code:', error);
-                                });
-                        }
-                    </script>
 
 
 
+{{--                    <!-- Container for QR Code and Download Icon -->--}}
+{{--                    <div id="qrCodeContainer">--}}
+{{--                        <!-- QR Code for a specific user -->--}}
+{{--                        <div class="qr-container" style="display: flex; align-items: center;">--}}
+{{--                            <!-- QR Code image with Google Charts API (chs parameter adjusted to half size) -->--}}
+{{--                            <img class="qrCodeImage" src="https://chart.googleapis.com/chart?chs=50x50&cht=qr&chl=https://reservify.in/calendar/{{ $user->id }}" alt="QR Code">--}}
+
+{{--                            <!-- Download Icon (Font Awesome) -->--}}
+{{--                            <a class="downloadLink ml-2" href="#" data-user-id="{{ $user->id }}" onclick="downloadQRCode(event)">--}}
+{{--                                <i class="fas fa-download" style="font-size: 20px; color: white; cursor: pointer; margin-left: 5px;"></i>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
+{{--                    <!-- Include JavaScript to handle download -->--}}
+{{--                    <script>--}}
+{{--                        function downloadQRCode(event) {--}}
+{{--                            event.preventDefault();--}}
+
+{{--                            // Get the user ID from the data attribute--}}
+{{--                            var userId = event.currentTarget.getAttribute('data-user-id');--}}
+
+{{--                            // Construct the QR Code image source based on the user ID--}}
+{{--                            var qrCodeSrc = 'https://chart.googleapis.com/chart?chs=50x50&cht=qr&chl=https://reservify.in/calendar/' + userId;--}}
+
+{{--                            // Fetch the image data--}}
+{{--                            fetch(qrCodeSrc)--}}
+{{--                                .then(response => response.blob())--}}
+{{--                                .then(blob => {--}}
+{{--                                    // Create a temporary anchor element--}}
+{{--                                    var tempLink = document.createElement('a');--}}
+{{--                                    tempLink.href = URL.createObjectURL(blob);--}}
+{{--                                    tempLink.download = 'qrcode.png';--}}
+
+{{--                                    // Trigger a click event on the temporary link--}}
+{{--                                    document.body.appendChild(tempLink);--}}
+{{--                                    tempLink.click();--}}
+{{--                                    document.body.removeChild(tempLink);--}}
+{{--                                })--}}
+{{--                                .catch(error => {--}}
+{{--                                    console.error('Error fetching QR code:', error);--}}
+{{--                                });--}}
+{{--                        }--}}
+{{--                    </script>--}}
 
 
 
@@ -179,11 +221,6 @@
 
 
 
-                    {{--                            <div class="flex items-center mb-2">--}}
-{{--                                <i class="fas fa-qrcode text-teal-600 mr-2"></i>--}}
-{{--                                <p style="font-size: x-small">Booking link  <a--}}
-{{--                                        href="https://reservify.in/calendar/{{$user->id}}" class="text-pink-500">https://reservify.in/calendar/{{$user->id}}</a> </p>--}}
-{{--                            </div>--}}
 
 
                     <div id="social_media_links" class="flex items-center justify-end">
