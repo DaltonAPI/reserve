@@ -17,8 +17,13 @@
     <script src="https://unpkg.com/tippy.js@6.3.5/dist/tippy-bundle.umd.min.js"></script>
     <script src="https://cdn.tailwindcss.com/2.2.19/tailwind.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 
-  <script src="//unpkg.com/alpinejs" defer></script>
+    <!-- Add this script tag in the head of your HTML file -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@latest/dist/qrcode.min.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+</head>
+    <script src="//unpkg.com/alpinejs" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
