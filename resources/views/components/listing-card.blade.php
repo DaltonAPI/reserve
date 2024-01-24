@@ -163,7 +163,7 @@
 
 
     @elseif (isset($_GET['active']) && $_GET['active'] === 'past' && $listingDate < $currentDate)
-        <div class="bg-black text-white rounded-lg shadow-md p-6 mb-8">
+        <div class="bg-black text-white rounded-lg shadow-md p-6 mb-8 border border-white">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
                 @if ($listing->user && $listing->user->photos)
