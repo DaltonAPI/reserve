@@ -90,7 +90,7 @@
 
                     <!-- Add Services Offered -->
                     @if($user->services)
-                        <div class="flex items-center mb-2">
+                        <div class="flex items-center ">
                             <div class="flex flex-wrap">
                                 @php
                                     $decodedServices = json_decode($user->services);
@@ -114,48 +114,14 @@
                                 @endif
                             </div>
                         </div>
-                    @endif<!-- Container for QR Code and Download Icon -->
-{{--                    <!-- Assuming x-business.blade.php -->--}}
-{{--                    <div>--}}
-{{--                        <!-- Other business-related content -->--}}
-{{--                        <!-- Add download icon next to the QR code -->--}}
-{{--                        <a href="#" class="download-link" style="background: white" onclick="downloadQRCode('{{ $user->id }}')">--}}
-{{--                            <i class="fas fa-download"></i> Download QR Code--}}
-{{--                        </a>--}}
-{{--                        <!-- Generate unique ID for the current user's QR code container -->--}}
-{{--                        <div class="qrcode-container" data-user-id="{{ $user->id }}"></div>--}}
+                    @endif
 
-
-
-{{--                        <script>--}}
-{{--                            // Function to generate QR code for a user--}}
-{{--                            function generateQRCode(userId) {--}}
-{{--                                var qrcodeContainer = document.querySelector('.qrcode-container[data-user-id="' + userId + '"]');--}}
-{{--                                var qrcode = new QRCode(qrcodeContainer, {--}}
-{{--                                    text: "https://reservify.in/calendar=" + userId,--}}
-{{--                                    width: 70,--}}
-{{--                                    height: 70--}}
-{{--                                });--}}
-{{--                            }--}}
-
-{{--                            // Call the function for the current user--}}
-{{--                            generateQRCode('{{ $user->id }}');--}}
-
-{{--                            // Function to download QR code image--}}
-{{--                            function downloadQRCode(userId) {--}}
-{{--                                var qrcodeContainer = document.querySelector('.qrcode-container[data-user-id="' + userId + '"]');--}}
-{{--                                var canvas = qrcodeContainer.querySelector('canvas');--}}
-
-{{--                                // Create an anchor element for download--}}
-{{--                                var downloadLink = document.createElement('a');--}}
-{{--                                downloadLink.href = canvas.toDataURL("image/png");--}}
-{{--                                downloadLink.download = 'qrcode.png';--}}
-
-{{--                                // Trigger click on the anchor to start download--}}
-{{--                                downloadLink.click();--}}
-{{--                            }--}}
-{{--                        </script>--}}
-{{--                    </div>--}}
+                    <div class="flex items-center mb-2">
+                        <i class="fa fa-calendar text-teal-500"></i>
+                        <a href="https://reservify.in/calendar/{{ $user->id }}" class="text-xs text-pink-500 hover:text-pink-700 ml-2">
+                            https://reservify.in/calendar/{{$user->id}}
+                        </a>
+                    </div>
 
 
 
